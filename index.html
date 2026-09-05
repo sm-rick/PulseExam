@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pulse Nursing Coaching - Routine System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <!-- Firebase SDK (Modular v9) & Config -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDl386A9T9TsU4f2V73owB5tAjhf-UpC9A",
+      authDomain: "pulse-nursing-routine.firebaseapp.com",
+      projectId: "pulse-nursing-routine",
+      storageBucket: "pulse-nursing-routine.firebasestorage.app",
+      messagingSenderId: "256848014944",
+      appId: "1:256848014944:web:a8fd24c95d73061fed5d05"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    // Persistent Firestore cache: the student can still see the last
+    // successfully received routine when the phone is offline.
+    let db;
+    try {
+      db = initializeFirestore(app, {
+        localCache: persistentLocalCache({
+          tabManager: persistentMultipleTabManager()
+        })
+      });
+    } catch (e) {
+      // Safe fallback if persistence was already initialized in this browser.
+      db = getFirestore(app);
+    }
+
+    let unsubscribeRoutine = null;
+
+    function routineCacheKey(monthIndex, year) {
+      return `pulse_student_routine_${year}_${monthIndex}`;
+    }
+
+    function applyRoutinePacket(routinePacket, monthIndex, year, sourceLabel) {
+      window.EMBEDDED_DATA = routinePacket.data || routinePacket;
+      window.EMBEDDED_MONTH = parseInt(monthIndex);
+      window.EMBEDDED_YEAR = parseInt(year);
+      window.currentRoutineSource = sourceLabel;
+      try {
+        localStorage.setItem(routineCacheKey(monthIndex, year), JSON.stringify({
+          data: window.EMBEDDED_DATA, month: Number(monthIndex), year: Number(year),
+          savedAt: new Date().toISOString()
+        }));
+      } catch (e) {}
+      const status = document.getElementById('syncStatus');
+      if (status) status.innerText = sourceLabel === 'cache'
+        ? '● অফলাইন ক্যাশ'
+        : '● লাইভ সিঙ্ক';
+      if (typeof window.renderRoutinePage === 'function') window.renderRoutinePage();
+    }
+
+    function loadLocalRoutineCache(monthIndex, year) {
+      try {
+        const raw = localStorage.getItem(routineCacheKey(monthIndex, year));
+        if (!raw) return false;
+        const cached = JSON.parse(raw);
+        if (!cached || !cached.data) return false;
+        applyRoutinePacket(cached.data, monthIndex, year, 'cache');
+        return true;
+      } catch (e) { return false; }
+    }
+
+    async function findRoutineDoc(monthIndex, year) {
+      const possibleIds = [
+        `${year}-${monthIndex}`,
+        `${year}-${monthIndex + 1}`,
+        `${year}-${String(monthIndex + 1).padStart(2, '0')}`,
+        `${year}-${monthIndex}-0`
+      ];
+      for (const id of possibleIds) {
+        const snap = await getDoc(doc(db, 'routines', id));
+        if (snap.exists()) return { id, snap };
+      }
+      return null;
+    }
+
+    async function fetchRoutineFromFirestore(monthIndex, year) {
+      // Show cached data immediately, if available.
+      loadLocalRoutineCache(monthIndex, year);
+      try {
+        const found = await findRoutineDoc(monthIndex, year);
+        if (found) {
+          applyRoutinePacket(found.snap.data(), monthIndex, year, 'server');
+          return true;
+        }
+        const status = document.getElementById('syncStatus');
+        if (status) status.innerText = loadLocalRoutineCache(monthIndex, year)
+          ? '● অফলাইন ক্যাশ (সর্বশেষ)'
+          : '● এই মাসের রুটিন পাওয়া যায়নি';
+        return false;
+      } catch (error) {
+        const hadCache = loadLocalRoutineCache(monthIndex, year);
+        const status = document.getElementById('syncStatus');
+        if (status) status.innerText = hadCache ? '● অফলাইন ক্যাশ' : '● কানেকশন এরর';
+        console.error('Error fetching routine:', error);
+        return false;
+      }
+    }
+
+    function startRoutineLiveSync(monthIndex, year) {
+      if (unsubscribeRoutine) unsubscribeRoutine();
+      // The Editor uses year-monthIndex, e.g. September 2026 = 2026-8.
+      const routineRef = doc(db, 'routines', `${year}-${monthIndex}`);
+      unsubscribeRoutine = onSnapshot(routineRef,
+        { includeMetadataChanges: true },
+        (snap) => {
+          if (!snap.exists()) {
+            fetchRoutineFromFirestore(monthIndex, year);
+            return;
+          }
+          const source = snap.metadata.fromCache ? 'cache' : 'server';
+          applyRoutinePacket(snap.data(), monthIndex, year, source);
+          const status = document.getElementById('syncStatus');
+          if (status) {
+            status.innerText = snap.metadata.fromCache
+              ? '● অফলাইন ক্যাশ'
+              : '● লাইভ সিঙ্ক';
+          }
+        },
+        (error) => {
+          const hadCache = loadLocalRoutineCache(monthIndex, year);
+          const status = document.getElementById('syncStatus');
+          if (status) status.innerText = hadCache ? '● অফলাইন ক্যাশ' : '● সিঙ্ক এরর';
+          console.error('Live sync error:', error);
+        }
+      );
+    }
+
+    window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
+    window.startRoutineLiveSync = startRoutineLiveSync;
+    window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
+  </script>
+
+  <style>
+    :root {
+      --primary: #0f766e;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+    }
+
+    .student-header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 16px;
+    }
+    .student-brand {
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .student-brand > div { flex:1; }
+    .student-brand img { width:40px; height:40px; object-fit:contain; }
+    .student-brand h1 { margin:0; font-size:16px; line-height:1.2; font-weight:800; color:#0f172a; }
+    .student-brand p { margin:2px 0 0; font-size:12px; color:#64748b; font-weight:600; }
+    .sync-status {
+      font-size:10px; color:#64748b; background:#f1f5f9;
+      padding:5px 8px; border-radius:20px; white-space:nowrap;
+    }
+
+    .student-app {
+      max-width:560px; margin:0 auto; padding:12px 12px 30px;
+    }
+    .student-hero {
+      background:linear-gradient(135deg,#0f766e,#115e59);
+      color:white; border-radius:20px; padding:20px 18px; margin-bottom:12px;
+      box-shadow:0 10px 24px rgba(15,118,110,.18);
+    }
+    .hero-month { font-size:12px; font-weight:700; opacity:.82; text-transform:uppercase; letter-spacing:.5px; }
+    .student-hero h2 { margin:3px 0 10px; font-size:24px; line-height:1.15; }
+    .hero-sync { font-size:11px; opacity:.9; display:flex; align-items:center; gap:6px; }
+    .sync-dot { width:7px; height:7px; background:#86efac; border-radius:50%; display:inline-block; }
+
+    .today-card, .selected-card, .mobile-calendar-card {
+      background:#fff; border:1px solid #e2e8f0; border-radius:18px;
+      box-shadow:0 5px 18px rgba(15,23,42,.05); margin-bottom:12px;
+    }
+    .today-card { padding:16px; border-top:4px solid #10b981; }
+    .selected-card { padding:16px; min-height:70px; }
+    .section-label { font-size:11px; font-weight:800; color:#64748b; letter-spacing:.3px; margin-bottom:8px; }
+    .today-loading, .selected-empty { color:#94a3b8; font-size:13px; font-weight:600; }
+    .details-row1 { font-size:16px; color:#0f766e; font-weight:800; margin:0 0 4px; }
+    .details-row2 { font-size:13px; color:#334155; margin:0 0 12px; font-weight:700; }
+    .card-badge {
+      background: #ecfdf5; color: #047857; font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; border: 1px solid #a7f3d0;
+    }
+    .card-badge.select-badge { background: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
+    .btn-exam {
+      display:inline-flex; align-items:center; justify-content:center;
+      background:#0f766e; color:#fff; padding:10px 16px; border-radius:10px;
+      text-decoration:none; font-weight:800; font-size:13px; width:100%;
+      box-sizing:border-box;
+    }
+    .btn-exam.disabled { background:#cbd5e1; color:#64748b; cursor:not-allowed; }
+    .off-notice { background:#fef2f2; border:1px solid #fecaca; color:#991b1b;
+      padding:9px 11px; border-radius:10px; font-size:12px; font-weight:700; }
+
+    .mobile-calendar-card { padding:14px; }
+    .calendar-title-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .calendar-kicker { font-size:9px; color:#94a3b8; font-weight:800; letter-spacing:.8px; }
+    .calendar-title-row h3 { margin:1px 0 0; font-size:18px; color:#0f172a; }
+    .today-btn { border:0; background:#ecfdf5; color:#047857; border-radius:8px;
+      padding:7px 10px; font-family:inherit; font-size:11px; font-weight:800; cursor: pointer; }
+    .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+    .weekday-header { text-align:center; padding:6px 1px; background:#f8fafc; color:#64748b;
+      border-radius:7px; font-size:9px; font-weight:800; }
+    .day-cell { min-height:58px; background:#fff; border:1px solid #e2e8f0; border-radius:9px;
+      padding:4px; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between;
+      box-sizing:border-box; }
+    .day-cell:active { transform:scale(.97); }
+    .day-cell.empty { background:transparent; border:0; cursor:default; }
+    .day-number { font-size:12px; font-weight:800; color:#1e293b; }
+    .day-subject { font-size:8px; line-height:1.1; font-weight:800; background:#0f766e; color:#fff;
+      padding:3px 2px; border-radius:4px; text-align:center; overflow:hidden; white-space:nowrap; }
+    .day-subject.off { background:#64748b; }
+    .day-subject.model { background:#d97706; }
+    .student-footer { text-align:center; color:#94a3b8; font-size:11px; padding:8px 0 0; }
+    .student-footer small { display:block; margin-top:2px; font-size:9px; }
+  </style>
+</head>
+<body>
+
+  <div class="student-header">
+    <div class="student-brand">
+      <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Logo">
+      <div>
+        <h1>পালস নার্সিং কোচিং</h1>
+        <p id="headerSubtitle">রুটিন</p>
+      </div>
+    </div>
+    <div class="sync-status" id="syncStatus">● কানেক্টিং...</div>
+  </div>
+
+  <main id="routinePageView" class="student-app">
+    <section class="student-hero">
+      <div class="hero-month" id="heroMonth">Foundation Batch</div>
+      <h2 id="heroTitle">Exam Routine</h2>
+      <div class="hero-sync"><span class="sync-dot"></span> ফায়ারস্টোর লাইভ রুটিন</div>
+    </section>
+
+    <section class="today-card" id="liveExamBox">
+      <div class="section-label">🔴 আজকের পরীক্ষা</div>
+      <div class="today-loading">রুটিন লোড হচ্ছে...</div>
+    </section>
+
+    <section class="selected-card" id="detailsBox">
+      <div class="section-label">📅 নির্বাচিত তারিখ</div>
+      <div class="selected-empty">ক্যালেন্ডার থেকে একটি তারিখ নির্বাচন করুন</div>
+    </section>
+
+    <section class="calendar-card mobile-calendar-card">
+      <div class="calendar-title-row">
+        <div>
+          <span class="calendar-kicker">MONTHLY SCHEDULE</span>
+          <h3 id="calendarTitle">September 2026</h3>
+        </div>
+        <button class="today-btn" onclick="goToToday()">আজ</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid">
+        <div class="weekday-header">রবি</div>
+        <div class="weekday-header">সোম</div>
+        <div class="weekday-header">মঙ্গল</div>
+        <div class="weekday-header">বুধ</div>
+        <div class="weekday-header">বৃহস্পতি</div>
+        <div class="weekday-header">শুক্র</div>
+        <div class="weekday-header">শনি</div>
+      </div>
+    </section>
+
+    <div class="student-footer">
+      <div>Pulse Nursing Coaching</div>
+      <small>রুটিন আপডেট পেতে Internet চালু রাখুন</small>
+    </div>
+  </main>
+
+  <script id="embeddedRoutineConfig">
+    var EMBEDDED_MONTH = 8; // September (0-based)
+    var EMBEDDED_YEAR = 2026;
+    var EMBEDDED_DATA = null;
+  </script>
+
+  <script>
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthShortNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEPT", "OCT", "NOV", "DEC"];
+    const daysList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayBanglaNames = { 'Sun': 'রবিবার', 'Mon': 'সোমবার', 'Tue': 'মঙ্গলবার', 'Wed': 'বুধবার', 'Thu': 'বৃহস্পতিবার', 'Fri': 'শুক্রবার', 'Sat': 'শনিবার' };
+    const daySubjectMapping = { 'Sun': 'BANGLA', 'Mon': 'ENGLISH', 'Tue': 'MATH', 'Wed': 'SCIENCE', 'Thu': 'GENERAL KNOWLEDGE', 'Fri': 'OFF', 'Sat': 'WEEKLY MODEL TEST' };
+
+    function getDaysInMonth(month, year) { return new Date(year, month + 1, 0).getDate(); }
+
+    function formatURL(url) {
+      if (!url) return "";
+      url = url.trim();
+      if (!/^https?:\/\//i.test(url)) {
+        return "https://" + url;
+      }
+      return url;
+    }
+
+    function renderRoutinePage() {
+      let monthIndex = EMBEDDED_MONTH !== null ? EMBEDDED_MONTH : 8;
+      let year = EMBEDDED_YEAR !== null ? EMBEDDED_YEAR : 2026;
+      
+      const monthName = monthNames[monthIndex];
+      const monthShort = monthShortNames[monthIndex];
+      const totalDays = getDaysInMonth(monthIndex, year);
+      const firstDayOfWeek = new Date(year, monthIndex, 1).getDay();
+
+      document.getElementById('headerSubtitle').innerText = `ফাউন্ডেশন ব্যাচ - ${monthName} ${year} রুটিন`;
+
+      let savedData = EMBEDDED_DATA || {};
+
+      const shortForms = {
+        'BANGLA': 'BN', 'ENGLISH': 'ENG', 'MATH': 'MTH',
+        'SCIENCE': 'SCI', 'GENERAL KNOWLEDGE': 'GK', 'OFF': 'N/A', 'WEEKLY MODEL TEST': 'WMT'
+      };
+
+      let gridHTML = '<div class="weekday-header">রবি</div><div class="weekday-header">সোম</div><div class="weekday-header">মঙ্গল</div><div class="weekday-header">বুধ</div><div class="weekday-header">বৃহস্পতি</div><div class="weekday-header">শুক্র</div><div class="weekday-header">শনি</div>';
+
+      for (let i = 0; i < firstDayOfWeek; i++) {
+        gridHTML += '<div class="day-cell empty"></div>';
+      }
+
+      window.currentRoutineData = {};
+
+      for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
+        const dateObj = new Date(year, monthIndex, dayNum);
+        const dateFormatted = String(dayNum).padStart(2, '0') + ' ' + monthShort + ' ' + year;
+        const dayStr = daysList[dateObj.getDay()];
+        const dayBangla = dayBanglaNames[dayStr];
+
+        const sub = savedData[dayNum]?.subject || daySubjectMapping[dayStr] || "BANGLA";
+        const topic = savedData[dayNum]?.topic || (sub === 'OFF' ? "SELF REVISION" : "অধ্যায় " + dayNum);
+        const link = formatURL(savedData[dayNum]?.link || "");
+
+        window.currentRoutineData[dayNum] = { dateFormatted, dayBangla, subject: sub, topic, link };
+
+        const isOff = sub === 'OFF';
+        const isModel = sub.includes('MODEL');
+        let subClass = isOff ? 'off' : (isModel ? 'model' : '');
+
+        gridHTML += `
+          <div class="day-cell" onclick="showDetails(${dayNum})">
+            <div class="day-number">${dayNum}</div>
+            <div class="day-subject ${subClass}">
+              <span class="full-sub">${sub}</span>
+              <span class="short-sub">${shortForms[sub] || sub}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById('calendarGrid').innerHTML = gridHTML;
+      const calTitle = document.getElementById('calendarTitle'); if (calTitle) calTitle.innerText = `${monthName} ${year}`;
+      const heroTitle = document.getElementById('heroTitle'); if (heroTitle) heroTitle.innerText = `Exam Routine`;
+      const heroMonth = document.getElementById('heroMonth'); if (heroMonth) heroMonth.innerText = `Foundation Batch • ${monthName} ${year}`;
+      initLiveExam(monthIndex, year);
+    }
+
+    function initLiveExam(activeMonth, activeYear) {
+      const now = new Date();
+      const todayDate = now.getDate();
+      const todayMonth = now.getMonth();
+      const todayYear = now.getFullYear();
+      const box = document.getElementById("liveExamBox");
+
+      if (todayMonth === activeMonth && todayYear === activeYear && window.currentRoutineData[todayDate]) {
+        const data = window.currentRoutineData[todayDate];
+        const formattedLink = formatURL(data.link);
+        let actionHTML = data.subject === "OFF"
+          ? '<div class="off-notice">☕ আজ নির্ধারিত পরীক্ষা নেই। বিগত সপ্তাহের টপিকসমূহ রিভিশন দিন।</div>'
+          : (formattedLink ? `<a href="${formattedLink}" target="_blank" rel="noopener noreferrer" class="btn-exam">📝 আজই পরীক্ষা দিন</a>` : '<span class="btn-exam disabled">পরীক্ষার লিংক যুক্ত হয়নি</span>');
+
+        box.innerHTML = `
+          <span class="card-badge">🔴 আজকের পরীক্ষা (LIVE EXAM)</span>
+          <div class="details-row1">${data.dateFormatted} | ${data.dayBangla}</div>
+          <div class="details-row2">${data.subject} | ${data.topic}</div>
+          <div>${actionHTML}</div>
+        `;
+      } else {
+        box.innerHTML = `
+          <span class="card-badge">🔴 আজকের পরীক্ষা (LIVE EXAM)</span>
+          <h3 class="placeholder-text" style="color:#64748b; font-size:14px; margin:5px 0 0;">আজকের দিনে কোনো রুটিন শিডিউল নেই</h3>
+        `;
+      }
+    }
+
+    function showDetails(day) {
+      const data = window.currentRoutineData[day];
+      const box = document.getElementById("detailsBox");
+      const formattedLink = formatURL(data.link);
+      let actionHTML = data.subject === "OFF"
+        ? '<div class="off-notice">☕ আজ কোনো নির্ধারিত পরীক্ষা নেই। বিগত সপ্তাহের সকল আলোচিত টপিকসমূহ নিজে নিজে চমৎকারভাবে রিভিশন দিন।</div>'
+        : (formattedLink ? `<a href="${formattedLink}" target="_blank" rel="noopener noreferrer" class="btn-exam">📝 পরীক্ষা দিন</a>` : '<span class="btn-exam disabled">পরীক্ষার লিংক যুক্ত হয়নি</span>');
+
+      box.innerHTML = `
+        <span class="card-badge select-badge">📅 নির্বাচন করা তারিখ</span>
+        <div class="details-row1">${data.dateFormatted} | ${data.dayBangla}</div>
+        <div class="details-row2">${data.subject} | ${data.topic}</div>
+        <div>${actionHTML}</div>
+      `;
+    }
+
+    function goToToday() {
+      const now = new Date();
+      const monthIndex = EMBEDDED_MONTH !== null ? EMBEDDED_MONTH : 8;
+      const year = EMBEDDED_YEAR !== null ? EMBEDDED_YEAR : 2026;
+      if (now.getMonth() === monthIndex && now.getFullYear() === year && window.currentRoutineData[now.getDate()]) {
+        showDetails(now.getDate());
+      } else {
+        const box = document.getElementById("detailsBox");
+        box.innerHTML = '<div class="section-label">📅 আজকের তারিখ</div><div class="selected-empty">এই মাসের রুটিনে আজকের তারিখ নেই।</div>';
+      }
+    }
+
+    window.addEventListener('online', () => {
+      const el = document.getElementById('syncStatus');
+      if (el) el.innerText = '● আবার অনলাইনে সিঙ্ক হচ্ছে...';
+    });
+    window.addEventListener('offline', () => {
+      const el = document.getElementById('syncStatus');
+      if (el) el.innerText = '● অফলাইন ক্যাশ';
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      let currentMonth = 8; // সেপ্টেম্বর
+      let currentYear = 2026;
+      
+      renderRoutinePage();
+      if (typeof window.startRoutineLiveSync === 'function') {
+        window.startRoutineLiveSync(currentMonth, currentYear);
+      } else if (typeof window.fetchRoutineFromFirestore === 'function') {
+        window.fetchRoutineFromFirestore(currentMonth, currentYear);
+      }
+    });
+  </script>
+</body>
+</html>
