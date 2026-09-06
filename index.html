@@ -10,7 +10,7 @@
   <!-- Firebase SDK (Modular v9) & Config -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDl386A9T9TsU4f2V73owB5tAjhf-UpC9A",
@@ -22,124 +22,47 @@
     };
 
     const app = initializeApp(firebaseConfig);
-
-    // Persistent Firestore cache: the student can still see the last
-    // successfully received routine when the phone is offline.
-    let db;
-    try {
-      db = initializeFirestore(app, {
-        localCache: persistentLocalCache({
-          tabManager: persistentMultipleTabManager()
-        })
-      });
-    } catch (e) {
-      // Safe fallback if persistence was already initialized in this browser.
-      db = getFirestore(app);
-    }
-
-    let unsubscribeRoutine = null;
-
-    function routineCacheKey(monthIndex, year) {
-      return `pulse_student_routine_${year}_${monthIndex}`;
-    }
-
-    function applyRoutinePacket(routinePacket, monthIndex, year, sourceLabel) {
-      window.EMBEDDED_DATA = routinePacket.data || routinePacket;
-      window.EMBEDDED_MONTH = parseInt(monthIndex);
-      window.EMBEDDED_YEAR = parseInt(year);
-      window.currentRoutineSource = sourceLabel;
-      try {
-        localStorage.setItem(routineCacheKey(monthIndex, year), JSON.stringify({
-          data: window.EMBEDDED_DATA, month: Number(monthIndex), year: Number(year),
-          savedAt: new Date().toISOString()
-        }));
-      } catch (e) {}
-      const status = document.getElementById('syncStatus');
-      if (status) status.innerText = sourceLabel === 'cache'
-        ? '● অফলাইন ক্যাশ'
-        : '● লাইভ সিঙ্ক';
-      if (typeof window.renderRoutinePage === 'function') window.renderRoutinePage();
-    }
-
-    function loadLocalRoutineCache(monthIndex, year) {
-      try {
-        const raw = localStorage.getItem(routineCacheKey(monthIndex, year));
-        if (!raw) return false;
-        const cached = JSON.parse(raw);
-        if (!cached || !cached.data) return false;
-        applyRoutinePacket(cached.data, monthIndex, year, 'cache');
-        return true;
-      } catch (e) { return false; }
-    }
-
-    async function findRoutineDoc(monthIndex, year) {
-      const possibleIds = [
-        `${year}-${monthIndex}`,
-        `${year}-${monthIndex + 1}`,
-        `${year}-${String(monthIndex + 1).padStart(2, '0')}`,
-        `${year}-${monthIndex}-0`
-      ];
-      for (const id of possibleIds) {
-        const snap = await getDoc(doc(db, 'routines', id));
-        if (snap.exists()) return { id, snap };
-      }
-      return null;
-    }
+    const db = getFirestore(app);
 
     async function fetchRoutineFromFirestore(monthIndex, year) {
-      // Show cached data immediately, if available.
-      loadLocalRoutineCache(monthIndex, year);
       try {
-        const found = await findRoutineDoc(monthIndex, year);
-        if (found) {
-          applyRoutinePacket(found.snap.data(), monthIndex, year, 'server');
-          return true;
+        // সম্ভাব্য সবকটি আইডি ফরম্যাট একসঙ্গে চেক করা হবে যাতে মিস না হয়
+        const possibleIds = [
+          `${year}-${monthIndex}`,                      // যেমন: 2026-8
+          `${year}-${monthIndex + 1}`,                  // যেমন: 2026-9
+          `${year}-${String(monthIndex + 1).padStart(2, '0')}`, // যেমন: 2026-09
+          `${year}-${monthIndex}-0`                     // যদি অন্য কোনো ফরম্যাট হয়
+        ];
+
+        let docSnap = null;
+        for (let id of possibleIds) {
+          const docRef = doc(db, "routines", id);
+          docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            console.log("Found routine with ID:", id);
+            break;
+          }
         }
-        const status = document.getElementById('syncStatus');
-        if (status) status.innerText = loadLocalRoutineCache(monthIndex, year)
-          ? '● অফলাইন ক্যাশ (সর্বশেষ)'
-          : '● এই মাসের রুটিন পাওয়া যায়নি';
-        return false;
+
+        if (docSnap && docSnap.exists()) {
+          const routinePacket = docSnap.data();
+          window.EMBEDDED_DATA = routinePacket.data || routinePacket;
+          window.EMBEDDED_MONTH = parseInt(monthIndex);
+          window.EMBEDDED_YEAR = parseInt(year);
+          document.getElementById('syncStatus').innerText = "● ফায়ারস্টোর লাইভ ডাটা";
+          if (typeof renderRoutinePage === 'function') {
+            renderRoutinePage();
+          }
+        } else {
+          document.getElementById('syncStatus').innerText = "● এই মাসের রুটিন পাওয়া যায়নি";
+          console.log("No routine found in Firestore for any variations of:", year, monthIndex);
+        }
       } catch (error) {
-        const hadCache = loadLocalRoutineCache(monthIndex, year);
-        const status = document.getElementById('syncStatus');
-        if (status) status.innerText = hadCache ? '● অফলাইন ক্যাশ' : '● কানেকশন এরর';
-        console.error('Error fetching routine:', error);
-        return false;
+        document.getElementById('syncStatus').innerText = "● কানেকশন এরর";
+        console.error("Error fetching from Firestore:", error);
       }
     }
 
-    function startRoutineLiveSync(monthIndex, year) {
-      if (unsubscribeRoutine) unsubscribeRoutine();
-      // The Editor uses year-monthIndex, e.g. September 2026 = 2026-8.
-      const routineRef = doc(db, 'routines', `${year}-${monthIndex}`);
-      unsubscribeRoutine = onSnapshot(routineRef,
-        { includeMetadataChanges: true },
-        (snap) => {
-          if (!snap.exists()) {
-            fetchRoutineFromFirestore(monthIndex, year);
-            return;
-          }
-          const source = snap.metadata.fromCache ? 'cache' : 'server';
-          applyRoutinePacket(snap.data(), monthIndex, year, source);
-          const status = document.getElementById('syncStatus');
-          if (status) {
-            status.innerText = snap.metadata.fromCache
-              ? '● অফলাইন ক্যাশ'
-              : '● লাইভ সিঙ্ক';
-          }
-        },
-        (error) => {
-          const hadCache = loadLocalRoutineCache(monthIndex, year);
-          const status = document.getElementById('syncStatus');
-          if (status) status.innerText = hadCache ? '● অফলাইন ক্যাশ' : '● সিঙ্ক এরর';
-          console.error('Live sync error:', error);
-        }
-      );
-    }
-
-    window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
-    window.startRoutineLiveSync = startRoutineLiveSync;
     window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
   </script>
 
@@ -236,6 +159,11 @@
       padding:3px 2px; border-radius:4px; text-align:center; overflow:hidden; white-space:nowrap; }
     .day-subject.off { background:#64748b; }
     .day-subject.model { background:#d97706; }
+
+    /* Mobile calendar: show subject abbreviations only. */
+    .day-subject .full-sub { display:none !important; }
+    .day-subject .short-sub { display:inline !important; }
+
     .student-footer { text-align:center; color:#94a3b8; font-size:11px; padding:8px 0 0; }
     .student-footer small { display:block; margin-top:2px; font-size:9px; }
   </style>
@@ -365,7 +293,6 @@
           <div class="day-cell" onclick="showDetails(${dayNum})">
             <div class="day-number">${dayNum}</div>
             <div class="day-subject ${subClass}">
-              <span class="full-sub">${sub}</span>
               <span class="short-sub">${shortForms[sub] || sub}</span>
             </div>
           </div>
@@ -435,24 +362,14 @@
       }
     }
 
-    window.addEventListener('online', () => {
-      const el = document.getElementById('syncStatus');
-      if (el) el.innerText = '● আবার অনলাইনে সিঙ্ক হচ্ছে...';
-    });
-    window.addEventListener('offline', () => {
-      const el = document.getElementById('syncStatus');
-      if (el) el.innerText = '● অফলাইন ক্যাশ';
-    });
-
     window.addEventListener('DOMContentLoaded', () => {
       let currentMonth = 8; // সেপ্টেম্বর
       let currentYear = 2026;
       
-      renderRoutinePage();
-      if (typeof window.startRoutineLiveSync === 'function') {
-        window.startRoutineLiveSync(currentMonth, currentYear);
-      } else if (typeof window.fetchRoutineFromFirestore === 'function') {
+      if (typeof window.fetchRoutineFromFirestore === 'function') {
         window.fetchRoutineFromFirestore(currentMonth, currentYear);
+      } else {
+        renderRoutinePage();
       }
     });
   </script>
