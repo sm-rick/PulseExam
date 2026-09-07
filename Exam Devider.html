@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আজকের পরীক্ষা - LIVE EXAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border-top: 5px solid #10b981;
+        }
+
+        .header-logo {
+            text-align: center;
+            padding: 20px 16px 10px;
+            background: #ffffff;
+        }
+
+        .header-logo img {
+            max-width: 120px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .card-content {
+            padding: 16px 20px 24px;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #ecfdf5;
+            color: #047857;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .exam-date {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .exam-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 20px;
+        }
+
+        .exam-link-btn {
+            display: block;
+            width: 100%;
+            background-color: #e2e8f0;
+            color: #334155;
+            text-align: center;
+            padding: 14px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .exam-link-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .exam-link-btn:hover {
+            background-color: #cbd5e1;
+            color: #1e293b;
+            transform: translateY(-1px);
+        }
+
+        .bsc-btn {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+
+        .bsc-btn:hover {
+            background-color: #bae6fd;
+            color: #0369a1;
+        }
+
+        .diploma-btn {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .diploma-btn:hover {
+            background-color: #fde68a;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-logo">
+            <a href="https://ibb.co.com/pjFkJ00P" target="_blank">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="logo" border="0">
+            </a>
+        </div>
+
+        <div class="card-content">
+            <div class="live-badge">
+                <span class="live-dot"></span> আজকের পরীক্ষা (LIVE EXAM)
+            </div>
+
+            <div class="exam-date">07 SEPT 2026 | সোমবার</div>
+            <div class="exam-title">SCIENCE | ডাইজেস্ট পদার্থবিজ্ঞান অধ্যায়-১</div>
+
+            <a href="https://forms.gle/dv2w67jwepcvUaaB6" target="_blank" class="exam-link-btn bsc-btn">
+                BSC EXAM (PHYSICS)
+            </a>
+
+            <a href="https://forms.gle/ET75tFU5qJSqwsrq7" target="_blank" class="exam-link-btn diploma-btn">
+                DIPLOMA EXAM (PHYSICS)
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
