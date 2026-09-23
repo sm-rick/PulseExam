@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Nursing Comprehensive / License Exam - September 2026</title>
+<style>
+:root {
+  --green:#087f5b; --dark:#12372a; --light:#f5fbf8; --line:#e3e9e6;
+  --red:#d93025; --gold:#f2b705; --blue:#1769aa; --muted:#68736e;
+}
+* { box-sizing:border-box; }
+html,body { margin:0; padding:0; background:#eef2f1; color:#17211d; font-family:Arial,Helvetica,sans-serif; }
+body { min-height:100vh; }
+.app { width:min(100%,560px); margin:0 auto; min-height:100vh; background:#fff; box-shadow:0 0 28px rgba(0,0,0,.08); }
+header { padding:16px 18px 12px; border-bottom:1px solid var(--line); background:#fff; position:sticky; top:0; z-index:20; }
+.brand { display:flex; align-items:center; gap:11px; }
+.brand img { width:52px; height:52px; object-fit:contain; }
+.brand h1 { margin:0; font-size:16px; line-height:1.25; color:var(--dark); }
+.brand p { margin:3px 0 0; color:var(--muted); font-size:11px; }
+main { padding:16px; }
+.card { background:#fff; border:1px solid var(--line); border-radius:16px; padding:17px; margin-bottom:14px; }
+.hero { background:linear-gradient(180deg,#f9fffc,#f0faf6); border-color:#d9eee5; text-align:center; }
+.hero img { width:78px; height:78px; object-fit:contain; margin:3px auto 8px; }
+.hero h2 { margin:0 0 8px; font-size:21px; line-height:1.25; color:var(--dark); }
+.hero .sub { margin:0 0 5px; font-size:13px; font-weight:700; color:var(--green); }
+.hero .meta { margin:0; color:#4e5a55; font-size:13px; }
+.btn { width:100%; border:0; border-radius:12px; padding:14px 16px; font-size:15px; font-weight:800; cursor:pointer; }
+.primary { background:var(--green); color:white; }
+.secondary { background:#edf7f3; color:var(--dark); }
+.danger { background:#b42318; color:white; }
+input,select { width:100%; padding:13px 12px; border:1px solid #ccd7d2; border-radius:10px; background:#fff; font-size:15px; outline:none; }
+input:focus,select:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(8,127,91,.1); }
+label { display:block; font-weight:700; font-size:13px; margin:0 0 7px; color:#31413a; }
+.field { margin-bottom:13px; }
+.hint { color:var(--muted); font-size:11px; margin-top:5px; }
+.error { display:none; color:#b42318; background:#fff1f0; border:1px solid #ffd0cc; border-radius:10px; padding:10px; font-size:12px; margin-bottom:12px; }
+#examScreen,#resultScreen { display:none; }
+.exambar { position:sticky; top:81px; z-index:15; background:#12372a; color:#fff; padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.timer { font-weight:900; font-variant-numeric:tabular-nums; }
+.progress { font-size:11px; opacity:.9; }
+.section-title { font-size:15px; font-weight:900; color:var(--dark); margin:4px 0 12px; }
+.question { border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:13px; background:#fff; }
+.qtop { display:flex; justify-content:space-between; gap:8px; margin-bottom:10px; }
+.qnum { font-weight:900; color:var(--green); }
+.badge { font-size:10px; font-weight:800; padding:4px 7px; border-radius:999px; background:#eef6f2; color:var(--green); white-space:nowrap; }
+.qtext { font-size:14px; line-height:1.48; font-weight:700; margin-bottom:11px; }
+.opt { display:flex; align-items:center; gap:8px; margin:7px 0; padding:9px; border:1px solid #e2e8e5; border-radius:10px; background:#fbfcfc; }
+.opt .letter { width:23px; height:23px; border-radius:50%; display:grid; place-items:center; background:#edf2ef; font-size:11px; font-weight:900; flex:0 0 auto; }
+.opttext { flex:1; font-size:13px; line-height:1.35; }
+.tf { display:flex; gap:5px; flex:0 0 auto; }
+.tf button { border:1px solid #cbd5d0; background:#fff; border-radius:7px; padding:5px 7px; font-size:10px; font-weight:900; cursor:pointer; }
+.tf button.active.true { background:#dff7e9; border-color:#42a66d; color:#11653b; }
+.tf button.active.false { background:#ffe7e5; border-color:#df6a61; color:#a51d13; }
+.bcqOpt { display:flex; align-items:flex-start; gap:8px; cursor:pointer; }
+.bcqOpt input { width:18px; height:18px; margin:0; accent-color:var(--green); }
+.submitWrap { padding:8px 0 24px; }
+#resultScreen .score { text-align:center; }
+.scoreCircle { width:138px; height:138px; margin:8px auto 12px; border-radius:50%; display:grid; place-items:center; border:8px solid #dff1e9; background:#f8fffb; }
+.scoreCircle strong { font-size:35px; color:var(--dark); }
+.resultTitle { font-size:22px; font-weight:900; margin:0 0 4px; }
+.pass { color:#087f5b; }
+.fail { color:#b42318; }
+.summary { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin-top:15px; }
+.stat { border:1px solid var(--line); border-radius:12px; padding:11px; text-align:center; background:#fafcfa; }
+.stat b { display:block; font-size:20px; color:var(--dark); }
+.stat span { font-size:11px; color:var(--muted); }
+.promo { background:#12372a; color:#fff; text-align:center; border:0; }
+.promo h3 { margin:0 0 8px; font-size:16px; }
+.promo p { margin:0 0 13px; font-size:12px; line-height:1.55; color:#eaf5f0; }
+.promo a { display:block; text-decoration:none; background:#ff3030; color:#fff; padding:12px; border-radius:10px; font-weight:900; }
+.reviewTitle { font-size:16px; font-weight:900; color:var(--dark); margin-bottom:10px; }
+.reviewQ { border:1px solid var(--line); border-radius:13px; padding:13px; margin-bottom:10px; }
+.reviewQ.correct { border-left:5px solid #31a36b; }
+.reviewQ.wrong { border-left:5px solid #d93025; }
+.reviewQ.unanswered { border-left:5px solid #9aa5a0; }
+.reviewOpt { padding:7px 9px; border-radius:8px; margin-top:5px; font-size:12px; line-height:1.35; }
+.reviewOpt.correct { background:#e8f8ee; color:#12653b; }
+.reviewOpt.selectedWrong { background:#ffe9e7; color:#a51d13; }
+.reviewOpt.selected { outline:1px solid #8da49a; }
+.reviewAns { margin-top:9px; font-size:11px; color:#4d5b55; line-height:1.45; }
+.small { font-size:11px; color:var(--muted); }
+.hidden { display:none!important; }
+@media(max-width:430px) {
+  main { padding:11px; }
+  header { padding:12px; }
+  .exambar { top:75px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">
+    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Coaching Logo">
+    <div>
+      <h1>Pulse Nursing License &amp; Job Coaching</h1>
+      <p>Nursing Comprehensive / License Exam — September 2026</p>
+    </div>
+  </div>
+</header>
+
+<main id="startScreen">
+  <section class="card hero">
+    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Logo">
+    <h2>Nursing Comprehensive / License Exam - September 2026</h2>
+    <p class="sub">SPECIAL FREE MODEL TEST By PULSE NURSING COACHING-2</p>
+    <p class="meta"><b>TOTAL MARK: 100</b> &nbsp;|&nbsp; <b>TIME: 1 Hours 40 Minute</b></p>
+    <br>
+    <button class="btn primary" onclick="openForm()">START EXAM</button>
+  </section>
+</main>
+
+<section id="formScreen" class="hidden">
+  <main>
+    <div class="card">
+      <div class="section-title">Student Information</div>
+      <div id="formError" class="error"></div>
+
+      <div class="field">
+        <label>Your Name <span class="small">(ONLY ENGLISH WORD)</span></label>
+        <input id="name" type="text" autocomplete="name" placeholder="Enter your name" pattern="[A-Za-z ]+" required>
+      </div>
+
+      <div class="field">
+        <label>Course</label>
+        <select id="course">
+          <option value="">Select Course</option>
+          <option value="BSC">BSC</option>
+          <option value="DIPLOMA">DIPLOMA</option>
+          <option value="MIDWIFERY">MIDWIFERY</option>
+          <option value="PCT">PCT</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Phone Number <span class="small">(11 digits only)</span></label>
+        <input id="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX">
+        <div class="hint">Must be 11 digits. Starts with 01 and the 3rd digit must be 3–9.</div>
+      </div>
+
+      <div class="field">
+        <label>BNMC LICENSE ROLL <span class="small">(ONLY NUMBER)</span></label>
+        <input id="roll" type="text" inputmode="numeric" placeholder="Enter license roll">
+      </div>
+
+      <button class="btn primary" onclick="saveAndStart()">SAVE &amp; START EXAM</button>
+    </div>
+  </main>
+</section>
+
+<section id="examScreen">
+  <div class="exambar">
+    <div><b id="examName">Exam</b><div class="progress" id="progressText">0 / 100 answered</div></div>
+    <div class="timer" id="timer">100:00</div>
+  </div>
+  <main>
+    <div class="card" style="padding:12px 14px;">
+      <div class="small"><b>MCQ:</b> 50 questions × 1 mark. Each of 5 statements carries 0.2 mark when correctly marked True/False.</div>
+      <div class="small" style="margin-top:5px;"><b>BCQ:</b> 50 questions × 1 mark. Select one correct answer.</div>
+    </div>
+    <div id="questions"></div>
+    <div class="submitWrap">
+      <button class="btn danger" onclick="manualSubmit()">SUBMIT EXAM</button>
+    </div>
+  </main>
+</section>
+
+<section id="resultScreen">
+  <main>
+    <div class="card score">
+      <div class="scoreCircle"><strong id="scoreValue">0</strong></div>
+      <div id="resultTitle" class="resultTitle"></div>
+      <div id="resultSubtitle" class="small"></div>
+      <div class="summary">
+        <div class="stat"><b id="correctCount">0</b><span>Correct</span></div>
+        <div class="stat"><b id="wrongCount">0</b><span>Wrong</span></div>
+        <div class="stat"><b id="unansweredCount">0</b><span>Not Answered</span></div>
+        <div class="stat"><b id="answeredCount">0</b><span>Answered</span></div>
+      </div>
+    </div>
+
+    <div class="card promo">
+      <h3>নার্সিং লাইসেন্স পরীক্ষাঃ সেপ্টেম্বর ২০২৬</h3>
+      <p>পালস নার্সিং কোচিং এর পক্ষ থেকে আপনাকে শুভকামনা। লাইসেন্স পরীক্ষার স্পেশাল সাজেশন ভিডিও পেতে এবং লাইসেন্স পরবর্তী চাকরি প্রস্তুতির ফ্রি ক্লাস পেতে সাবস্ক্রাইব করে রাখুন Pulse Nursing এর ইউটিউব চ্যানেল।</p>
+      <a href="https://youtube.com/@pulsenursing" target="_blank" rel="noopener">Subscribe Now</a>
+    </div>
+
+    <div class="card">
+      <div class="reviewTitle">Your Answer Summary &amp; Detailed Review</div>
+      <div id="review"></div>
+    </div>
+  </main>
+</section>
+</div>
+
+<script>
+const QUESTIONS = [{"id": 1, "type": "MCQ", "question": "Purpose of hand washing during operation-", "options": ["Preventing infection", "Safety measure", "Inhibiting microbes", "Technique", "Improve health technique"], "answers": ["a", "b", "c", "d"]}, {"id": 2, "type": "MCQ", "question": "Function of bone-", "options": ["Structure of bone", "Provide support", "Not protect the internal organ", "Helps in locomotion", "Resolving of mineral"], "answers": ["b", "d", "e"]}, {"id": 3, "type": "MCQ", "question": "Criteria of balance diet are-", "options": ["Easily available and palatable", "Satisfactory to taste and appetite", "Should be from one food group", "Easily digestible and absorbable", "Should be well designed food"], "answers": ["a", "b", "d", "e"]}, {"id": 4, "type": "MCQ", "question": "Identify the complication of immobility-", "options": ["Hypocalcaemia", "UTI", "Increase muscle tone", "Constipation", "Septic arthritis"], "answers": ["b", "d"]}, {"id": 5, "type": "MCQ", "question": "Rights of administration of medication are-", "options": ["Right time", "Right dose", "Right medicine", "Right Nurse", "Right Doctor"], "answers": ["a", "b", "c"]}, {"id": 6, "type": "MCQ", "question": "Mode of transmission of enteric fever -", "options": ["Feco-oral route", "Parenteral route", "Sexual transmission", "Vertical transmission", "Direct contact"], "answers": ["a"]}, {"id": 7, "type": "MCQ", "question": "Following are the biological complete protein -", "options": ["Meat", "Beans", "Egg", "Pulses", "Milk"], "answers": ["a", "c", "e"]}, {"id": 8, "type": "MCQ", "question": "Occupational health hazards of Nurses/Doctors are-", "options": ["Tuberculosis", "AIDS", "Hepatitis B & C", "Hypertension", "Diabetes mellitus"], "answers": ["a", "b", "c"]}, {"id": 9, "type": "MCQ", "question": "Hazards of vaccination are-", "options": ["Fever", "Vomiting", "Local swelling", "Local pain", "Edema of the face and feet"], "answers": ["a", "c", "d"]}, {"id": 10, "type": "MCQ", "question": "Internal female reproductive organs are-", "options": ["Labia majora", "Uterus", "Labia minora", "Ovary", "Fallopian tube"], "answers": ["b", "d", "e"]}, {"id": 11, "type": "MCQ", "question": "A good psychiatric nurse to-", "options": ["Patience", "Panic", "Critical thinking skill", "Good judgment", "Lack of concentration"], "answers": ["a", "c", "d"]}, {"id": 12, "type": "MCQ", "question": "Following ascertainment of the GCS score, A nurse should check of an acute head injury patients-", "options": ["Eye opening", "Papillary size", "Motor response", "Respiratory rate", "Verbal response"], "answers": ["a", "c", "e"]}, {"id": 13, "type": "MCQ", "question": "Level of management includes-", "options": ["Top level management", "Secondary level management", "Middle level management", "Tertiary level management", "Lower-level management"], "answers": ["a", "c", "e"]}, {"id": 14, "type": "MCQ", "question": "Signs of eclampsia are-", "options": ["Hemorrhage", "High blood pressure", "High blood sugar level", "Convulsion", "Oedema"], "answers": ["b", "d", "e"]}, {"id": 15, "type": "MCQ", "question": "Best positions for 2nd stage of labour-", "options": ["Upright/squatting", "Kneeling", "Side-lying", "Supine/loithotomy", "Slouching/reclining"], "answers": ["a", "b", "c"]}, {"id": 16, "type": "MCQ", "question": "Which cast care instructions would be appropriate for the nurse provide to a client who just had a plaster applied to the right forearm?", "options": ["Keep the cast clean and dry", "Allow the cast 24-hours dry", "Keep the cast and extremity elevated", "Expect tingling and numbness in the extremity", "Use a hair dryer set on a warm to hot setting to dry the cast"], "answers": ["a", "b", "c"]}, {"id": 17, "type": "MCQ", "question": "Acute pain related to-", "options": ["Fracture bone", "Bone metastasis", "Surgical incision", "Rheumatoid arthritis.", "Low back pain"], "answers": ["a", "b", "c"]}, {"id": 18, "type": "MCQ", "question": "Purposes of antenatal care-", "options": ["To identify high risk", "To assist breast feeding", "To ensure safe delivery", "To confirm expected date of delivery", "To detect abnormality"], "answers": ["a", "c", "e"]}, {"id": 19, "type": "MCQ", "question": "Quarantine means-", "options": ["Separate & restriction the movement of well person", "Restriction of community or group", "Restriction of healthy contacts", "Maintained in non- communicable disease", "Maintained in communicable disease"], "answers": ["a", "e"]}, {"id": 20, "type": "MCQ", "question": "Warning signs of post partum hemorrhage are-", "options": ["Sudden heavy vaginal bleeding", "Lochia heavier than previous", "Severe anemia", "Cold & clammy skin", "Sub-involution of fundus of uterus"], "answers": ["a", "d"]}, {"id": 21, "type": "MCQ", "question": "Source of iodine are-", "options": ["Sea fish", "Sea salt", "Cod liver oil", "Nuts", "Beans"], "answers": ["a", "b", "e"]}, {"id": 22, "type": "MCQ", "question": "Ovulation release of ovum occur on the day of menstrual cycle-", "options": ["10th day", "14th day", "16th day", "Last two days of menstrual", "Just after stop menstruation"], "answers": ["b"]}, {"id": 23, "type": "MCQ", "question": "Live vaccines are-", "options": ["BCG", "Polio", "Measles", "DP", "Hepatitis"], "answers": ["a", "b", "c"]}, {"id": 24, "type": "MCQ", "question": "The common natural disasters in our Bangladesh-", "options": ["Cyclone", "Nuclear accident", "Famine", "Earth quake", "Flood"], "answers": ["a", "d", "e"]}, {"id": 25, "type": "MCQ", "question": "Responsibilities of a ward in-charge nurse are-", "options": ["Monitoring admissions and discharges", "Prescribing medication", "Delegating nursing duties and assignments", "Accounting salary or wages", "Overseeing the supply and demand of medications"], "answers": ["a", "c", "e"]}, {"id": 26, "type": "MCQ", "question": "The purposes of health assessment are-", "options": ["Examine the patients laboratory test", "Continuous collection", "To identify the nursing needs of the patient", "To ensure continuity of care", "To prepare a nursing care plan"], "answers": ["c", "e"]}, {"id": 27, "type": "MCQ", "question": "Example of anti-hypertensive drugs-", "options": ["Diazepam", "Atenolol", "Captopril", "Amlodipine", "Oxytocin"], "answers": ["b", "c", "d"]}, {"id": 28, "type": "MCQ", "question": "Advance life support by-", "options": ["Oxygen inhalation", "Open IV channel", "Administer essential drug", "Ambulance", "Start NGO feeding"], "answers": ["a", "b", "e"]}, {"id": 29, "type": "MCQ", "question": "Elemental’s of end of life care-", "options": ["Hopes & expectation", "Volunteers", "Living with illness", "Build social relationship & support", "Pain & discomfort"], "answers": ["a", "b", "e"]}, {"id": 30, "type": "MCQ", "question": "Date collection strategies are-", "options": ["Scolding", "Interview", "Diagnostic test", "Controlling visitors", "Observation."], "answers": ["b", "e"]}, {"id": 31, "type": "MCQ", "question": "Water solute vitamins are-", "options": ["Vit A", "Vit C", "Vit D", "Vit K", "Vit B12"], "answers": ["b", "e"]}, {"id": 32, "type": "MCQ", "question": "Appropriate form of verbs used for past tense?", "options": ["Came", "Eat", "Wrote", "Slept", "Give"], "answers": ["a", "c", "d"]}, {"id": 33, "type": "MCQ", "question": "Large volume & urgency maintain by routes drug administration possible for-", "options": ["Intramuscular routes", "Intra venous routes", "Inhalation routes", "Intra osseous routes", "Intra articular routes"], "answers": ["a", "b"]}, {"id": 34, "type": "MCQ", "question": "Which reason is highly occurs miscarriage?", "options": ["Bacterial Vaginosis", "Maternal age", "Chromosomal abnormalities", "Fibroid uterus", "Severe hemorrhage"], "answers": ["b", "c", "d"]}, {"id": 35, "type": "MCQ", "question": "Clinical features of a asphyxia neonatorum are-", "options": ["Cynosis", "Pneumonia", "Hypoxia", "Poor response", "Over active"], "answers": ["a", "c", "d"]}, {"id": 36, "type": "MCQ", "question": "Renal function test includes-", "options": ["Serum creatinine", "Urine culture", "Blood urea", "Serum electrolyte", "USG abdomen"], "answers": ["a", "c", "d"]}, {"id": 37, "type": "MCQ", "question": "Roles & responsibility of midwifery-", "options": ["Antenatal care", "Manage labour period", "General care", "Neonatal care", "Focus advice during pregnancy"], "answers": ["a", "b", "d"]}, {"id": 38, "type": "MCQ", "question": "The drugs used for induction of labour includes-", "options": ["Ergometrine", "Oxytocin", "Proscription", "Prostaglandin", "Progesterone"], "answers": ["b", "d"]}, {"id": 39, "type": "MCQ", "question": "Benefits of maintaining partograph are-", "options": ["To detect progress of labour", "To identify PPH", "To detect fetal condition", "To identify GDM", "To detect maternal condition"], "answers": ["a", "c", "e"]}, {"id": 40, "type": "MCQ", "question": "Five important landmarks of fetal skull includes-", "options": ["Occiput", "Caput", "Molding", "Pectineal line", "Sinciput"], "answers": ["a", "e"]}, {"id": 41, "type": "MCQ", "question": "Moral & ethical behavior of nurse-", "options": ["Honesty", "Fidelity", "Beneficence", "Judgment", "Autonomy"], "answers": ["a", "b", "c", "d", "e"]}, {"id": 42, "type": "MCQ", "question": "Correct shape of heart, kidney, liver, lungs, ovary & uterus-", "options": ["Heart & lungs- Conical shape", "Kidney- Bean shape", "Uterus & ovary- Pear & oval shape", "Stomach- J shape", "Ovary- Pyramide"], "answers": ["a", "b", "c"]}, {"id": 43, "type": "MCQ", "question": "Correct duration of following diseases-", "options": ["P. Malariae- 18 to 40 days", "Typhoid fever- 6 to 30 days.", "Dengue heamorrhagic fever- 6 to 12 days", "Dengue fever- 2 to 7 days.", "Hepatitis A Virus- 30 to180 days"], "answers": ["a", "b", "d"]}, {"id": 44, "type": "MCQ", "question": "Cerebrospinal fluid-", "options": ["Protects the brain and spinal cord", "Maintains pressure around the brain and spinal cord", "Helps in conduction of nerve impulse", "Acts as a shock absorber of brain", "Helps growth & development"], "answers": ["a", "b", "d"]}, {"id": 45, "type": "MCQ", "question": "Objective of first aid -", "options": ["Preserve life", "Victim discomfort", "Reduce pain", "Untreated the condition", "Treated the condition"], "answers": ["a", "c", "e"]}, {"id": 46, "type": "MCQ", "question": "Common site & position of bed sore are-", "options": ["Supine", "Neck", "Scapula", "Sacral region", "Prone"], "answers": ["a", "c", "d"]}, {"id": 47, "type": "MCQ", "question": "Positive feedback mechanism is-", "options": ["Blood coagulation", "Regulation of acid base balance", "Childbirth", "Generation of nerve impulse", "Regulation of body temperature"], "answers": ["a", "b", "e"]}, {"id": 48, "type": "MCQ", "question": "ECF contain large amount at-", "options": ["K+", "Na+", "Mg+.", "Cl-", "Hco3"], "answers": ["b", "d"]}, {"id": 49, "type": "MCQ", "question": "Transitional epithelium present in the-", "options": ["Urinary bladder", "Stomach", "Ureter", "Trachea", "Artery"], "answers": ["a", "c"]}, {"id": 50, "type": "MCQ", "question": "The parts of small intestine are-", "options": ["Duodenum", "Jejunum", "Ilium", "Ascending colon", "Descending colon"], "answers": ["a", "b", "c"]}, {"id": 51, "type": "BCQ", "question": "You are caring for a patient with active upper GI bleeding, what is the appropriate diet for this client during the first 24 hours after admission?", "options": ["Regular diet", "Skim milk", "Nothing by mouth", "Clear liquids"], "answers": ["c"]}, {"id": 52, "type": "BCQ", "question": "A patient is admitted in the hospital with complaints of hematuria, oliguria and hypertension.The most likely diagnosis for this patient is -", "options": ["Nephritic syndrome", "Nephrotic syndrome", "Glomerulonephritis", "UTI"], "answers": ["c"]}, {"id": 53, "type": "BCQ", "question": "Which disease occurs muscle atrophy-?", "options": ["Poliomyelitis", "Hepatitis", "Tuberculosis", "Epilepsy"], "answers": ["a"]}, {"id": 54, "type": "BCQ", "question": "The nurse is admitting a client with a suspected fluid imbalance. The most important indicator of body fluid balance is-", "options": ["Daily weight", "Measured intake & output", "Serum sodium level", "Total serum count"], "answers": ["c"]}, {"id": 55, "type": "BCQ", "question": "Rose spot related to-", "options": ["Typhoid fever", "Malaria", "Dengue fever", "Anaemia"], "answers": ["a"]}, {"id": 56, "type": "BCQ", "question": "Oxygenates blood is carries from the heart to aorta-", "options": ["Pulmonary vein", "Superior venacava", "Inferior venacava", "Pulmonary artery"], "answers": ["a"]}, {"id": 57, "type": "BCQ", "question": "First heart sound produces by-", "options": ["Tricuspid & mitral valves.", "Semilunar valves.", "Ventricular wall", "Ventricular vulve"], "answers": ["a"]}, {"id": 58, "type": "BCQ", "question": "Correct meaning of epistaxis, hematemesis, haemoptysis & hematuria-", "options": ["Bleeding from nose, vomiting, coughing, urine", "Bleeding from coughing, urine, nose, vomiting", "Bleeding from coughing, urine nose, vomiting", "Bleeding from nose, urine, vomiting, coughing"], "answers": ["a"]}, {"id": 59, "type": "BCQ", "question": "World health day observed on-", "options": ["17 April", "7 April", "12 May", "11 May"], "answers": ["b"]}, {"id": 60, "type": "BCQ", "question": "First characteristic of nursing process are-", "options": ["Random", "Systematic", "Static", "Task oriented"], "answers": ["b"]}, {"id": 61, "type": "BCQ", "question": "Fertilization takes place in the -", "options": ["Uterus", "Ovary", "Ampulla of the fallopian tube", "Fimbriae"], "answers": ["c"]}, {"id": 62, "type": "BCQ", "question": "Cushing's syndrome occurs due to -", "options": ["Glucocorticoids", "Metformin", "Overweight", "Malnutrition"], "answers": ["a"]}, {"id": 63, "type": "BCQ", "question": "Which of the nutritional recommendation is most important for pregnant women to support for fetal brain and spinal cord development-", "options": ["Intake nutritious food", "Intake plenty of fluid", "Adequate amount of folate and folic acid", "Adequate amount of iodine rich food"], "answers": ["c"]}, {"id": 64, "type": "BCQ", "question": "Screening may be done by-", "options": ["Laboratory test", "History taking", "Physical examination", "Data collection"], "answers": ["c"]}, {"id": 65, "type": "BCQ", "question": "Infection of newborn baby can be prevented by-", "options": ["Vernix", "Lanugo", "Millie", "Nervous flammeus"], "answers": ["a"]}, {"id": 66, "type": "BCQ", "question": "Sign & symptoms of intra-Uterine Death (IUD) includes-", "options": ["Fetal Heart Sound (FHS) process", "Fetal Heart Sound (FHS) absent", "Fetal Movement Absent", "Meconium Absent"], "answers": ["b"]}, {"id": 67, "type": "BCQ", "question": "Mother should provide exclusive borne feeding to her baby up to–", "options": ["First 3 months", "First 6 months", "Up to 1 year", "UP to 2 years"], "answers": ["b"]}, {"id": 68, "type": "BCQ", "question": "Which sentence is present perfect tense?", "options": ["Rina reads a book.", "Kamal has been reading a book since morning.", "Zeba has eaten rice.", "Rekha is sleeping"], "answers": ["c"]}, {"id": 69, "type": "BCQ", "question": "Which type of sampling ensure that every individual in the population has an equal of being selected-", "options": ["Simple random sampling", "Cluster random sampling", "Probability random sampling", "Stratifies random sampling"], "answers": ["a"]}, {"id": 70, "type": "BCQ", "question": "Features of gout-", "options": ["Hypo uricemia", "Tophi deposition", "Ankle deposition", "Knee deposition"], "answers": ["b"]}, {"id": 71, "type": "BCQ", "question": "The amount of protein intake to be maintained during renal failure is-", "options": ["20-40 g/day", "40-60 g/day", "60-80 g/day", "80-100 g/day"], "answers": ["b"]}, {"id": 72, "type": "BCQ", "question": "The hormone known to participate in metabolism of calcium & phosphorus is-", "options": ["Mineral corticoids", "Calcitonin", "Glucagon", "Glucocorticoids"], "answers": ["b"]}, {"id": 73, "type": "BCQ", "question": "Normal birth weight is-", "options": ["2.5kg- 3.8 kg", "2 kg- 3 kg", "2kg- 4 kg", "1.5 kg- 3 kg"], "answers": ["a"]}, {"id": 74, "type": "BCQ", "question": "Reaction of normal urine is-", "options": ["Acidic", "Slightly acidic", "Neutral", "Alkaline"], "answers": ["b"]}, {"id": 75, "type": "BCQ", "question": "Which are of the life support drug-?", "options": ["Heparin", "Insulin", "Penicillin", "Non-above"], "answers": ["d"]}, {"id": 76, "type": "BCQ", "question": "Body tissue repaired by-", "options": ["CHO", "Fat", "Vitamin", "Protein"], "answers": ["d"]}, {"id": 77, "type": "BCQ", "question": "Universal blood donor & recipient are-", "options": ["O (+ve) & O(-ve)", "O (-ve) & AB (+ve)", "AB- (ve) & A(+)", "B (+ve) & AB (+ve)"], "answers": ["b"]}, {"id": 78, "type": "BCQ", "question": "Only transmitted blood & illness condition serious-", "options": ["Hepatitis- D", "Hepatitis- C", "Hepatitis- A", "Hepatitis- B"], "answers": ["b"]}, {"id": 79, "type": "BCQ", "question": "Which burn is very painful & blister formation occurs-", "options": ["Superficial & 2nd degree burn", "Superficial & 3rd degree burn", "Superficial & 1st degree burn", "Dermis & 2nd degree burn"], "answers": ["a"]}, {"id": 80, "type": "BCQ", "question": "Bleeding flow, pot control by medication, pressure which condition identifies-", "options": ["Thalassemia", "Haemophilia", "Leucopenia", "Haemorrhagic c dengue"], "answers": ["b"]}, {"id": 81, "type": "BCQ", "question": "Which one is a vector borne disease-?", "options": ["Poliomyelitis", "Malaria", "Typhoid", "Tetanus"], "answers": ["b"]}, {"id": 82, "type": "BCQ", "question": "Normal level of GCS & APGAR score-", "options": ["14 & 10", "15 & 12", "15 & 10", "10 & 16"], "answers": ["c"]}, {"id": 83, "type": "BCQ", "question": "Study of normal mode transmission of disease is called-", "options": ["Pathology", "Nosology", "Immunology", "Epidemiology"], "answers": ["a"]}, {"id": 84, "type": "BCQ", "question": "Which hormone is secreted by the anterior pituitary gland?", "options": ["Cortisol", "Anti-diuretic hormone", "Corticotropin", "Oxytocin"], "answers": ["c"]}, {"id": 85, "type": "BCQ", "question": "Increased level of potassium is called -", "options": ["Hyper calcemia", "Hyperkalemia", "Hyper glycaemia", "Hypernatremia"], "answers": ["b"]}, {"id": 86, "type": "BCQ", "question": "Which one is the 3rd phase of nursing process?", "options": ["Assessment", "Planning", "Evaluation", "Nursing diagnosis"], "answers": ["b"]}, {"id": 87, "type": "BCQ", "question": "A patient is suffering from a broken jaw. Which food will be appropriate?", "options": ["Carrots, fried chicken and cereal", "Rice, watermelon, and smoked fish", "Peanuts, and fresh broccoli", "Soup, pudding, and ice cream"], "answers": ["d"]}, {"id": 88, "type": "BCQ", "question": "The primary problem that can occur as a result vomiting & bleeding in the immediate post operative period –", "options": ["Electrolyte imbalance & haemorrhagic shock", "Haemorrhagic shock & wound contamination", "Fluid imbalance & haemorrhagic shock", "Coma & electrolyte imbalance"], "answers": ["a"]}, {"id": 89, "type": "BCQ", "question": "The structural and functional unit of kidney & nervous system is-", "options": ["Neuralgia & Nephron", "Nephron & Neuron", "Neuron & Neuralgia", "Neuron & Nephron"], "answers": ["b"]}, {"id": 90, "type": "BCQ", "question": "The absence of bacteria, viruses and other Micro-organisms is called-", "options": ["Antisepsis", "Infection", "Disinfection", "Asepsis"], "answers": ["d"]}, {"id": 91, "type": "BCQ", "question": "Drug metabolism & excretion occurs in-", "options": ["Liver & kidney", "Kidney & placenta", "Placenta & kidney", "Stomach & liver"], "answers": ["a"]}, {"id": 92, "type": "BCQ", "question": "In 65 year old male with history of fracture neck of femur 6 weeks old, treatment of -", "options": ["SP nailing", "Mc Murray’s osteotomy", "Hemiarthroplasty", "None"], "answers": ["c"]}, {"id": 93, "type": "BCQ", "question": "Common sites of decubitus ulcer are -", "options": ["Knee joint", "Lumbo-sacral region", "Buccal mucosa", "Lower abdomen"], "answers": ["b"]}, {"id": 94, "type": "BCQ", "question": "Hallucination is a disorder of -", "options": ["Perception", "Thinking", "Intelligence", "Memory"], "answers": ["a"]}, {"id": 95, "type": "BCQ", "question": "Morbidity indicator is-", "options": ["Growth", "Prevalence", "Control", "Manigency"], "answers": ["b"]}, {"id": 96, "type": "BCQ", "question": "Largest cell of the human body according to length-", "options": ["Neuron", "Ovum", "Spram", "Nephron"], "answers": ["a"]}, {"id": 97, "type": "BCQ", "question": "Position for severe breathing difficulty is -", "options": ["Dorsal recumbent", "Supine", "Fowlers", "Side-lying"], "answers": ["c"]}, {"id": 98, "type": "BCQ", "question": "The word 'distressed' in the sentence is an adjective.\" In the sentence, \"The distressed woman spoke,\" what part of speech is \"distressed\"?", "options": ["Verb", "Noun", "Adjective", "Adverb"], "answers": ["c"]}, {"id": 99, "type": "BCQ", "question": "The condition caused by a buildup of fatty plaque on artery walls is called-", "options": ["Atherosclerosis", "Arteriosclerosis", "Arteriosclirosis", "Aterosclerosis"], "answers": ["a"]}, {"id": 100, "type": "BCQ", "question": "BIOS means-", "options": ["Basic input output system", "Bus input output system", "Retrieve e-mail from a mail server", "Copy data input to output device"], "answers": ["d"]}];
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzeMXrJXrJHUEnHo1VFTKPXtWCYYK8dpHtPrGKnIxgfy_HzwfF2bPNa2ssDKdf_MuKN/exec";
+const EXAM_DURATION = 100 * 60;
+
+let student = null;
+let answers = {};
+let timeLeft = EXAM_DURATION;
+let timerId = null;
+let submitted = false;
+
+function openForm() {
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('formScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function cleanName(v) {
+  return v.trim().replace(/\s+/g,' ');
+}
+
+function validateForm() {
+  const name = cleanName(document.getElementById('name').value);
+  const course = document.getElementById('course').value;
+  const phone = document.getElementById('phone').value.trim();
+  const roll = document.getElementById('roll').value.trim();
+  const error = document.getElementById('formError');
+
+  error.style.display = 'none';
+  error.textContent = '';
+
+  if (!/^[A-Za-z]+(?:\s+[A-Za-z]+)*$/.test(name)) {
+    return showFormError('Name must contain English words only.');
+  }
+  if (!['BSC','DIPLOMA','MIDWIFERY','PCT'].includes(course)) {
+    return showFormError('Please select your course.');
+  }
+  if (!/^01[3-9][0-9]{8}$/.test(phone)) {
+    return showFormError('Phone number must be exactly 11 digits and start with 013–019.');
+  }
+  if (!/^[0-9]+$/.test(roll)) {
+    return showFormError('BNMC License Roll must contain numbers only.');
+  }
+  return {name,course,phone,roll};
+}
+
+function showFormError(msg) {
+  const e=document.getElementById('formError');
+  e.textContent=msg; e.style.display='block';
+  return false;
+}
+
+document.getElementById('phone').addEventListener('input', function() {
+  this.value=this.value.replace(/\D/g,'').slice(0,11);
+});
+document.getElementById('roll').addEventListener('input', function() {
+  this.value=this.value.replace(/\D/g,'');
+});
+document.getElementById('name').addEventListener('input', function() {
+  this.value=this.value.replace(/[^A-Za-z ]/g,'').replace(/\s+/g,' ');
+});
+
+function saveAndStart() {
+  const v=validateForm();
+  if (!v) return;
+  student=v;
+  document.getElementById('formScreen').style.display='none';
+  document.getElementById('examScreen').style.display='block';
+  renderQuestions();
+  startTimer();
+  window.scrollTo(0,0);
+}
+
+function renderQuestions() {
+  const root=document.getElementById('questions');
+  let currentType='';
+  root.innerHTML='';
+  QUESTIONS.forEach(q=>{
+    if(q.type!==currentType){
+      currentType=q.type;
+      const sec=document.createElement('div');
+      sec.className='section-title';
+      sec.textContent=q.type==='MCQ' ? 'PART A — MCQ / TRUE-FALSE (50 Marks)' : 'PART B — BCQ / BEST CHOICE (50 Marks)';
+      root.appendChild(sec);
+    }
+    const card=document.createElement('div');
+    card.className='question';
+    card.id='qcard-'+q.id;
+
+    let opts='';
+    if(q.type==='MCQ'){
+      q.options.forEach((op,i)=>{
+        const letter=String.fromCharCode(97+i);
+        opts += `<div class="opt">
+          <span class="letter">${letter.toUpperCase()}</span>
+          <span class="opttext">${escapeHtml(op)}</span>
+          <span class="tf">
+            <button type="button" data-q="${q.id}" data-o="${letter}" data-v="true" onclick="setTF(this)">True</button>
+            <button type="button" data-q="${q.id}" data-o="${letter}" data-v="false" onclick="setTF(this)">False</button>
+          </span>
+        </div>`;
+      });
+    } else {
+      q.options.forEach((op,i)=>{
+        const letter=String.fromCharCode(97+i);
+        opts += `<div class="opt bcqOpt" onclick="chooseBCQ(${q.id},'${letter}')">
+          <input type="radio" name="q${q.id}" value="${letter}" id="q${q.id}-${letter}" onclick="event.stopPropagation();chooseBCQ(${q.id},'${letter}')">
+          <span class="letter">${letter.toUpperCase()}</span>
+          <span class="opttext">${escapeHtml(op)}</span>
+        </div>`;
+      });
+    }
+
+    card.innerHTML = `<div class="qtop"><span class="qnum">Question ${q.id}</span><span class="badge">${q.type}</span></div>
+      <div class="qtext">${escapeHtml(q.question)}</div>${opts}`;
+    root.appendChild(card);
+  });
+  updateProgress();
+}
+
+function setTF(btn) {
+  if(submitted) return;
+  const q=Number(btn.dataset.q), o=btn.dataset.o, v=btn.dataset.v;
+  if(!answers[q]) answers[q]={};
+  answers[q][o]=v;
+  const parent=btn.parentElement;
+  [...parent.querySelectorAll('button')].forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active',v);
+  updateProgress();
+}
+
+function chooseBCQ(qid, letter) {
+  if(submitted) return;
+  answers[qid]=letter;
+  const input=document.getElementById(`q${qid}-${letter}`);
+  if(input) input.checked=true;
+  updateProgress();
+}
+
+function answeredItems() {
+  let total=0;
+  QUESTIONS.forEach(q=>{
+    if(q.type==='MCQ'){
+      const a=answers[q.id]||{};
+      total += Object.keys(a).length;
+    } else if(answers[q.id]) total++;
+  });
+  return total;
+}
+
+function updateProgress() {
+  document.getElementById('progressText').textContent = answeredItems() + ' / 300 statements/answers selected';
+}
+
+function startTimer() {
+  timeLeft=EXAM_DURATION;
+  updateTimer();
+  timerId=setInterval(()=>{
+    timeLeft--;
+    updateTimer();
+    if(timeLeft<=0) {
+      clearInterval(timerId);
+      submitExam(true);
+    }
+  },1000);
+}
+
+function updateTimer() {
+  const min=Math.floor(timeLeft/60).toString().padStart(2,'0');
+  const sec=(timeLeft%60).toString().padStart(2,'0');
+  const el=document.getElementById('timer');
+  el.textContent=min+':'+sec;
+  el.style.color=timeLeft<=300 ? '#ffb4ad' : '#fff';
+}
+
+function manualSubmit() {
+  if(submitted) return;
+  const unanswered=QUESTIONS.filter(q=>{
+    if(q.type==='MCQ') return Object.keys(answers[q.id]||{}).length<5;
+    return !answers[q.id];
+  }).length;
+  const msg=unanswered
+    ? `You have ${unanswered} question(s) not fully answered. Do you want to submit now?`
+    : 'Are you sure you want to submit the exam?';
+  if(confirm(msg)) submitExam(false);
+}
+
+function calculateResult() {
+  let score=0, correct=0, wrong=0, unanswered=0;
+  const details=[];
+
+  QUESTIONS.forEach(q=>{
+    if(q.type==='MCQ'){
+      const a=answers[q.id]||{};
+      let qscore=0, qcorrect=0, qwrong=0, qun=0;
+      q.options.forEach((_,i)=>{
+        const l=String.fromCharCode(97+i);
+        const selected=a[l];
+        const expected=q.answers.includes(l) ? 'true' : 'false';
+        if(selected===expected) { qscore += 0.2; qcorrect++; }
+        else if(selected===undefined) qun++;
+        else qwrong++;
+      });
+      score+=qscore;
+      if(qscore===1) correct++;
+      else if(qscore===0) wrong++;
+      else {
+        // For the summary, a partially correct MCQ is counted as wrong rather than correct.
+        wrong++;
+      }
+      if(qun===5) unanswered++;
+      details.push({q, selected:a, qscore, kind:'MCQ'});
+    } else {
+      const selected=answers[q.id];
+      if(!selected) {
+        unanswered++; wrong++;
+      } else if(q.answers.includes(selected)) {
+        score+=1; correct++;
+      } else {
+        wrong++;
+      }
+      details.push({q, selected, qscore:(selected && q.answers.includes(selected))?1:0, kind:'BCQ'});
+    }
+  });
+  return {score:Math.round(score*10)/10,correct,wrong,unanswered,details};
+}
+
+async function submitExam(auto=false) {
+  if(submitted) return;
+  submitted=true;
+  if(timerId) clearInterval(timerId);
+
+  const result=calculateResult();
+  showResult(result, auto);
+
+  // Send to Google Apps Script without a CORS preflight.
+  const payload={
+    name:student.name,
+    phone:student.phone,
+    course:student.course,
+    roll:student.roll,
+    mark:result.score,
+    passFail:result.score>=60?'PASS':'FAIL'
+  };
+
+  try {
+    await fetch(APPS_SCRIPT_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(payload),
+      keepalive:true
+    });
+  } catch(e) {
+    // The result remains visible even if the network request cannot be read by the browser.
+  }
+}
+
+function showResult(result, auto) {
+  document.getElementById('examScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+
+  const pass=result.score>=60;
+  document.getElementById('scoreValue').textContent=result.score;
+  const title=document.getElementById('resultTitle');
+  title.textContent=pass?'Congratulation':'Sorry, You Failed';
+  title.className='resultTitle '+(pass?'pass':'fail');
+  document.getElementById('resultSubtitle').textContent=
+    pass ? 'You have passed the exam. Passing mark: 60.' : 'Passing mark: 60. Better luck next time.';
+  document.getElementById('correctCount').textContent=result.correct;
+  document.getElementById('wrongCount').textContent=result.wrong;
+  document.getElementById('unansweredCount').textContent=result.unanswered;
+  document.getElementById('answeredCount').textContent=QUESTIONS.length-result.unanswered;
+
+  renderReview(result.details);
+  window.scrollTo(0,0);
+}
+
+function renderReview(details) {
+  const root=document.getElementById('review');
+  root.innerHTML='';
+  details.forEach(d=>{
+    const q=d.q;
+    const qClass=d.qscore===1?'correct':(d.selected?'wrong':'unanswered');
+    const box=document.createElement('div');
+    box.className='reviewQ '+qClass;
+
+    let opts='';
+    q.options.forEach((op,i)=>{
+      const l=String.fromCharCode(97+i);
+      const correct=q.answers.includes(l);
+      const selected=q.type==='MCQ' ? d.selected && d.selected[l] : d.selected===l;
+      const selectedValue=q.type==='MCQ' ? (d.selected && d.selected[l]) : (selected?'selected':'');
+      let cls='reviewOpt';
+      if(correct) cls+=' correct';
+      if(selected && !correct) cls+=' selectedWrong';
+      if(selected && correct) cls+=' selected';
+      let tag='';
+      if(q.type==='MCQ') {
+        if(selectedValue) tag=' — Your: '+(selectedValue==='true'?'True':'False');
+        else tag=' — Not marked';
+      } else if(selected) tag=' — Your answer';
+      opts += `<div class="${cls}"><b>${l.toUpperCase()}.</b> ${escapeHtml(op)}${tag}</div>`;
+    });
+
+    let correctText=q.answers.map(x=>x.toUpperCase()).join(', ');
+    let scoreText=q.type==='MCQ'
+      ? `Marks: ${d.qscore.toFixed(1)} / 1.0`
+      : `Marks: ${d.qscore.toFixed(0)} / 1.0`;
+
+    box.innerHTML=`<div class="qtop"><span class="qnum">Question ${q.id}</span><span class="badge">${q.type}</span></div>
+      <div class="qtext">${escapeHtml(q.question)}</div>
+      ${opts}
+      <div class="reviewAns"><b>Correct answer:</b> ${correctText}<br><b>${scoreText}</b></div>`;
+    root.appendChild(box);
+  });
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  })[c]);
+}
+</script>
+</body>
+</html>
