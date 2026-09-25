@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BNMC License Result | Pulse Nursing Coaching</title>
+<meta name="theme-color" content="#075f43">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#075f43;--green-dark:#034b35;--gold:#e3bd4e;--text:#173a30}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans Bengali",Arial,sans-serif;min-height:100vh;color:var(--text);background:radial-gradient(circle at 0 0,#eaf7f1 0,transparent 32%),radial-gradient(circle at 100% 100%,#fff8df 0,transparent 30%),#f5f8f6}
+.app{width:100%;max-width:540px;margin:0 auto;padding:16px 12px 40px}
+.brand{text-align:center;padding:3px 0 14px}
+.brand-logo{width:64px;height:64px;object-fit:contain;display:block;margin:0 auto 5px}
+.brand-name{color:var(--green);font-size:20px;line-height:1.15;font-weight:900}
+.brand-sub{margin-top:4px;color:#816b28;font-size:10px;font-weight:800;letter-spacing:.3px}
+.hero{background:linear-gradient(145deg,#075f43,#044a35);border-radius:21px;padding:21px 17px;text-align:center;color:#fff;box-shadow:0 10px 28px rgba(0,76,53,.16);margin-bottom:13px;position:relative;overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%}
+.hero:before{width:170px;height:170px;right:-80px;top:-90px}
+.hero:after{width:120px;height:120px;left:-65px;bottom:-70px}
+.hero-badge{position:relative;z-index:2;display:inline-block;background:#f0d05b;color:#183f31;padding:5px 12px;border-radius:30px;font-size:9px;font-weight:900;margin-bottom:8px}
+.hero h1{position:relative;z-index:2;font-size:21px;line-height:1.25;font-weight:900}
+.hero p{position:relative;z-index:2;margin-top:5px;font-size:11px;color:#d8ece4}
+.panel{background:#fff;border:1px solid #dce7e2;border-radius:18px;padding:16px;box-shadow:0 5px 20px rgba(30,65,54,.055);margin-bottom:13px}
+.section-title{color:var(--green);font-size:17px;font-weight:900;line-height:1.2}
+.section-subtitle{color:#77857f;font-size:10px;line-height:1.6;margin-top:4px;margin-bottom:13px}
+.form-group{margin-bottom:12px}
+.form-label,.course-title,.upload-title{display:block;color:#24483c;font-size:12px;font-weight:900;margin-bottom:6px}
+input[type=text]{width:100%;height:42px;border:1px solid #c9d9d3;border-radius:11px;background:#f5f8f7;padding:0 12px;outline:none;font-family:inherit;color:#263d36;font-size:12px}
+input[type=text]:focus{border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(7,95,67,.07)}
+input[readonly]{background:#f1f5f3;color:#4d5c56;cursor:not-allowed}
+.search-btn,.generate-btn{width:100%;height:44px;border:0;border-radius:11px;background:var(--green);color:#fff;font-family:inherit;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 6px 14px rgba(7,95,67,.16)}
+.search-btn:hover,.generate-btn:hover{background:var(--green-dark)}
+.error{display:none;margin-top:9px;padding:9px 11px;border-radius:10px;background:#fff1f1;border:1px solid #efcccc;color:#a13d3d;font-size:10px;line-height:1.5;text-align:center;font-weight:700}
+.hidden{display:none!important}
+.result-success{background:#fff;border:1px solid #dce7e2;border-radius:18px;padding:15px;box-shadow:0 5px 20px rgba(30,65,54,.055);margin-bottom:13px}
+.success-inner{border:1px solid #2db878;background:linear-gradient(135deg,#f0fbf6,#e7f8f0);border-radius:15px;padding:12px;display:flex;align-items:flex-start;gap:10px}
+.success-icon{width:30px;height:30px;min-width:30px;border-radius:50%;background:#0a9d64;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900}
+.success-content{min-width:0}.success-top{color:#147c56;font-size:9px;line-height:1;font-weight:900;text-transform:uppercase;margin-bottom:3px}
+.success-title{color:#064f38;font-size:12px;line-height:1.35;font-weight:900}
+.success-message{color:#3f6658;font-size:9px;line-height:1.65;margin-top:2px}.success-message strong{color:#075f43}
+.generator-heading{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.generator-icon{width:30px;height:30px;background:#eaf7f2;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.generator-title{color:var(--green);font-size:16px;font-weight:900}
+.generator-description{color:#7d8984;font-size:9px;margin-left:38px;margin-bottom:14px}
+.course-title,.upload-title{font-size:11px}
+.course-grid{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.course-option{position:relative}.course-option input{position:absolute;opacity:0;pointer-events:none}
+.course-label{height:31px;border:1px solid #c9dcd5;background:#fbfdfc;border-radius:9px;display:flex;align-items:center;justify-content:center;gap:3px;color:#324c43;font-size:9px;font-weight:800;cursor:pointer;transition:.18s;white-space:nowrap}
+.course-label:before{content:"";width:8px;height:8px;border:1px solid #8ca49b;border-radius:50%;background:#fff}
+.course-option input:checked+.course-label{background:var(--green);border-color:var(--green);color:#fff}
+.course-option input:checked+.course-label:before{border-color:#fff;background:radial-gradient(circle,#fff 0 45%,transparent 50%)}
+.course-option input:disabled+.course-label{opacity:.45;cursor:not-allowed}
+.upload-box{width:100%;min-height:39px;border:1px dashed #c8dad3;border-radius:10px;background:#f8fbfa;display:flex;align-items:center;gap:7px;padding:6px 9px;cursor:pointer}
+.upload-camera{width:26px;height:26px;border-radius:8px;background:#e9f5f0;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.upload-text{min-width:0}.upload-main{color:#31564a;font-size:9px;font-weight:800}.upload-sub{color:#87958f;font-size:8px;margin-top:1px}
+#photoInput{display:none}.photo-preview{width:34px;height:34px;object-fit:cover;border-radius:7px;border:2px solid var(--gold);margin-left:auto;display:none}
+.generate-btn{height:40px;margin-top:12px;font-size:11px}
+.card-section-title{color:var(--green);font-size:16px;font-weight:900;margin-bottom:3px}
+.card-section-subtitle{color:#7a8781;font-size:9px;margin-bottom:10px}
+.card-wrapper{width:100%;padding:5px;background:#eef2f0;border-radius:13px}
+
+/* The card uses container units so the typography scales with the actual card size. */
+#licenseCard{container-type:inline-size;width:100%;aspect-ratio:1/1;background:#fff;border:3px solid #e1e6e3;border-radius:13px;overflow:hidden;position:relative;padding:3.5%;display:flex;flex-direction:column}
+.card-header{text-align:center}.card-logo{width:13%;min-width:40px;aspect-ratio:1;object-fit:contain;display:block;margin:0 auto 1%}
+.card-brand{color:var(--green);font-size:4.5cqw;font-weight:900;line-height:1;white-space:nowrap}
+.card-exam{background:#fff9e7;border:2px solid #ebd995;border-radius:100px;margin:1.8% 2% 0;padding:1.3% 2%;color:#765d18;font-size:1.85cqw;font-weight:900}
+.card-congrats{text-align:center;color:var(--green);font-size:5.7cqw;font-weight:900;margin-top:2%;line-height:1.15}
+.card-message{text-align:center;color:#344d44;font-size:3.45cqw;font-weight:900;margin-top:1%;line-height:1.35}
+.inner-card{flex:1;margin-top:1.8%;background:var(--green);border:4px solid var(--gold);border-radius:18px;color:#fff;padding:3.5%;display:flex;flex-direction:column}
+.inner-top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.22);padding-bottom:2%}
+.inner-brand{color:#ffe783;font-size:2.65cqw;font-weight:900;white-space:nowrap}
+.status{background:#f2d15c;color:#123d30;padding:1.3% 2.8%;border-radius:100px;font-size:2.15cqw;font-weight:900;white-space:nowrap}
+.candidate{display:flex;align-items:center;gap:3%;padding:2.2% 0 2.8%}
+.candidate-photo{width:22%;aspect-ratio:1;border-radius:13%;object-fit:cover;border:4px solid #f0d261;background:#fff;flex-shrink:0}
+.candidate-info{min-width:0}
+.candidate-name{color:#ffe26d;font-size:4.75cqw;font-weight:900;line-height:1.08;word-break:break-word}
+.candidate-course{font-size:3.0cqw;font-weight:900;margin-top:1.5%;color:#fff;line-height:1.28}
+.registered{display:inline-block;margin-top:2.5%;background:#11765a;border:1px solid #20a477;border-radius:9px;padding:1.4% 3.5%;color:#d8f8eb;font-size:2.25cqw;font-weight:900}
+.card-details{display:grid;grid-template-columns:1fr 1fr;gap:5%;border-top:2px dashed rgba(255,255,255,.25);padding-top:2.5%;margin-top:auto}
+.detail-label{font-size:2.25cqw;color:#a8dfcd;font-weight:900;letter-spacing:.4px}
+.detail-value{font-size:2.8cqw;color:#fff;font-weight:900;margin-top:1.5%}
+.card-footer{text-align:center;color:#2b3934;font-size:2.8cqw;font-weight:900;line-height:1.35;padding:1.5% 3% 0}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.download-btn,.share-btn{height:39px;border:0;border-radius:10px;font-family:inherit;font-size:10px;font-weight:900;cursor:pointer}
+.download-btn{background:var(--green);color:#fff}.share-btn{background:#f4e5a9;color:#4e431e}
+.note{text-align:center;color:#89958f;font-size:8px;margin-top:8px;line-height:1.5}
+@media(max-width:360px){.app{padding-left:8px;padding-right:8px}.panel{padding:13px}.course-label{font-size:8px}}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<div class="brand">
+<img class="brand-logo" src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Coaching">
+<div class="brand-name">PULSE NURSING COACHING</div>
+<div class="brand-sub">BNMC LICENSE EXAMINATION • SEPTEMBER 2026</div>
+</div>
+
+<div class="hero">
+<div class="hero-badge">BNMC LICENSE RESULT</div>
+<h1>Check Your License Result</h1>
+<p>নাম ও রোল নম্বর দিয়ে আপনার ফলাফল যাচাই করুন</p>
+</div>
+
+<div class="panel" id="searchPanel">
+<div class="section-title">🔎 ফলাফল খুঁজুন</div>
+<div class="section-subtitle">নাম ও রোল নম্বর প্রদান করে আপনার BNMC License Result যাচাই করুন।</div>
+
+<div class="form-group">
+<label class="form-label">👤 পরীক্ষার্থীর নাম</label>
+<input type="text" id="searchName" placeholder="আপনার নাম লিখুন" autocomplete="off">
+</div>
+
+<div class="form-group">
+<label class="form-label">🎓 License Roll</label>
+<input type="text" id="searchRoll" placeholder="আপনার রোল নম্বর লিখুন" inputmode="numeric" autocomplete="off">
+</div>
+
+<button class="search-btn" onclick="searchResult()">🔎 রেজাল্ট খুঁজুন</button>
+<div class="error" id="searchError"></div>
+</div>
+
+<div class="result-success hidden" id="successBox">
+<div class="success-inner">
+<div class="success-icon">✓</div>
+<div class="success-content">
+<div class="success-top">PASSED • SEPTEMBER 2026</div>
+<div class="success-title">অভিনন্দন, <span id="successName"></span>! 🎉</div>
+<div class="success-message">রোল নম্বর: <strong id="successRoll"></strong> — আপনি লাইসেন্স পরীক্ষায় উত্তীর্ণ হয়েছেন।</div>
+</div>
+</div>
+</div>
+
+<div class="panel hidden" id="generatorPanel">
+<div class="generator-heading">
+<div class="generator-icon">🪄</div>
+<div class="generator-title">কার্ড জেনারেটর</div>
+</div>
+<div class="generator-description">আপনার সঠিক কোর্স ও ছবি সিলেক্ট করুন।</div>
+
+<div class="form-group">
+<label class="form-label">👤 পরীক্ষার্থীর পূর্ণ নাম</label>
+<input type="text" id="candidateName" placeholder="Candidate Name" readonly>
+</div>
+
+<div class="form-group">
+<label class="course-title">🎓 কোর্স নির্বাচন করুন</label>
+<div class="course-grid">
+<label class="course-option"><input type="radio" name="course" value="BSC" onchange="updateCourse()"><span class="course-label">BSc</span></label>
+<label class="course-option"><input type="radio" name="course" value="Diploma" onchange="updateCourse()"><span class="course-label">Diploma</span></label>
+<label class="course-option"><input type="radio" name="course" value="Midwife" onchange="updateCourse()"><span class="course-label">Midwifery</span></label>
+<label class="course-option"><input type="radio" name="course" value="PCT" onchange="updateCourse()"><span class="course-label">PCT</span></label>
+</div>
+</div>
+
+<div class="form-group">
+<label class="upload-title">📷 আপনার প্রোফাইল ছবি</label>
+<label class="upload-box" for="photoInput">
+<div class="upload-camera">📷</div>
+<div class="upload-text">
+<div class="upload-main">ছবি আপলোড করুন</div>
+<div class="upload-sub">ছবি নির্বাচন করতে ক্লিক করুন</div>
+</div>
+<img id="photoPreview" class="photo-preview" alt="Preview">
+</label>
+<input type="file" id="photoInput" accept="image/*">
+</div>
+
+<button class="generate-btn" onclick="generateCard()">🪄 অভিনন্দন কার্ড তৈরি করুন</button>
+<div class="error" id="generatorError"></div>
+</div>
+
+<div class="panel hidden" id="cardSection">
+<div class="card-section-title">🎉 আপনার Congratulations Card</div>
+<div class="card-section-subtitle">কার্ডটি Download অথবা Share করতে পারবেন।</div>
+
+<div class="card-wrapper">
+<div id="licenseCard">
+
+<div class="card-header">
+<img class="card-logo" src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Coaching">
+<div class="card-brand">PULSE NURSING COACHING</div>
+<div class="card-exam">NURSING LICENSE EXAMINATION • SEPTEMBER 2026</div>
+</div>
+
+<div class="card-congrats">Congratulations, <span id="cardNameTop">CANDIDATE!</span></div>
+<div class="card-message">অভিনন্দন! আপনি এখন বাংলাদেশের একজন রেজিস্টার্ড নার্স।</div>
+
+<div class="inner-card">
+<div class="inner-top">
+<div class="inner-brand">PULSE NURSING COACHING</div>
+<div class="status">✓ Licensed Passed</div>
+</div>
+
+<div class="candidate">
+<img id="cardPhoto" class="candidate-photo" alt="Candidate Photo">
+<div class="candidate-info">
+<div class="candidate-name" id="cardCandidateName">RN CANDIDATE NAME</div>
+<div class="candidate-course" id="cardCourse">Diploma in Nursing Science & Midwifery</div>
+<div class="registered">Registered Nurse</div>
+</div>
+</div>
+
+<div class="card-details">
+<div>
+<div class="detail-label">LICENSE ROLL</div>
+<div class="detail-value" id="cardRoll">Candidate Roll</div>
+</div>
+<div>
+<div class="detail-label">EXAMINATION DATE</div>
+<div class="detail-value">25 September 2026</div>
+</div>
+</div>
+</div>
+
+<div class="card-footer">পরিশ্রম ও আত্মবিশ্বাসের এই অর্জনের জন্য Pulse Nursing Coaching-এর পক্ষ থেকে আন্তরিক শুভকামনা।</div>
+</div>
+</div>
+
+<div class="action-row">
+<button class="download-btn" onclick="downloadCard()">⬇️ Download Card</button>
+<button class="share-btn" onclick="shareCard()">📤 Share Card</button>
+</div>
+<div class="note">Card টি PNG Image হিসেবে সংরক্ষণ বা Share করতে পারবেন।</div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+/*
+  SOURCE:
+  BNMC License Examination Result, September 2026.
+
+  The uploaded PDF contains the BSc in Nursing passed-roll list
+  across result pages 1–7 of the attached result section.
+
+  Total extracted rolls: 1,409.
+*/
+const RESULT_ROLLS = [
+    "300001",
+    "300003",
+    "300004",
+    "300005",
+    "300007",
+    "300011",
+    "300012",
+    "300013",
+    "300014",
+    "300015",
+    "300018",
+    "300020",
+    "300021",
+    "300022",
+    "300023",
+    "300024",
+    "300025",
+    "300026",
+    "300029",
+    "300034",
+    "300035",
+    "300038",
+    "300039",
+    "300041",
+    "300042",
+    "300043",
+    "300044",
+    "300045",
+    "300046",
+    "300047",
+    "300048",
+    "300049",
+    "300054",
+    "300055",
+    "300056",
+    "300057",
+    "300058",
+    "300059",
+    "300060",
+    "300061",
+    "300062",
+    "300063",
+    "300065",
+    "300066",
+    "300067",
+    "300069",
+    "300072",
+    "300075",
+    "300076",
+    "300080",
+    "300081",
+    "300083",
+    "300084",
+    "300087",
+    "300088",
+    "300089",
+    "300090",
+    "300091",
+    "300092",
+    "300096",
+    "300097",
+    "300098",
+    "300099",
+    "300100",
+    "300101",
+    "300102",
+    "300103",
+    "300108",
+    "300109",
+    "300110",
+    "300111",
+    "300112",
+    "300113",
+    "300114",
+    "300116",
+    "300118",
+    "300120",
+    "300122",
+    "300123",
+    "300125",
+    "300128",
+    "300129",
+    "300130",
+    "300131",
+    "300133",
+    "300134",
+    "300135",
+    "300136",
+    "300137",
+    "300138",
+    "300139",
+    "300140",
+    "300141",
+    "300142",
+    "300143",
+    "300144",
+    "300145",
+    "300147",
+    "300149",
+    "300151",
+    "300153",
+    "300154",
+    "300155",
+    "300156",
+    "300159",
+    "300161",
+    "300163",
+    "300166",
+    "300169",
+    "300170",
+    "300171",
+    "300172",
+    "300176",
+    "300177",
+    "300178",
+    "300179",
+    "300180",
+    "300181",
+    "300182",
+    "300185",
+    "300186",
+    "300187",
+    "300188",
+    "300189",
+    "300190",
+    "300191",
+    "300192",
+    "300193",
+    "300194",
+    "300195",
+    "300196",
+    "300197",
+    "300198",
+    "300200",
+    "300202",
+    "300204",
+    "300206",
+    "300207",
+    "300211",
+    "300212",
+    "300213",
+    "300214",
+    "300215",
+    "300216",
+    "300218",
+    "300219",
+    "300220",
+    "300221",
+    "300222",
+    "300224",
+    "300225",
+    "300226",
+    "300228",
+    "300229",
+    "300230",
+    "300231",
+    "300232",
+    "300233",
+    "300235",
+    "300236",
+    "300237",
+    "300238",
+    "300239",
+    "300241",
+    "300242",
+    "300243",
+    "300244",
+    "300245",
+    "300246",
+    "300248",
+    "300251",
+    "300252",
+    "300253",
+    "300254",
+    "300255",
+    "300256",
+    "300257",
+    "300258",
+    "300259",
+    "300262",
+    "300264",
+    "300265",
+    "300266",
+    "300267",
+    "300268",
+    "300269",
+    "300270",
+    "300276",
+    "300277",
+    "300278",
+    "300279",
+    "300281",
+    "300282",
+    "300284",
+    "300285",
+    "300286",
+    "300289",
+    "300290",
+    "300292",
+    "300293",
+    "300294",
+    "300295",
+    "300297",
+    "300298",
+    "300299",
+    "300300",
+    "300301",
+    "300302",
+    "300303",
+    "300304",
+    "300305",
+    "300306",
+    "300308",
+    "300309",
+    "300311",
+    "300315",
+    "300317",
+    "300319",
+    "300320",
+    "300322",
+    "300323",
+    "300324",
+    "300325",
+    "300327",
+    "300328",
+    "300329",
+    "300330",
+    "300331",
+    "300332",
+    "300333",
+    "300336",
+    "300337",
+    "300338",
+    "300340",
+    "300341",
+    "300342",
+    "300343",
+    "300344",
+    "300345",
+    "300346",
+    "300348",
+    "300349",
+    "300350",
+    "300351",
+    "300352",
+    "300354",
+    "300355",
+    "300357",
+    "300358",
+    "300359",
+    "300360",
+    "300361",
+    "300362",
+    "300363",
+    "300364",
+    "300365",
+    "300366",
+    "300368",
+    "300369",
+    "300370",
+    "300371",
+    "300372",
+    "300373",
+    "300374",
+    "300375",
+    "300376",
+    "300377",
+    "300378",
+    "300379",
+    "300380",
+    "300381",
+    "300382",
+    "300383",
+    "300384",
+    "300386",
+    "300387",
+    "300388",
+    "300390",
+    "300391",
+    "300392",
+    "300393",
+    "300395",
+    "300396",
+    "300397",
+    "300398",
+    "300401",
+    "300402",
+    "300403",
+    "300404",
+    "300405",
+    "300406",
+    "300407",
+    "300408",
+    "300409",
+    "300412",
+    "300414",
+    "300415",
+    "300417",
+    "300418",
+    "300419",
+    "300420",
+    "300421",
+    "300422",
+    "300423",
+    "300424",
+    "300425",
+    "300427",
+    "300428",
+    "300429",
+    "300430",
+    "300431",
+    "300432",
+    "300434",
+    "300435",
+    "300436",
+    "300437",
+    "300438",
+    "300439",
+    "300440",
+    "300441",
+    "300442",
+    "300443",
+    "300444",
+    "300446",
+    "300447",
+    "300450",
+    "300451",
+    "300452",
+    "300453",
+    "300455",
+    "300456",
+    "300457",
+    "300458",
+    "300459",
+    "300460",
+    "300461",
+    "300462",
+    "300463",
+    "300464",
+    "300465",
+    "300466",
+    "300467",
+    "300468",
+    "300469",
+    "300470",
+    "300471",
+    "300472",
+    "300473",
+    "300474",
+    "300475",
+    "300476",
+    "300477",
+    "300478",
+    "300479",
+    "300480",
+    "300481",
+    "300482",
+    "300483",
+    "300484",
+    "300485",
+    "300486",
+    "300488",
+    "300489",
+    "300490",
+    "300492",
+    "300493",
+    "300494",
+    "300495",
+    "300496",
+    "300499",
+    "300500",
+    "300501",
+    "300502",
+    "300503",
+    "300504",
+    "300505",
+    "300506",
+    "300507",
+    "300508",
+    "300509",
+    "300510",
+    "300511",
+    "300512",
+    "300513",
+    "300514",
+    "300515",
+    "300516",
+    "300517",
+    "300518",
+    "300519",
+    "300520",
+    "300521",
+    "300522",
+    "300523",
+    "300524",
+    "300525",
+    "300527",
+    "300528",
+    "300529",
+    "300531",
+    "300532",
+    "300533",
+    "300534",
+    "300535",
+    "300536",
+    "300537",
+    "300538",
+    "300540",
+    "300541",
+    "300542",
+    "300543",
+    "300544",
+    "300545",
+    "300546",
+    "300547",
+    "300548",
+    "300549",
+    "300550",
+    "300551",
+    "300552",
+    "300553",
+    "300554",
+    "300555",
+    "300556",
+    "300558",
+    "300559",
+    "300560",
+    "300561",
+    "300562",
+    "300563",
+    "300564",
+    "300565",
+    "300566",
+    "300567",
+    "300568",
+    "300569",
+    "300570",
+    "300571",
+    "300572",
+    "300576",
+    "300577",
+    "300578",
+    "300579",
+    "300580",
+    "300581",
+    "300583",
+    "300585",
+    "300586",
+    "300587",
+    "300588",
+    "300590",
+    "300591",
+    "300592",
+    "300593",
+    "300594",
+    "300595",
+    "300596",
+    "300597",
+    "300598",
+    "300599",
+    "300600",
+    "300601",
+    "300602",
+    "300604",
+    "300605",
+    "300606",
+    "300607",
+    "300608",
+    "300609",
+    "300610",
+    "300611",
+    "300615",
+    "300616",
+    "300617",
+    "300618",
+    "300619",
+    "300620",
+    "300621",
+    "300622",
+    "300631",
+    "300632",
+    "300633",
+    "300635",
+    "300636",
+    "300637",
+    "300640",
+    "300641",
+    "300642",
+    "300643",
+    "300644",
+    "300645",
+    "300646",
+    "300647",
+    "300648",
+    "300649",
+    "300650",
+    "300651",
+    "300652",
+    "300653",
+    "300654",
+    "300655",
+    "300657",
+    "300658",
+    "300659",
+    "300660",
+    "300662",
+    "300663",
+    "300664",
+    "300665",
+    "300666",
+    "300667",
+    "300668",
+    "300670",
+    "300671",
+    "300672",
+    "300673",
+    "300674",
+    "300675",
+    "300676",
+    "300677",
+    "300678",
+    "300679",
+    "300680",
+    "300681",
+    "300683",
+    "300686",
+    "300687",
+    "300688",
+    "300689",
+    "300690",
+    "300691",
+    "300692",
+    "300693",
+    "300694",
+    "300695",
+    "300696",
+    "300697",
+    "300700",
+    "300702",
+    "300704",
+    "300707",
+    "300709",
+    "300710",
+    "300712",
+    "300713",
+    "300714",
+    "300715",
+    "300716",
+    "300717",
+    "300718",
+    "300719",
+    "300720",
+    "300721",
+    "300722",
+    "300723",
+    "300724",
+    "300725",
+    "300726",
+    "300727",
+    "300728",
+    "300729",
+    "300730",
+    "300731",
+    "300733",
+    "300734",
+    "300737",
+    "300738",
+    "300739",
+    "300743",
+    "300744",
+    "300745",
+    "300746",
+    "300748",
+    "300749",
+    "300750",
+    "300752",
+    "300755",
+    "300756",
+    "300757",
+    "300758",
+    "300759",
+    "300760",
+    "300762",
+    "300763",
+    "300764",
+    "300765",
+    "300767",
+    "300768",
+    "300769",
+    "300770",
+    "300771",
+    "300772",
+    "300773",
+    "300774",
+    "300775",
+    "300776",
+    "300777",
+    "300780",
+    "300781",
+    "300782",
+    "300783",
+    "300784",
+    "300786",
+    "300787",
+    "300789",
+    "300790",
+    "300791",
+    "300792",
+    "300793",
+    "300795",
+    "300796",
+    "300797",
+    "300798",
+    "300799",
+    "300800",
+    "300801",
+    "300803",
+    "300804",
+    "300805",
+    "300806",
+    "300807",
+    "300808",
+    "300809",
+    "300810",
+    "300811",
+    "300812",
+    "300813",
+    "300814",
+    "300815",
+    "300817",
+    "300819",
+    "300822",
+    "300825",
+    "300827",
+    "300828",
+    "300829",
+    "300830",
+    "300831",
+    "300832",
+    "300834",
+    "300835",
+    "300836",
+    "300837",
+    "300838",
+    "300839",
+    "300840",
+    "300841",
+    "300842",
+    "300843",
+    "300844",
+    "300845",
+    "300846",
+    "300848",
+    "300849",
+    "300851",
+    "300852",
+    "300853",
+    "300854",
+    "300855",
+    "300856",
+    "300857",
+    "300858",
+    "300859",
+    "300860",
+    "300863",
+    "300865",
+    "300867",
+    "300868",
+    "300869",
+    "300870",
+    "300871",
+    "300872",
+    "300873",
+    "300875",
+    "300876",
+    "300877",
+    "300878",
+    "300879",
+    "300880",
+    "300881",
+    "300883",
+    "300884",
+    "300885",
+    "300886",
+    "300888",
+    "300889",
+    "300890",
+    "300891",
+    "300892",
+    "300893",
+    "300894",
+    "300895",
+    "300898",
+    "300899",
+    "300900",
+    "300901",
+    "300902",
+    "300903",
+    "300904",
+    "300905",
+    "300906",
+    "300907",
+    "300908",
+    "300909",
+    "300911",
+    "300914",
+    "300915",
+    "300916",
+    "300917",
+    "300918",
+    "300921",
+    "300922",
+    "300923",
+    "300924",
+    "300925",
+    "300926",
+    "300927",
+    "300928",
+    "300929",
+    "300930",
+    "300931",
+    "300932",
+    "300933",
+    "300935",
+    "300936",
+    "300938",
+    "300940",
+    "300941",
+    "300942",
+    "300943",
+    "300944",
+    "300945",
+    "300946",
+    "300947",
+    "300948",
+    "300950",
+    "300951",
+    "300952",
+    "300954",
+    "300956",
+    "300957",
+    "300961",
+    "300962",
+    "300963",
+    "300964",
+    "300965",
+    "300966",
+    "300968",
+    "300969",
+    "300970",
+    "300971",
+    "300972",
+    "300973",
+    "300975",
+    "300977",
+    "300978",
+    "300979",
+    "300980",
+    "300981",
+    "300982",
+    "300983",
+    "300986",
+    "300987",
+    "300988",
+    "300989",
+    "300990",
+    "300991",
+    "300992",
+    "300993",
+    "300995",
+    "300996",
+    "300997",
+    "301000",
+    "301001",
+    "301003",
+    "301005",
+    "301006",
+    "301007",
+    "301008",
+    "301009",
+    "301010",
+    "301011",
+    "301014",
+    "301015",
+    "301016",
+    "301017",
+    "301018",
+    "301019",
+    "301020",
+    "301022",
+    "301024",
+    "301025",
+    "301026",
+    "301027",
+    "301029",
+    "301030",
+    "301031",
+    "301032",
+    "301033",
+    "301034",
+    "301035",
+    "301036",
+    "301037",
+    "301038",
+    "301039",
+    "301040",
+    "301041",
+    "301042",
+    "301044",
+    "301045",
+    "301046",
+    "301047",
+    "301048",
+    "301049",
+    "301050",
+    "301051",
+    "301052",
+    "301053",
+    "301054",
+    "301055",
+    "301057",
+    "301058",
+    "301060",
+    "301061",
+    "301062",
+    "301063",
+    "301064",
+    "301068",
+    "301069",
+    "301070",
+    "301071",
+    "301073",
+    "301074",
+    "301075",
+    "301076",
+    "301077",
+    "301079",
+    "301080",
+    "301083",
+    "301084",
+    "301085",
+    "301086",
+    "301087",
+    "301088",
+    "301089",
+    "301090",
+    "301091",
+    "301092",
+    "301093",
+    "301094",
+    "301095",
+    "301096",
+    "301097",
+    "301098",
+    "301100",
+    "301101",
+    "301102",
+    "301104",
+    "301105",
+    "301106",
+    "301107",
+    "301108",
+    "301110",
+    "301111",
+    "301112",
+    "301113",
+    "301114",
+    "301115",
+    "301116",
+    "301117",
+    "301118",
+    "301122",
+    "301124",
+    "301126",
+    "301127",
+    "301128",
+    "301129",
+    "301130",
+    "301131",
+    "301132",
+    "301133",
+    "301135",
+    "301136",
+    "301137",
+    "301138",
+    "301139",
+    "301140",
+    "301141",
+    "301144",
+    "301146",
+    "301147",
+    "301148",
+    "301149",
+    "301150",
+    "301151",
+    "301152",
+    "301154",
+    "301155",
+    "301157",
+    "301158",
+    "301159",
+    "301162",
+    "301163",
+    "301164",
+    "301165",
+    "301166",
+    "301167",
+    "301168",
+    "301169",
+    "301170",
+    "301173",
+    "301174",
+    "301175",
+    "301176",
+    "301177",
+    "301178",
+    "301179",
+    "301180",
+    "301182",
+    "301183",
+    "301184",
+    "301185",
+    "301186",
+    "301187",
+    "301189",
+    "301190",
+    "301192",
+    "301193",
+    "301198",
+    "301199",
+    "301200",
+    "301201",
+    "301202",
+    "301203",
+    "301204",
+    "301205",
+    "301206",
+    "301207",
+    "301208",
+    "301209",
+    "301210",
+    "301211",
+    "301214",
+    "301215",
+    "301217",
+    "301218",
+    "301219",
+    "301221",
+    "301222",
+    "301225",
+    "301228",
+    "301229",
+    "301230",
+    "301231",
+    "301232",
+    "301233",
+    "301234",
+    "301235",
+    "301236",
+    "301237",
+    "301238",
+    "301239",
+    "301241",
+    "301242",
+    "301243",
+    "301245",
+    "301246",
+    "301247",
+    "301248",
+    "301250",
+    "301251",
+    "301253",
+    "301254",
+    "301255",
+    "301256",
+    "301257",
+    "301258",
+    "301259",
+    "301260",
+    "301261",
+    "301262",
+    "301263",
+    "301264",
+    "301265",
+    "301267",
+    "301268",
+    "301269",
+    "301270",
+    "301271",
+    "301272",
+    "301273",
+    "301274",
+    "301276",
+    "301277",
+    "301278",
+    "301279",
+    "301280",
+    "301281",
+    "301282",
+    "301283",
+    "301284",
+    "301285",
+    "301286",
+    "301287",
+    "301289",
+    "301290",
+    "301291",
+    "301292",
+    "301293",
+    "301294",
+    "301298",
+    "301299",
+    "301300",
+    "301301",
+    "301302",
+    "301304",
+    "301306",
+    "301307",
+    "301308",
+    "301309",
+    "301312",
+    "301315",
+    "301316",
+    "301317",
+    "301318",
+    "301319",
+    "301320",
+    "301321",
+    "301323",
+    "301324",
+    "301325",
+    "301326",
+    "301327",
+    "301328",
+    "301331",
+    "301332",
+    "301334",
+    "301335",
+    "301337",
+    "301338",
+    "301339",
+    "301341",
+    "301344",
+    "301345",
+    "301346",
+    "301347",
+    "301348",
+    "301349",
+    "301350",
+    "301351",
+    "301352",
+    "301353",
+    "301354",
+    "301355",
+    "301357",
+    "301358",
+    "301359",
+    "301362",
+    "301364",
+    "301366",
+    "301367",
+    "301370",
+    "301371",
+    "301372",
+    "301374",
+    "301375",
+    "301377",
+    "301382",
+    "301383",
+    "301384",
+    "301385",
+    "301386",
+    "301387",
+    "301388",
+    "301389",
+    "301390",
+    "301391",
+    "301392",
+    "301393",
+    "301394",
+    "301395",
+    "301396",
+    "301397",
+    "301398",
+    "301399",
+    "301400",
+    "301401",
+    "301402",
+    "301404",
+    "301405",
+    "301407",
+    "301409",
+    "301412",
+    "301414",
+    "301415",
+    "301416",
+    "301417",
+    "301418",
+    "301424",
+    "301426",
+    "301427",
+    "301428",
+    "301429",
+    "301430",
+    "301431",
+    "301432",
+    "301433",
+    "301435",
+    "301436",
+    "301437",
+    "301438",
+    "301439",
+    "301440",
+    "301441",
+    "301443",
+    "301444",
+    "301445",
+    "301447",
+    "301449",
+    "301451",
+    "301452",
+    "301453",
+    "301455",
+    "301457",
+    "301458",
+    "301459",
+    "301461",
+    "301463",
+    "301464",
+    "301466",
+    "301467",
+    "301468",
+    "301469",
+    "301472",
+    "301473",
+    "301475",
+    "301476",
+    "301478",
+    "301479",
+    "301481",
+    "301482",
+    "301483",
+    "301484",
+    "301485",
+    "301486",
+    "301487",
+    "301488",
+    "301489",
+    "301490",
+    "301491",
+    "301495",
+    "301496",
+    "301497",
+    "301498",
+    "301499",
+    "301501",
+    "301502",
+    "301504",
+    "301506",
+    "301507",
+    "301508",
+    "301509",
+    "301510",
+    "301511",
+    "301512",
+    "301513",
+    "301514",
+    "301515",
+    "301516",
+    "301517",
+    "301518",
+    "301519",
+    "301520",
+    "301521",
+    "301522",
+    "301523",
+    "301524",
+    "301525",
+    "301526",
+    "301528",
+    "301529",
+    "301530",
+    "301533",
+    "301534",
+    "301535",
+    "301536",
+    "301539",
+    "301540",
+    "301541",
+    "301542",
+    "301543",
+    "301544",
+    "301545",
+    "301546",
+    "301547",
+    "301548",
+    "301549",
+    "301552",
+    "301553",
+    "301554",
+    "301557",
+    "301558",
+    "301560",
+    "301561",
+    "301564",
+    "301566",
+    "301567",
+    "301568",
+    "301569",
+    "301573",
+    "301574",
+    "301575",
+    "301576",
+    "301579",
+    "301580",
+    "301581",
+    "301582",
+    "301584",
+    "301585",
+    "301586",
+    "301587",
+    "301588",
+    "301589",
+    "301591",
+    "301593",
+    "301594",
+    "301595",
+    "301596",
+    "301597",
+    "301600",
+    "301601",
+    "301602",
+    "301603",
+    "301604",
+    "301605",
+    "301606",
+    "301607",
+    "301608",
+    "301609",
+    "301612",
+    "301613",
+    "301614",
+    "301615",
+    "301616",
+    "301617",
+    "301618",
+    "301619",
+    "301620",
+    "301621",
+    "301622",
+    "301623",
+    "301626",
+    "301627",
+    "301628",
+    "301629",
+    "301630",
+    "301631",
+    "301632",
+    "301634",
+    "301635",
+    "301636",
+    "301637",
+    "301639",
+    "301640",
+    "301642",
+    "301643",
+    "301645",
+    "301647",
+    "301649",
+    "301650",
+    "301653",
+    "301654",
+    "301655",
+    "301656",
+    "301657",
+    "301658",
+    "301660",
+    "301662",
+    "301664",
+    "301665",
+    "301666",
+    "301667",
+    "301669",
+    "301670",
+    "301671",
+    "301672",
+    "301673",
+    "301674",
+    "301675",
+    "301677",
+    "301678",
+    "301679",
+    "301680",
+    "301682",
+    "301683",
+    "301684",
+    "301685",
+    "301688",
+    "301689",
+    "301690",
+    "301691",
+    "301692",
+    "301693",
+    "301695",
+    "301697",
+    "301699",
+    "301700",
+    "301701",
+    "301703",
+    "301704",
+    "301705",
+    "301706",
+    "301707",
+    "301708",
+    "301709",
+    "301710",
+    "301711",
+    "301712",
+    "301714",
+    "301715",
+    "301717",
+    "301718",
+    "301719",
+    "301720",
+    "301722",
+    "301723",
+    "301725",
+    "301726",
+    "301727",
+    "301728",
+    "301729",
+    "301730",
+    "301732",
+    "301733",
+    "301734",
+    "301735",
+    "301736",
+    "301737",
+    "301740",
+    "301742",
+    "301744",
+    "301745",
+    "301746",
+    "301748",
+    "301749",
+    "301750",
+    "301751",
+    "301752",
+    "301753",
+    "301754",
+    "301755",
+    "301756",
+    "301757",
+    "301759",
+    "301760",
+    "301761",
+    "301764",
+    "301766",
+    "301767",
+    "301768",
+    "301769",
+    "301771",
+    "301772",
+    "301773",
+    "301774",
+    "301775",
+    "301776",
+    "301777",
+    "301778",
+    "301780",
+    "301783",
+    "301784",
+    "301787",
+    "301788",
+    "301789",
+    "301790",
+    "301791",
+    "301792",
+    "301793",
+    "301794",
+    "301795",
+    "301796",
+    "301798",
+    "301799",
+    "301801",
+    "301802",
+    "301803",
+    "301804",
+    "301805",
+    "301806",
+    "301807",
+    "301808",
+    "301810",
+    "301811",
+    "301812",
+    "301814",
+    "301816",
+    "301818",
+    "301819",
+    "301821",
+    "301822",
+    "301823",
+    "301824",
+    "301825",
+    "301829",
+    "301830",
+    "301831",
+    "301833",
+    "301838"
+];
+
+const RESULT_DATA = RESULT_ROLLS.map(roll => ({
+    roll,
+    course: "BSC"
+}));
+
+let selectedCandidate = null;
+let selectedCourse = "";
+let selectedPhoto = "";
+
+function searchResult(){
+    const nameInput = document.getElementById("searchName");
+    const rollInput = document.getElementById("searchRoll");
+    const error = document.getElementById("searchError");
+
+    const enteredName = nameInput.value.trim();
+    const enteredRoll = rollInput.value.trim().replace(/\s+/g,"");
+
+    error.style.display = "none";
+    error.innerText = "";
+
+    if(!enteredName){
+        showError(error,"দয়া করে পরীক্ষার্থীর নাম লিখুন।");
+        return;
+    }
+
+    if(!enteredRoll){
+        showError(error,"দয়া করে License Roll লিখুন।");
+        return;
+    }
+
+    /*
+      IMPORTANT:
+      Only the Roll is verified.
+      The Name is NOT matched against the result list.
+      The typed name is used for the congratulations message
+      and the generated photo card.
+    */
+    const candidate = RESULT_DATA.find(
+        student => String(student.roll) === enteredRoll
+    );
+
+    if(!candidate){
+        showError(
+            error,
+            "দুঃখিত! এই রোল নম্বরের কোনো Passed Result পাওয়া যায়নি। রোল নম্বরটি সঠিকভাবে লিখে আবার চেষ্টা করুন।"
+        );
+
+        document.getElementById("successBox").classList.add("hidden");
+        document.getElementById("generatorPanel").classList.add("hidden");
+        document.getElementById("cardSection").classList.add("hidden");
+        return;
+    }
+
+    selectedCandidate = {
+        name: enteredName,
+        roll: candidate.roll,
+        course: candidate.course
+    };
+
+    document.getElementById("successName").innerText = enteredName;
+    document.getElementById("successRoll").innerText = candidate.roll;
+
+    document.getElementById("candidateName").value = enteredName;
+
+    document.getElementById("successBox").classList.remove("hidden");
+    document.getElementById("generatorPanel").classList.remove("hidden");
+    document.getElementById("cardSection").classList.add("hidden");
+
+    /*
+      The uploaded PDF is a BSc in Nursing result section.
+      Therefore BSc is automatically selected for this source.
+      Other course choices remain available for future datasets,
+      but are disabled until the dataset contains those courses.
+    */
+    selectedCourse = candidate.course;
+    document.querySelectorAll('input[name="course"]').forEach(input => {
+        input.checked = input.value === candidate.course;
+    });
+
+    setTimeout(() => {
+        document.getElementById("successBox").scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+    },100);
+}
+
+function updateCourse(){
+    const checked = document.querySelector('input[name="course"]:checked');
+    if(checked) selectedCourse = checked.value;
+}
+
+document.getElementById("photoInput").addEventListener("change",function(){
+    const file = this.files[0];
+    if(!file) return;
+
+    if(!file.type.startsWith("image/")){
+        alert("দয়া করে একটি Image নির্বাচন করুন।");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(event){
+        selectedPhoto = event.target.result;
+        const preview = document.getElementById("photoPreview");
+        preview.src = selectedPhoto;
+        preview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+});
+
+function generateCard(){
+    const error = document.getElementById("generatorError");
+    error.style.display = "none";
+
+    if(!selectedCandidate){
+        showError(error,"প্রথমে আপনার রেজাল্ট সার্চ করুন।");
+        return;
+    }
+
+    if(!selectedCourse){
+        showError(error,"দয়া করে আপনার Course নির্বাচন করুন।");
+        return;
+    }
+
+    if(!selectedPhoto){
+        showError(error,"দয়া করে আপনার একটি ছবি নির্বাচন করুন।");
+        return;
+    }
+
+    const prefix = selectedCourse === "Midwife" ? "RM" : "RN";
+
+    let courseName = "";
+    if(selectedCourse === "BSC"){
+        courseName = "BSc in Nursing";
+    }else if(selectedCourse === "Diploma"){
+        courseName = "Diploma in Nursing Science & Midwifery";
+    }else if(selectedCourse === "Midwife"){
+        courseName = "Diploma in Midwifery";
+    }else if(selectedCourse === "PCT"){
+        courseName = "Patient Care Technology";
+    }
+
+    document.getElementById("cardNameTop").innerText =
+        selectedCandidate.name.toUpperCase();
+
+    document.getElementById("cardCandidateName").innerText =
+        `${prefix} ${selectedCandidate.name.toUpperCase()}`;
+
+    document.getElementById("cardCourse").innerText = courseName;
+    document.getElementById("cardRoll").innerText = selectedCandidate.roll;
+    document.getElementById("cardPhoto").src = selectedPhoto;
+
+    document.getElementById("cardSection").classList.remove("hidden");
+
+    setTimeout(() => {
+        document.getElementById("cardSection").scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+    },100);
+}
+
+async function downloadCard(){
+    const card = document.getElementById("licenseCard");
+
+    try{
+        const canvas = await html2canvas(card,{
+            scale:4,
+            useCORS:true,
+            allowTaint:false,
+            backgroundColor:"#ffffff",
+            logging:false
+        });
+
+        const link = document.createElement("a");
+        link.download =
+            `${selectedCandidate.name}-Pulse-Nursing-Congratulations.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+
+    }catch(error){
+        console.error(error);
+        alert("Card Download করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    }
+}
+
+async function shareCard(){
+    const card = document.getElementById("licenseCard");
+
+    try{
+        const canvas = await html2canvas(card,{
+            scale:4,
+            useCORS:true,
+            allowTaint:false,
+            backgroundColor:"#ffffff",
+            logging:false
+        });
+
+        canvas.toBlob(async function(blob){
+            const file = new File(
+                [blob],
+                "Pulse-Nursing-Congratulations.png",
+                {type:"image/png"}
+            );
+
+            if(
+                navigator.share &&
+                navigator.canShare &&
+                navigator.canShare({files:[file]})
+            ){
+                try{
+                    await navigator.share({
+                        title:"Pulse Nursing Coaching",
+                        text:"My BNMC Nursing License Result - September 2026",
+                        files:[file]
+                    });
+                }catch(error){
+                    console.log("Share cancelled.");
+                }
+            }else{
+                downloadCard();
+                alert(
+                    "এই Browser-এ direct Share support নেই। Card টি Download করা হয়েছে।"
+                );
+            }
+        },"image/png");
+
+    }catch(error){
+        console.error(error);
+        alert("Card Share করতে সমস্যা হয়েছে।");
+    }
+}
+
+function showError(element,message){
+    element.innerText = message;
+    element.style.display = "block";
+}
+
+document.getElementById("searchRoll").addEventListener("keydown",function(event){
+    if(event.key === "Enter") searchResult();
+});
+
+document.getElementById("searchName").addEventListener("keydown",function(event){
+    if(event.key === "Enter") searchResult();
+});
+
+/*
+  For the current PDF, only BSC is represented.
+  These controls are retained for your future PDF/Excel datasets.
+*/
+document.addEventListener("DOMContentLoaded",()=>{
+    document.querySelectorAll('input[name="course"]').forEach(input=>{
+        if(input.value !== "BSC"){
+            input.disabled = true;
+            input.title = "এই PDF-এ এই কোর্সের Passed Roll নেই।";
+        }
+    });
+});
+</script>
+</body>
+</html>
