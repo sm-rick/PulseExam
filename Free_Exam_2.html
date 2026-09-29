@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse Nursing Coaching - Free Exam-02</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Hind Siliguri) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .timer-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+        }
+        /* Mobile-first wrapper style for desktop view as well */
+        .mobile-container {
+            max-width: 480px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Wrapper mimicking App UI -->
+    <div class="mobile-container flex flex-col justify-between relative overflow-hidden">
+
+        <!-- Top Header with Official Logo -->
+        <header class="bg-white border-b border-slate-100 py-3 px-4 flex items-center justify-between sticky top-0 z-40">
+            <div class="flex items-center gap-2">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-9 w-auto object-contain">
+                <div>
+                    <h1 class="font-bold text-xs sm:text-sm text-indigo-900 leading-tight">পালস নার্সিং কোচিং</h1>
+                    <p class="text-[10px] text-slate-500">ভর্তি পরীক্ষা ২০২৬-২৭</p>
+                </div>
+            </div>
+            <span class="bg-indigo-50 text-indigo-600 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Foundation Batch</span>
+        </header>
+
+        <!-- MAIN DYNAMIC CONTENT AREA -->
+        <main class="flex-grow p-4 pb-16">
+
+            <!-- ================= LANDING PAGE SECTION ================= -->
+            <div id="landingPage" class="space-y-6">
+                <!-- Hero Exam Card -->
+                <div class="bg-gradient-to-br from-indigo-700 via-indigo-600 to-purple-800 text-white rounded-2xl shadow-lg p-5 relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 opacity-10 text-8xl">
+                        <i class="fa-solid fa-notes-medical"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="bg-amber-400 text-slate-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Free Exam-02</span>
+                        <h2 class="text-xl font-bold mt-2 mb-1">সাধারণ বিজ্ঞান</h2>
+                        <p class="text-indigo-100 text-xs mb-4">নার্সিং ও মিডওয়াইফারি ভর্তি পরীক্ষার স্ট্যান্ডার্ড মানবণ্টন অনুযায়ী ৫০টি বহুনির্বাচনী প্রশ্ন।</p>
+                        
+                        <div class="grid grid-cols-3 gap-2 mb-5 bg-white/10 p-2.5 rounded-xl backdrop-blur-sm text-xs text-center">
+                            <div>
+                                <span class="block text-indigo-200 text-[10px]">বিষয়</span>
+                                <span class="font-bold">বিজ্ঞান</span>
+                            </div>
+                            <div>
+                                <span class="block text-indigo-200 text-[10px]">পূর্ণমান</span>
+                                <span class="font-bold">৫০ নম্বর</span>
+                            </div>
+                            <div>
+                                <span class="block text-indigo-200 text-[10px]">সময়</span>
+                                <span class="font-bold">৩০ মিনিট</span>
+                            </div>
+                        </div>
+
+                        <button onclick="openRegModal()" class="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-3 rounded-xl shadow transition duration-300 flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-play"></i> Start Exam
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preparation Info & Guidelines -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-3">
+                    <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-indigo-600"></i> পরীক্ষার নির্দেশিকা:
+                    </h3>
+                    <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                        <li>সময় ৩০ মিনিট। সময় শেষ হলে স্বয়ংক্রিয়ভাবে খাতা জমা হয়ে যাবে।</li>
+                        <li>প্রতিটি সঠিক উত্তরের জন্য ১ নম্বর। ভুল উত্তরের জন্য কোনো নেগেটিভ মার্ক নেই।</li>
+                        <li>পরীক্ষা শেষে তাৎক্ষণিকভাবে লিডারবোর্ডে আপনার পজিশন দেখতে পাবেন।</li>
+                    </ul>
+                </div>
+
+                <!-- Live Leaderboard Preview -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-trophy text-amber-500"></i> লাইভ লিডারবোর্ড
+                        </h3>
+                        <button onclick="fetchLeaderboard()" class="text-indigo-600 text-xs font-semibold hover:underline">
+                            <i class="fa-solid fa-rotate mr-1"></i> রিফ্রেশ
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-600">
+                                    <th class="p-2 rounded-l-lg">পজিশন</th>
+                                    <th class="p-2">নাম</th>
+                                    <th class="p-2">কোর্স</th>
+                                    <th class="p-2 rounded-r-lg text-right">স্কোর</th>
+                                </tr>
+                            </thead>
+                            <tbody id="landingLeaderboardBody">
+                                <tr>
+                                    <td colspan="4" class="text-center py-3 text-slate-400 text-xs">তথ্য লোড হচ্ছে...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= REGISTRATION MODAL ================= -->
+            <div id="regModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-5 relative">
+                    <button onclick="closeRegModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+                    
+                    <div class="text-center mb-4">
+                        <h3 class="font-bold text-base text-slate-900">পরীক্ষার্থীর তথ্য</h3>
+                        <p class="text-slate-500 text-[11px]">ফর্মটি পূরণ করে পরীক্ষায় অংশগ্রহণ করুন</p>
+                    </div>
+
+                    <form id="examForm" onsubmit="startExam(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-700 mb-1">পূর্ণ নাম</label>
+                            <input type="text" id="studentName" required placeholder="আপনার নাম লিখুন" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-700 mb-1">মোবাইল নম্বর (১১ ডিজিট)</label>
+                            <input type="tel" id="studentPhone" required placeholder="01700000000" pattern="[0-9]{11}" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-700 mb-1">নার্সিং কোর্স</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center gap-2 p-2.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="course" value="BSc" required class="text-indigo-600">
+                                    <span class="text-xs font-medium">BSc in Nursing</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-2.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="course" value="Diploma" required class="text-indigo-600">
+                                    <span class="text-xs font-medium">Diploma</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-700 mb-1">ছাত্র/ছাত্রীর ধরণ</label>
+                            <div class="grid grid-cols-3 gap-1.5 text-center">
+                                <label class="flex items-center justify-center gap-1 p-2 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 text-[11px]">
+                                    <input type="radio" name="studentAs" value="1st Timer" required class="text-indigo-600">
+                                    <span>1st Timer</span>
+                                </label>
+                                <label class="flex items-center justify-center gap-1 p-2 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 text-[11px]">
+                                    <input type="radio" name="studentAs" value="2nd Timer" required class="text-indigo-600">
+                                    <span>2nd Timer</span>
+                                </label>
+                                <label class="flex items-center justify-center gap-1 p-2 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 text-[11px]">
+                                    <input type="radio" name="studentAs" value="3rd Timer" required class="text-indigo-600">
+                                    <span>3rd Timer</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl shadow transition duration-300 text-xs mt-2 flex items-center justify-center gap-1.5">
+                            <span>প্রশ্নপত্রে প্রবেশ করুন</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ================= EXAM INTERFACE SECTION ================= -->
+            <div id="examInterface" class="hidden space-y-4">
+                <!-- Sticky Timer Header -->
+                <div class="timer-sticky bg-white/95 shadow-sm border border-slate-200 rounded-xl p-3 flex justify-between items-center text-xs">
+                    <div>
+                        <span id="displayName" class="font-bold text-slate-800 block"></span>
+                        <span class="text-[10px] text-indigo-600 font-semibold" id="displayCourse"></span>
+                    </div>
+                    <div class="flex items-center gap-1.5 bg-red-50 border border-red-200 px-3 py-1.5 rounded-lg text-red-600 font-bold">
+                        <i class="fa-regular fa-clock animate-pulse"></i>
+                        <span id="timerText">৩০:০০ মিনিট</span>
+                    </div>
+                </div>
+
+                <!-- Questions List Container -->
+                <div id="questionsList" class="space-y-4">
+                    <!-- Questions injected dynamically -->
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center pt-2 pb-8">
+                    <button onclick="submitExam()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition duration-300 text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-circle"></i> পরীক্ষা জমা দিন (Submit Exam)
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= RESULT & LEADERBOARD SECTION ================= -->
+            <div id="resultInterface" class="hidden space-y-5">
+                <!-- Result Summary Card -->
+                <div class="bg-gradient-to-br from-indigo-700 to-purple-800 text-white rounded-2xl shadow-lg p-5 text-center">
+                    <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-3 text-xl text-amber-300">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h2 class="text-lg font-bold mb-0.5">পরীক্ষা সম্পন্ন হয়েছে!</h2>
+                    <p class="text-indigo-200 text-xs mb-4" id="resultStudentMeta"></p>
+
+                    <div class="grid grid-cols-2 gap-2 mb-5 text-xs">
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl">
+                            <span class="block text-indigo-200 text-[10px]">প্রাপ্ত নম্বর</span>
+                            <span class="text-lg font-bold text-amber-300" id="resScore">0</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl">
+                            <span class="block text-indigo-200 text-[10px]">দাগানো প্রশ্ন</span>
+                            <span class="text-lg font-bold" id="resAttempted">0</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl">
+                            <span class="block text-indigo-200 text-[10px]">সঠিক উত্তর</span>
+                            <span class="text-lg font-bold text-emerald-400" id="resCorrect">0</span>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl">
+                            <span class="block text-indigo-200 text-[10px]">ভুল উত্তর</span>
+                            <span class="text-lg font-bold text-red-400" id="resWrong">0</span>
+                        </div>
+                    </div>
+
+                    <button onclick="location.reload()" class="bg-white text-indigo-900 font-bold px-5 py-2 rounded-xl shadow hover:bg-slate-100 transition text-xs">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> হোমপেজে ফিরে যান
+                    </button>
+                </div>
+
+                <!-- Full Leaderboard Section -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-1.5">
+                        <i class="fa-solid fa-trophy text-amber-500"></i> পূর্ণাঙ্গ মেধাতালিকা (Leaderboard)
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-600">
+                                    <th class="p-2 rounded-l-lg">পজিশন</th>
+                                    <th class="p-2">নাম</th>
+                                    <th class="p-2">কোর্স</th>
+                                    <th class="p-2 rounded-r-lg text-right">স্কোর</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fullLeaderboardBody">
+                                <tr>
+                                    <td colspan="4" class="text-center py-3 text-slate-400">ডেটা লোড হচ্ছে...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Answer Review Section -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4">
+                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-1.5">
+                        <i class="fa-solid fa-clipboard-check text-indigo-600"></i> উত্তরপত্র ও সঠিক উত্তর বিশ্লেষণ
+                    </h3>
+                    <div id="answerReviewList" class="space-y-3">
+                        <!-- Dynamic Review Items -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-slate-900 text-white text-center py-3 text-[10px]">
+            <p>&copy; ২০২৬-২০২৭ পালস নার্সিং কোচিং। সর্বস্বত্ব সংরক্ষিত।</p>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // আপনার প্রদত্ত Apps Script Web App URL
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-dGFMeFJxBOnpe-y2oAaB5H9nmztQ8mb7-fKfiJcQRS654gQjhzT8nxVYH9Zd7Asg/exec";
+
+        // ৫০টি স্ট্যান্ডার্ড প্রশ্ন ডেটা
+        const quizData = [
+            { id: 1, q: "মানবদেহের সবচেয়ে বড় গ্রন্থি কোনটি?", options: ["ক) যকৃত", "খ) অগ্ন্যাশয়", "গ) থাইরয়েড", "ঘ) পিটুইটারি"], ans: 0 },
+            { id: 2, q: "সুস্থ মানুষের রক্তের স্বাভাবিক pH কত?", options: ["ক) ৬.৪", "খ) ৭.৪", "গ) ৮.২", "ঘ) ৬.৮"], ans: 1 },
+            { id: 3, q: "কোন রক্ত কণিকাকে মানবদেহের 'বডি গার্ড' বলা হয়?", options: ["ক) লোহিত রক্ত কণিকা", "খ) অনুচক্রিকা", "গ) শ্বেত রক্ত কণিকা", "ঘ) প্লাজমা"], ans: 2 },
+            { id: 4, q: "মানবদেহে ক্রোমোজোমের সংখ্যা কতটি?", options: ["ক) ৪৪টি", "খ) ৪৬টি", "গ) ২৩টি", "ঘ) ৪৮টি"], ans: 1 },
+            { id: 5, q: "উদ্ভিদের কোন অংশ সালোকসংশ্লেষণে প্রধান ভূমিকা রাখে?", options: ["ক) মূল", "খ) কাণ্ড", "গ) পাতা", "ঘ) ফুল"], ans: 2 },
+            { id: 6, q: "ভিটামিন 'সি' এর অভাবে কোন রোগ হয়?", options: ["ক) রিকেটস", "খ) স্কার্ভি", "গ) বেরিবেরি", "ঘ) রাতকানা"], ans: 1 },
+            { id: 7, q: "মানুষের হৃদপিণ্ডে কয়টি প্রকোষ্ঠ থাকে?", options: ["ক) ২টি", "খ) ৩টি", "গ) ৪টি", "ঘ) ৫টি"], ans: 2 },
+            { id: 8, q: "কোন ভিটামিনকে হরমোন বলা হয়?", options: ["ক) ভিটামিন এ", "খ) ভিটামিন সি", "গ) ভিটামিন ডি", "ঘ) ভিটামিন কে"], ans: 2 },
+            { id: 9, q: "ডেঙ্গু জ্বর ছড়ায় কোন মশার কামড়ে?", options: ["ক) অ্যানোফিলিস", "খ) কিউলেক্স", "গ) এডিস", "ঘ) টাইগার মশা"], ans: 2 },
+            { id: 10, q: "মানবদেহের দীর্ঘতম কোষ কোনটি?", options: ["ক) অস্টিওসাইট", "খ) নিউরন", "গ) নেফ্রন", "ঘ) মায়োসাইট"], ans: 1 },
+            { id: 11, q: "সর্বজনগ্রাহী (Universal Recipient) রক্তগ্রুপ কোনটি?", options: ["ক) O", "খ) A", "গ) B", "ঘ) AB"], ans: 3 },
+            { id: 12, q: "লালারসে কোন এনজাইম থাকে?", options: ["ক) পেপসিন", "খ) ট্রিপসিন", "গ) টায়ালিন", "ঘ) রেনিন"], ans: 2 },
+            { id: 13, q: "উদ্ভিদের বৃদ্ধি পরিমাপক যন্ত্রের নাম কী?", options: ["ক) ব্যারোমিটার", "খ) ক্রেসকোগ্রাফ", "গ) হাইড্রোমিটার", "ঘ) ম্যানোমিটার"], ans: 1 },
+            { id: 14, q: "রাতকানা রোগ কোন ভিটামিনের অভাবে হয়?", options: ["ক) ভিটামিন এ", "খ) ভিটামিন বি", "গ) ভিটামিন সি", "ঘ) ভিটামিন ই"], ans: 0 },
+            { id: 15, q: "মানবদেহের রক্ত ফিল্টার বা পরিশ্রুত করে কোনটি?", options: ["ক) যকৃত", "খ) ফুসফুস", "গ) বৃক্ক (Kidney)", "ঘ) প্লিহা"], ans: 2 },
+            { id: 16, q: "মানবদেহের স্বাভাবিক তাপমাত্রা কত ডিগ্রি ফারেনহাইট?", options: ["ক) ৯৮.৪° F", "খ) ৯৮.৬° F", "গ) ৯৭.৪° F", "ঘ) ৯৯.০° F"], ans: 1 },
+            { id: 17, q: "কোন রক্তগ্রুপকে সর্বজনীন দাতা (Universal Donor) বলা হয়?", options: ["ক) A", "খ) B", "গ) AB", "ঘ) O"], ans: 3 },
+            { id: 18, q: "কোষের 'মাস্টারমাইন্ড' বা নিয়ন্ত্রণ কেন্দ্র কোনটি?", options: ["ক) সাইটোপ্লাজম", "খ) নিউক্লিয়াস", "গ) মাইটোকন্ড্রিয়া", "ঘ) রাইবোজোম"], ans: 1 },
+            { id: 19, q: "মানবদেহের সবচেয়ে শক্ত অংশ কোনটি?", options: ["ক) অস্থি", "খ) দাঁতের এনামেল", "গ) নখ", "ঘ) তরুণাস্থি"], ans: 1 },
+            { id: 20, q: "ভিটামিন ‘বি-১২’ তে কোন ধাতু থাকে?", options: ["ক) লোহা", "খ) তামা", "গ) কোবাল্ট", "ঘ) ম্যাগনেসিয়াম"], ans: 2 },
+            { id: 21, q: "মানবদেহের সবচেয়ে ছোট হাড় কোনটি?", options: ["ক) ফিমার", "খ) স্টেপিস", "গ) টিবিয়া", "ঘ) হিউমেরাস"], ans: 1 },
+            { id: 22, q: "কোন রক্তনালী হৃদপিণ্ড থেকে রক্ত শরীরের বিভিন্ন অংশে নিয়ে যায়?", options: ["ক) শিরা (Vein)", "খ) ধমনী (Artery)", "গ) ক্যাপিলারি", "ঘ) লিম্ফ ভেসেল"], ans: 1 },
+            { id: 23, q: "পিত্তরস কোথায় উৎপন্ন হয়?", options: ["ক) অগ্ন্যাশয়", "খ) যকৃতে", "গ) পিত্তথলিতে", "ঘ) ক্ষুদ্রান্ত্রে"], ans: 1 },
+            { id: 24, q: "কোন জারক রস প্রোটিন পরিপাকে সাহায্য করে?", options: ["ক) পেপসিন", "খ) অ্যামাইলেজ", "গ) লাইপেজ", "ঘ) রেনিন"], ans: 0 },
+            { id: 25, q: "মানবদেহের প্লিহাকে (Spleen) কী বলা হয়?", options: ["ক) রক্তের ব্যাংক", "খ) পাম্পিং স্টেশন", "গ) ফিল্টার স্টেশন", "ঘ) শক্তির উৎস"], ans: 0 },
+            { id: 26, q: "কাজ করার সামর্থ্যকে কী বলে?", options: ["ক) ক্ষমতা", "খ) শক্তি", "গ) বল", "ঘ) ত্বরণ"], ans: 1 },
+            { id: 27, q: "এসআই (SI) পদ্ধতিতে তাপমাত্রার একক কী?", options: ["ক) সেলসিয়াস", "খ) ফারেনহাইট", "গ) কেলভিন", "ঘ) জুল"], ans: 2 },
+            { id: 28, q: "বৈদ্যুতিক বাল্বের ফিলামেন্ট কি দিয়ে তৈরি?", options: ["ক) তামা", "খ) লোহা", "গ) টাংস্টেন", "ঘ) অ্যালুমিনিয়াম"], ans: 2 },
+            { id: 29, q: "বিশুদ্ধ পানির pH কত?", options: ["ক) ৬", "খ) ৭", "গ) ৮", "ঘ) ৫"], ans: 1 },
+            { id: 30, q: "সূর্য থেকে পৃথিবীতে কোন প্রক্রিয়ায় তাপ আসে?", options: ["ক) পরিবহন", "খ) পরিচলন", "গ) বিকিরণ", "ঘ) প্রতিসরণ"], ans: 2 },
+            { id: 31, q: "বায়ুমণ্ডলে সবচেয়ে বেশি পরিমাণে কোন গ্যাস থাকে?", options: ["ক) অক্সিজেন", "খ) নাইট্রোজেন", "গ) কার্বন ডাই-অক্সাইড", "ঘ) আর্গন"], ans: 1 },
+            { id: 32, q: "সাধারণ লবণের রাসায়নিক নাম কী?", options: ["ক) সোডিয়াম কার্বনেট", "খ) সোডিয়াম ক্লোরাইড", "গ) ক্যালসিয়াম কার্বনেট", "ঘ) ম্যাগনেসিয়াম সালফেট"], ans: 1 },
+            { id: 33, q: "পানির রাসায়নিক সংকেত কী?", options: ["ক) H2O", "খ) CO2", "গ) NaCl", "ঘ) H2SO4"], ans: 0 },
+            { id: 34, q: "দৃশ্যমান আলোর মধ্যে কোন রঙের প্রতিসরণ সবচেয়ে বেশি?", options: ["ক) লাল", "খ) হলুদ", "গ) সবুজ", "ঘ) বেগুনি"], ans: 3 },
+            { id: 35, q: "সাবান তৈরিতে প্রধান উপজাত হিসেবে কী পাওয়া যায়?", options: ["ক) গ্লিসারিন", "খ) ইথানল", "গ) এসিটিক এসিড", "ঘ) গ্লুকোজ"], ans: 0 },
+            { id: 36, q: "হীরা কিসের রূপভেদ?", options: ["ক) সিলিকন", "খ) কার্বন", "গ) সালফার", "ঘ) ফসফরাস"], ans: 1 },
+            { id: 37, q: "ডেঙ্গু জ্বরের ভাইরাস শনাক্তকরণে কোন পরীক্ষা করা হয়?", options: ["ক) Widal Test", "খ) NS1 Antigen / CBC", "গ) ECG", "ঘ) EEG"], ans: 1 },
+            { id: 38, q: "পারদ (Mercury) কী ধরনের পদার্থ?", options: ["ক) তরল ধাতু", "খ) কঠিন অধাতু", "গ) গ্যাসীয় ধাতু", "ঘ) তরল অধাতু"], ans: 0 },
+            { id: 39, q: "ক্যামেরায় কোন ধরনের লেন্স ব্যবহার করা হয়?", options: ["ক) উত্তল লেন্স", "খ) অবতল লেন্স", "গ) সমতল লেন্স", "ঘ) বেলনাকার লেন্স"], ans: 0 },
+            { id: 40, q: "শব্দের বেগ সবচেয়ে বেশি কোন মাধ্যমে?", options: ["ক) বায়বীয় মাধ্যমে", "খ) তরল মাধ্যমে", "গ) কঠিন মাধ্যমে", "ঘ) শূন্য মাধ্যমে"], ans: 2 },
+            { id: 41, q: "কাঁচা ফল কৃত্রিমভাবে পাকানোর জন্য কোন গ্যাস ব্যবহৃত হয়?", options: ["ক) ইথিলিন / এসিটিলিন", "খ) মিথেন", "গ) প্রোপেন", "ঘ) বিউটেন"], ans: 0 },
+            { id: 42, q: "প্রকৃতিতে সবচেয়ে হালকা গ্যাস কোনটি?", options: ["ক) অক্সিজেন", "খ) হিলিয়াম", "গ) হাইড্রোজেন", "ঘ) নাইট্রোজেন"], ans: 2 },
+            { id: 43, q: "নিচের কোনটি গ্রিনহাউস গ্যাস নয়?", options: ["ক) কার্বন ডাই-অক্সাইড", "খ) মিথেন", "গ) নাইট্রোজেন", "ঘ) জলীয় বাষ্প"], ans: 2 },
+            { id: 44, q: "আইপিএস (IPS) বা কার ব্যাটারিতে কোন এসিড ব্যবহৃত হয়?", options: ["ক) হাইড্রোক্লোরিক এসিড", "খ) সালফিউরিক এসিড", "গ) নাইট্রিক এসিড", "ঘ) এসিটিক এসিড"], ans: 1 },
+            { id: 45, q: "ড্রাই আইস বা শুষ্ক বরফ মূলত কী?", options: ["ক) কঠিন কার্বন ডাই-অক্সাইড", "খ) তরল নাইট্রোজেন", "গ) কঠিন হাইড্রোজেন", "ঘ) কঠিন অক্সিজেন"], ans: 0 },
+            { id: 46, q: "পারমাণবিক চুল্লিতে মডারেটর হিসেবে কী ব্যবহৃত হয়?", options: ["ক) গ্রাফাইট বা ভারী পানি", "খ) ইউরেনিয়াম", "গ) ক্যাডমিয়াম রড", "ঘ) সীসা"], ans: 0 },
+            { id: 47, q: "বহুল ব্যবহৃত এস্পিরিন এর রাসায়নিক নাম কী?", options: ["ক) অ্যাসিটাইল স্যালিসাইলিক অ্যাসিড", "খ) প্যারাসিটামল", "গ) অ্যাসকরবিক অ্যাসিড", "ঘ) সাইট্রিক অ্যাসিড"], ans: 0 },
+            { id: 48, q: "বৈদ্যুতিক মোটরে শক্তির রূপান্তর কীভাবে ঘটে?", options: ["ক) যান্ত্রিক শক্তি থেকে বৈদ্যুতিক শক্তি", "খ) বৈদ্যুতিক শক্তি থেকে যান্ত্রিক শক্তি", "গ) রাসায়নিক শক্তি থেকে তাপ শক্তি", "ঘ) তাপ শক্তি থেকে আলোক শক্তি"], ans: 1 },
+            { id: 49, q: "বায়ুমণ্ডলের কোন স্তরে 'ওজোন স্তর' অবস্থিত?", options: ["ক) ট্রপোস্ফিয়ার", "খ) স্ট্র্যাটোস্ফিয়ার", "গ) মেসোস্ফিয়ার", "ঘ) থার্মোস্ফিয়ার"], ans: 1 },
+            { id: 50, q: "মানবদেহের রক্তে গ্লুকোজের পরিমাণ বেড়ে গেলে কোন হরমোনের ঘাটতি দেখা দেয়?", options: ["ক) ইনসুলিন", "খ) থাইরক্সিন", "গ) অ্যাড্রেনালিন", "ঘ) ইস্ট্রোজেন"], ans: 0 }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 30 * 60; // 30 minutes
+
+        function openRegModal() {
+            document.getElementById('regModal').classList.remove('hidden');
+        }
+        function closeRegModal() {
+            document.getElementById('regModal').classList.add('hidden');
+        }
+
+        function startExam(e) {
+            e.preventDefault();
+            studentInfo.name = document.getElementById('studentName').value;
+            studentInfo.phone = document.getElementById('studentPhone').value;
+            studentInfo.course = document.querySelector('input[name="course"]:checked').value;
+            studentInfo.status = document.querySelector('input[name="studentAs"]:checked').value;
+
+            closeRegModal();
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('examInterface').classList.remove('hidden');
+
+            document.getElementById('displayName').innerText = studentInfo.name;
+            document.getElementById('displayCourse').innerText = `${studentInfo.course} (${studentInfo.status})`;
+
+            renderQuestions();
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsList');
+            container.innerHTML = "";
+            quizData.forEach((qObj, index) => {
+                let optionsHtml = '';
+                qObj.options.forEach((opt, optIndex) => {
+                    optionsHtml += `
+                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-indigo-50/50 transition text-xs">
+                            <input type="radio" name="q_${qObj.id}" value="${optIndex}" onclick="userAnswers[${qObj.id}] = ${optIndex}" class="text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+                            <span class="font-medium text-slate-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                        <h4 class="font-bold text-slate-900 text-xs sm:text-sm mb-3">প্রশ্ন ${index + 1}: ${qObj.q}</h4>
+                        <div class="grid grid-cols-1 gap-2">
+                            ${optionsHtml}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} মিনিট`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা দেওয়া হচ্ছে।");
+                    submitExam();
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            let score = 0;
+            let attempted = Object.keys(userAnswers).length;
+            let correct = 0;
+            let wrong = 0;
+
+            quizData.forEach(qObj => {
+                if (userAnswers[qObj.id] !== undefined) {
+                    if (parseInt(userAnswers[qObj.id]) === qObj.ans) {
+                        correct++;
+                        score += 1;
+                    } else {
+                        wrong++;
+                    }
+                }
+            });
+
+            studentInfo.score = score;
+            studentInfo.total = 50;
+
+            document.getElementById('examInterface').classList.add('hidden');
+            document.getElementById('resultInterface').classList.remove('hidden');
+
+            document.getElementById('resultStudentMeta').innerText = `${studentInfo.name} | ${studentInfo.course} (${studentInfo.status})`;
+            document.getElementById('resScore').innerText = `${score} / 50`;
+            document.getElementById('resAttempted').innerText = attempted;
+            document.getElementById('resCorrect').innerText = correct;
+            document.getElementById('resWrong').innerText = wrong;
+
+            renderAnswerReview();
+            sendDataToGoogleSheet(studentInfo);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderAnswerReview() {
+            const container = document.getElementById('answerReviewList');
+            container.innerHTML = "";
+
+            quizData.forEach((qObj, index) => {
+                let userAnsIdx = userAnswers[qObj.id];
+                let userAnsText = userAnsIdx !== undefined ? qObj.options[userAnsIdx] : "দাগানো হয়নি";
+                let correctAnsText = qObj.options[qObj.ans];
+                let isCorrect = userAnsIdx === qObj.ans;
+
+                container.innerHTML += `
+                    <div class="p-3 rounded-xl border text-xs ${isCorrect ? 'border-emerald-200 bg-emerald-50/30' : 'border-red-200 bg-red-50/30'}">
+                        <p class="font-bold text-slate-900 mb-1.5">প্রশ্ন ${index + 1}: ${qObj.q}</p>
+                        <p class="mb-0.5"><span class="font-semibold">আপনার উত্তর:</span> <span class="${isCorrect ? 'text-emerald-700 font-bold' : 'text-red-600 font-semibold'}">${userAnsText}</span></p>
+                        <p><span class="font-semibold">সঠিক উত্তর:</span> <span class="text-emerald-700 font-bold">${correctAnsText}</span></p>
+                    </div>
+                `;
+            });
+        }
+
+        function sendDataToGoogleSheet(data) {
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).then(() => {
+                setTimeout(fetchLeaderboard, 1500);
+            }).catch(err => console.error("Error saving score:", err));
+        }
+
+        function fetchLeaderboard() {
+            fetch(GOOGLE_SCRIPT_URL + "?action=getLeaderboard")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        renderLeaderboardTable(data.leaderboard);
+                    }
+                })
+                .catch(err => {
+                    console.error("Error fetching leaderboard:", err);
+                    // Fallback preview
+                    renderLeaderboardTable([
+                        { name: "ফাতেমা আক্তার", course: "BSc", status: "1st Timer", score: 45 },
+                        { name: "সাদিয়া ইসলাম", course: "Diploma", status: "2nd Timer", score: 40 }
+                    ]);
+                });
+        }
+
+        function renderLeaderboardTable(leaderboard) {
+            let html = "";
+            if (!leaderboard || leaderboard.length === 0) {
+                html = `<tr><td colspan="4" class="text-center py-3 text-slate-400">এখনো কোনো পরীক্ষার্থীর ডেটা নেই।</td></tr>`;
+            } else {
+                leaderboard.forEach((item, index) => {
+                    html += `
+                        <tr class="border-b border-slate-100 hover:bg-slate-50">
+                            <td class="p-2 font-bold text-indigo-600">#${index + 1}</td>
+                            <td class="p-2 font-medium text-slate-800">${item.name}</td>
+                            <td class="p-2"><span class="bg-indigo-50 text-indigo-600 text-[10px] px-1.5 py-0.5 rounded">${item.course}</span></td>
+                            <td class="p-2 text-right font-bold text-slate-900">${item.score} / 50</td>
+                        </tr>
+                    `;
+                });
+            }
+            document.getElementById('landingLeaderboardBody').innerHTML = html;
+            document.getElementById('fullLeaderboardBody').innerHTML = html;
+        }
+
+        window.onload = function() {
+            fetchLeaderboard();
+        };
+    </script>
+</body>
+</html>
+```
+
+### বিশেষ বৈশিষ্ট্যসমূহ:
+১. **মোবাইল ইউআই ডিজাইন:** পুরো অ্যাপটি একটি মোবাইল স্ক্রিন ফ্রেমের ভেতরে সাজানো হয়েছে যাতে মোবাইল ব্যবহারকারীরা অত্যন্ত স্বাচ্ছন্দ্যবোধ করেন।
+২. **পালস লোগো ও ব্যাকএন্ড ইন্টিগ্রেশন:** আপনার দেওয়া অফিসিয়াল লোগো এবং Google Apps Script URL সঠিকভাবে কোডের সাথে সংযুক্ত করা হয়েছে। ফলে পরীক্ষার্থীর নাম, ফোন, কোর্স, স্ট্যাটাস ও স্কোর স্বয়ংক্রিয়ভাবে আপনার গুগল শিটে জমা হবে এবং লিডারবোর্ড আপডেট হবে।
