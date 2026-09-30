@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam 03: মানবিক গুণাবলী - পালস নার্সিং কোচিং</title>
+    <!-- Google Fonts: Inter & SolaimanLipi -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/solaimanlipi" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --radius: 16px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'SolaimanLipi', 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        /* Mobile Container Frame for Stunning Look */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 100vh;
+            background: var(--light);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 481px) {
+            .app-container {
+                height: 92vh;
+                border-radius: 32px;
+                border: 8px solid #334155;
+            }
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            background: var(--light);
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Header Styles */
+        .app-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .logo-area img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+            padding: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .logo-area h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .badge-batch {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Content Body */
+        .content-body {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        /* Exam Card on Landing */
+        .exam-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exam-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .exam-card h3 {
+            font-size: 1.25rem;
+            color: var(--dark);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .exam-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .exam-meta div span {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            color: white;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* Info Section */
+        .info-box {
+            background: white;
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .info-box h4 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            font-size: 0.88rem;
+            color: var(--gray);
+        }
+
+        .info-box ul li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .info-box ul li i {
+            color: var(--success);
+            margin-top: 4px;
+        }
+
+        /* Modal / Form Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            padding: 25px;
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .radio-card {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .radio-card input {
+            display: none;
+        }
+
+        .radio-card.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+            color: var(--primary);
+        }
+
+        /* Exam Interface Header (Sticky Timer) */
+        .exam-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 12px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .timer-badge {
+            background: #fee2e2;
+            color: var(--danger);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .q-progress {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        /* Question Card */
+        .question-container {
+            padding: 20px;
+        }
+
+        .question-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 14px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-item input {
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+        }
+
+        .option-item.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+        }
+
+        .exam-nav-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Leaderboard Screen */
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .leaderboard-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .leaderboard-item.top-rank {
+            background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+            border-color: var(--accent);
+        }
+
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            background: #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .top-rank .rank-badge {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Result Dashboard */
+        .result-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .score-circle span:first-child {
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-circle span:last-child {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .stat-box h5 {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-bottom: 4px;
+        }
+
+        .stat-box p {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Loading Spinner */
+        .loader-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Loading Spinner -->
+        <div id="loaderOverlay" class="loader-overlay">
+            <div class="spinner"></div>
+            <p id="loaderText" style="font-weight: 600; color: var(--primary);">ডেটা প্রসেস হচ্ছে...</p>
+        </div>
+
+        <!-- SCREEN 1: LANDING & LEADERBOARD -->
+        <div id="landingScreen" class="screen active">
+            <div class="app-header">
+                <div class="logo-area">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Coaching Logo">
+                    <h1>পালস নার্সিং কোচিং</h1>
+                </div>
+                <div class="badge-batch">ফাউন্ডেশন ব্যাচ (২০২৬-২৭)</div>
+            </div>
+
+            <div class="content-body">
+                <!-- Exam Card -->
+                <div class="exam-card">
+                    <h3>Exam-03 <i class="fa-solid fa-award" style="color: var(--accent);"></i></h3>
+                    <div class="exam-meta">
+                        <div>বিষয়: <span>মানবিক গুণাবলী</span></div>
+                        <div>পূর্ণমান: <span>৫০</span></div>
+                        <div>সময়: <span>৩০ মিনিট</span></div>
+                        <div>প্রশ্ন সংখ্যা: <span>৫০টি</span></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="openRegistrationModal()">
+                        <i class="fa-solid fa-play"></i> Start Exam
+                    </button>
+                </div>
+
+                <!-- Info Box -->
+                <div class="info-box">
+                    <h4><i class="fa-solid fa-circle-info"></i> নির্দেশিকা ও প্রস্তুতি</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> নার্সিং ভর্তি পরীক্ষার সিলেবাস অনুযায়ী মানবিক গুণাবলী ও সাধারণ জ্ঞান অংশ থেকে প্রশ্ন প্রস্তুত করা হয়েছে।</li>
+                        <li><i class="fa-solid fa-check"></i> প্রতিটি সঠিক উত্তরের জন্য পূর্ণমান নির্ধারিত এবং ভুল উত্তরের জন্য কোনো নেগেটিভ মার্ক নেই।</li>
+                        <li><i class="fa-solid fa-check"></i> নির্দিষ্ট সময়ের মধ্যে পরীক্ষা সম্পন্ন করে সাবমিট করতে হবে।</li>
+                    </ul>
+                </div>
+
+                <!-- Leaderboard Section on Landing -->
+                <div class="info-box" style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h4 style="margin: 0;"><i class="fa-solid fa-trophy" style="color: var(--accent);"></i> মেধাতালিকা (Leaderboard)</h4>
+                        <button onclick="loadLeaderboard()" style="background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; font-size: 0.85rem;"><i class="fa-solid fa-rotate"></i> রিফ্রেশ</button>
+                    </div>
+                    <div id="landingLeaderboard" class="leaderboard-list">
+                        <p style="text-align: center; color: var(--gray); font-size: 0.85rem; padding: 10px;">লিডারবোর্ড লোড হচ্ছে...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REGISTRATION MODAL -->
+        <div id="regModal" class="modal-overlay">
+            <div class="modal-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+                    <h3 style="font-size: 1.1rem; color: var(--dark);">পরীক্ষার্থীর তথ্য প্রদান করুন</h3>
+                    <button onclick="closeRegistrationModal()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--gray);"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                
+                <form id="studentForm" onsubmit="startExam(event)">
+                    <div class="form-group">
+                        <label>আপনার পূর্ণ নাম</label>
+                        <input type="text" id="stdName" class="form-control" placeholder="যেমন: উম্মে হাবিবা" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>মোবাইল নাম্বার</label>
+                        <input type="tel" id="stdPhone" class="form-control" placeholder="01XXXXXXXXX" pattern="[0-9]{11}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>কোর্স</label>
+                        <div class="radio-group">
+                            <label class="radio-card selected" onclick="selectRadio(this, 'stdCourse', 'BSc')">
+                                <input type="radio" name="stdCourse" value="BSc" checked> বিএসসি (BSc)
+                            </label>
+                            <label class="radio-card" onclick="selectRadio(this, 'stdCourse', 'Diploma')">
+                                <input type="radio" name="stdCourse" value="Diploma"> ডিপ্লোমা (Diploma)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>অংশগ্রহণকারী (Student As a)</label>
+                        <div class="radio-group" style="grid-template-columns: repeat(3, 1fr);">
+                            <label class="radio-card selected" onclick="selectRadio(this, 'stdTimerType', '1st Timer')">
+                                <input type="radio" name="stdTimerType" value="1st Timer" checked> 1st Timer
+                            </label>
+                            <label class="radio-card" onclick="selectRadio(this, 'stdTimerType', '2nd Timer')">
+                                <input type="radio" name="stdTimerType" value="2nd Timer"> 2nd Timer
+                            </label>
+                            <label class="radio-card" onclick="selectRadio(this, 'stdTimerType', '3rd Timer')">
+                                <input type="radio" name="stdTimerType" value="3rd Timer"> 3rd Timer
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+                        প্রশ্নপত্রে প্রবেশ করুন <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: EXAM INTERFACE -->
+        <div id="examScreen" class="screen">
+            <!-- Sticky Header Timer -->
+            <div class="exam-header">
+                <div class="q-progress" id="qProgressIndicator">প্রশ্ন ১ / ৫০</div>
+                <div class="timer-badge">
+                    <i class="fa-regular fa-clock"></i> <span id="timerDisplay">30:00</span>
+                </div>
+            </div>
+
+            <div class="content-body" style="padding: 15px;">
+                <div class="question-container" id="questionBox">
+                    <!-- Dynamic Question Will Load Here -->
+                </div>
+
+                <div class="exam-nav-btns" style="padding: 0 15px 20px 15px;">
+                    <button type="button" class="btn" id="prevBtn" onclick="prevQuestion()" style="background: #e2e8f0; color: var(--dark); flex: 1;" disabled>পূর্ববর্তী</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="flex: 1;">পরবর্তী</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: RESULT & REVIEW -->
+        <div id="resultScreen" class="screen">
+            <div class="app-header">
+                <h2>ফলাফল বিশ্লেষণ</h2>
+                <div class="badge-batch">Exam-03: মানবিক গুণাবলী</div>
+            </div>
+
+            <div class="content-body">
+                <div class="result-card">
+                    <div class="score-circle">
+                        <span id="resScore">০</span>
+                        <span>প্রাপ্ত নম্বর</span>
+                    </div>
+                    <h3 id="resStudentName" style="font-size: 1.1rem; margin-bottom: 5px;">শিক্ষার্থীর নাম</h3>
+                    <p style="color: var(--gray); font-size: 0.85rem;" id="resStudentDetails">কোর্স: BSc | 1st Timer</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h5>দাগিয়েছেন</h5>
+                        <p id="statAttempted" style="color: var(--primary);">০</p>
+                    </div>
+                    <div class="stat-box">
+                        <h5>সঠিক উত্তর</h5>
+                        <p id="statCorrect" style="color: var(--success);">০</p>
+                    </div>
+                    <div class="stat-box">
+                        <h5>ভুল উত্তর</h5>
+                        <p id="statWrong" style="color: var(--danger);">০</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button class="btn btn-primary" onclick="showScreen('landingScreen'); loadLeaderboard();">
+                        <i class="fa-solid fa-trophy"></i> লিডারবোর্ড দেখুন
+                    </button>
+                </div>
+
+                <h4 style="margin-bottom: 12px; font-size: 1rem; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-list-check" style="color: var(--primary);"></i> উত্তরমালা ও ব্যাখ্যা
+                </h4>
+                <div id="reviewContainer" style="display: flex; flex-direction: column; gap: 15px;">
+                    <!-- Review items injected here -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // GOOGLE APPS SCRIPT WEB APP URL (Provided by User)
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-dGFMeFJxBOnpe-y2oAaB5H9nmztQ8mb7-fKfiJcQRS654gQjhzT8nxVYH9Zd7Asg/exec";
+
+        // 50 Standard MCQs on Humanities & Moral Values (মানবিক গুণাবলী) for Nursing Admission
+        const questionsData = [
+            {
+                q: "মানবিক গুণাবলীর মধ্যে সবচেয়ে গুরুত্বপূর্ণ মৌলিক গুণ কোনটি?",
+                options: ["সহমর্মিতা ও সহানুভূতি", "কঠোর শাসন", "অর্থবিত্ত", "শারীরিক শক্তি"],
+                answer: 0
+            },
+            {
+                q: "নার্সিং পেশা মূলত কিসের প্রতীক?",
+                options: ["ব্যবসা", "সেবা ও মানবপ্রেম", "ক্ষমতা প্রদর্শন", "চাকরি মাত্র"],
+                answer: 1
+            },
+            {
+                q: "ফ্লোরেন্স নাইটিঙ্গেলকে কোন উপাধিতে ভূষিত করা হয়?",
+                options: ["দ্য লেডি উইথ দ্য ল্যাম্প", "মাদার অব মার্সি", "আয়রন লেডি", "নার্সিং কুইন"],
+                answer: 0
+            },
+            {
+                q: "রোগীর প্রতি একজন নার্সের প্রধান নৈতিক দায়িত্ব কী?",
+                options: ["তাড়াতাড়ি ছুটি নেওয়া", "রোগীর সেবা ও সুশ্রূষা নিশ্চিত করা", "হাসপাতালের নিয়ম ভাঙা",Accounts: "হিসাব রাখা"],
+                answer: 1
+            },
+            {
+                q: "নৈতিকতা (Morality) শব্দটি কোন ল্যাটিন শব্দ থেকে এসেছে?",
+                options: ["Mores", "Ethos", "Anthropos", "Bios"],
+                answer: 0
+            },
+            {
+                q: "সমাজ জীবনে মানুষের পারস্পরিক সম্পর্কের মূল ভিত্তি কী?",
+                options: ["বিশ্বাস ও সততা", "লোভ", "প্রতিযোগিতা", "সংঘাত"],
+                answer: 0
+            },
+            {
+                q: "সহানুভূতি (Empathy) বলতে কী বোঝায়?",
+                options: ["অন্যের কষ্ট নিজের মতো অনুভব করা", "অন্যকে অবহেলা করা", "শুধু দয়া দেখানো", "নিজে ভালো থাকা"],
+                answer: 0
+            },
+            {
+                q: "সততা মানুষের কোন ধরনের সম্পদ?",
+                options: ["সবচেয়ে মূল্যবান নৈতিক সম্পদ", "অকেজো বস্তু", "সাময়িক বাহবা পাওয়ার মাধ্যম", "ক্ষতিকর গুণ"],
+                answer: 0
+            },
+            {
+                q: "রোগীর গোপনীয়তা রক্ষা করা চিকিৎসাসেবার কোন নীতির অন্তর্ভুক্ত?",
+                options: ["নৈতিক নীতি (Ethical Principle)", "অর্থনৈতিক নীতি", "আইনি বাধ্যবাধকতা নয়", "ঐচ্ছিক বিষয়"],
+                answer: 0
+            },
+            {
+                q: "সংবেদনশীলতা (Sensitivity) মানুষের ভেতরের কোন গুণটি প্রকাশ করে?",
+                options: ["মানবিকতা", "নিষ্ঠুরতা", "অহংকার", "উদাসীনতা"],
+                answer: 0
+            },
+            {
+                q: "রেড ক্রস সোসাইটির প্রতিষ্ঠাতা কে?",
+                options: ["ফ্লোরেন্স নাইটিঙ্গেল", "জাঁ হেনরি ডুনান্ট", "মাদার তেরেসা", "লুই পাস্তুর"],
+                answer: 1
+            },
+            {
+                q: "আন্তর্জাতিক নার্স দিবস কবে পালিত হয়?",
+                options: ["১২ মে", "৮ মার্চ", "৭ এপ্রিল", "১ ডিসেম্বর"],
+                answer: 0
+            },
+            {
+                q: "কোন গুণটি একজন ভালো সেবককে আদর্শ করে তোলে?",
+                options: ["ধৈর্য ও সহনশীলতা", "দ্রুত রেগে যাওয়া", "উদ্ধত আচরণ", "স্বার্থপরতা"],
+                answer: 0
+            },
+            {
+                q: "মানবতার প্রতীক হিসেবে বিশ্বব্যাপী কার নাম অগ্রগণ্য?",
+                options: ["মাদার তেরেসা", "নেপোলিয়ন", "আদালত", "ব্যবসায়ী"],
+                answer: 0
+            },
+            {
+                q: "সামাজিক মূল্যবোধ বলতে কী বোঝায়?",
+                options: ["সমাজের মানুষের দ্বারা স্বীকৃত ভালো আচার-আচরণ", "আইন আদালত", "ব্যক্তিগত মতামত", "রাজনীতি"],
+                answer: 0
+            },
+            {
+                q: "চিকিৎসাসেবায় 'রোগী কল্যাণ' সবার আগে—এটি কোনটির অংশ?",
+                options: ["মেডিকেল ইথিক্স", "বাণিজ্যিক নীতি", "সরকারি আইন", "ব্যক্তিগত ইচ্ছা"],
+                answer: 0
+            },
+            {
+                q: "কর্তব্যপরায়ণতা মানুষের কোন ধরনের উৎকর্ষ সাধন করে?",
+                options: ["নৈতিক ও মানবিক উৎকর্ষ", "শারীরিক শক্তি", "অর্থনৈতিক লাভ", "রাজনৈতিক ক্ষমতা"],
+                answer: 0
+            },
+            {
+                q: "ক্ষমাশীলতা কোন ধরনের মানুষের ভূষণ?",
+                options: ["মহান ও মানবিক গুণসম্পন্ন মানুষের", "দুর্বলের", "ভীতুর", "অজ্ঞের"],
+                answer: 0
+            },
+            {
+                q: "বিপন্ন মানুষের পাশে দাঁড়ানো কিসের বহিঃপ্রকাশ?",
+                options: ["মানবিকতা", "স্বার্থপরতা", "ভয়", "অসচেতনতা"],
+                answer: 0
+            },
+            {
+                q: "শান্তিপূর্ণ সহাবস্থানের মূল চাবিকাঠি কোনটি?",
+                options: ["পারস্পরিক শ্রদ্ধা ও সহনশীলতা", "সংঘাত", "ক্ষমতার অপব্যবহার", "বিদ্বেষ"],
+                answer: 0
+            },
+            {
+                q: "কাজের প্রতি দায়িত্ববোধ না থাকলে সমাজে কী ঘটে?",
+                options: ["শৃঙ্খলা ও আস্থার সংকট দেখা দেয়", "উন্নয়ন ত্বরান্বিত হয়", "শান্তি আসে", "সবার কল্যাণ হয়"],
+                answer: 0
+            },
+            {
+                q: "আত্মসংযম (Self-control) কোন ধরনের গুণ?",
+                options: ["নৈতিক গুণ", "শারীরিক ব্যাধি", "অর্থনৈতিক অবস্থা", "অপ্রয়োজনীয় বিষয়"],
+                answer: 0
+            },
+            {
+                q: "মানুষ সামাজিক জীব—এ কথাটি কার?",
+                options: ["অ্যারিস্টটল", "প্লেটো", "সক্রেটিস", "রূসো"],
+                answer: 0
+            },
+            {
+                q: "সহযোগিতা ও সহমর্মিতা সমাজে কী সৃষ্টি করে?",
+                options: ["ভ্রাতৃত্ববোধ ও সম্প্রীতি", "অশান্তি", "দূরত্ব", "প্রতিযোগিতা"],
+                answer: 0
+            },
+            {
+                q: "একজন নার্সের অমায়িক ব্যবহার রোগীর উপর কেমন প্রভাব ফেলে?",
+                options: ["মানসিকভাবে শক্তি ও দ্রুত আরোগ্য লাভে সহায়তা করে", "ভয় বাড়িয়ে দেয়", "বিরক্তি আনে", "কোনো প্রভাব ফেলে না"],
+                answer: 0
+            },
+            {
+                q: "নম্রতা ও ভদ্রতা মানুষের কোন পরিচয় বহন করে?",
+                options: ["উন্নত ব্যক্তিত্ব ও পারিবারিক শিক্ষা", "দুর্বলতা", "অজ্ঞতা", "ভয়"],
+                answer: 0
+            },
+            {
+                q: "ন্যায়পরায়ণতা বা Justice বলতে কী বোঝায়?",
+                options: ["সবার সাথে ন্যায্য ও সমান আচরণ করা", "পক্ষপাতিত্ব করা", "শক্তিশালীকে প্রাধান্য দেওয়া", "আইন অমান্য করা"],
+                answer: 0
+            },
+            {
+                q: "সংকটময় মুহূর্তে একজন সেবকের প্রাথমিক করণীয় কী?",
+                options: ["ধৈর্য ধরে রোগীর সেবা ও সান্ত্বনা দেওয়া", "ঘাবড়ে যাওয়া", "পলায়ন করা", "উদ্বেগ সৃষ্টি করা"],
+                answer: 0
+            },
+            {
+                q: "সততা ও নিষ্ঠার সাথে কাজ করলে সমাজে কী বৃদ্ধি পায়?",
+                options: ["আস্থা ও সম্মান", "সন্দেহ", "অবিশ্বাস", "বিশৃঙ্খলতা"],
+                answer: 0
+            },
+            {
+                q: "অন্যের মতামতকে সম্মান জানানো কিসের লক্ষণ?",
+                options: ["গণতান্ত্রিক মানসিকতা ও সহনশীলতা", "দুর্বলতা", "অযোগ্যতা", "ভীতু স্বভাব"],
+                answer: 0
+            },
+            {
+                q: "মানবিক মূল্যবোধের পতন রোধে সবচেয়ে বেশি প্রয়োজন কোনটি?",
+                options: ["নৈতিক শিক্ষা ও মূল্যবোধের চর্চা", "কঠোর শাস্তি", "অর্থনৈতিক প্রবৃদ্ধি", "প্রযুক্তির ব্যবহার"],
+                answer: 0
+            },
+            {
+                q: "দুর্যোগ ও মহামারীতে মানুষের সেবায় এগিয়ে আসা কিসের পরিচায়ক?",
+                options: ["মানবপ্রেম ও দেশপ্রেম", "বোকামি", "প্রচারপ্রীতি", "দায়িত্বহীনতা"],
+                answer: 0
+            },
+            {
+                q: "পেশাগত ক্ষেত্রে সততা রক্ষা করা কেন জরুরি?",
+                options: ["পেশার মর্যাদা ও মানুষের বিশ্বাস অর্জনের জন্য", "শুধুমাত্র শাস্তির ভয়ে", "বেতন বাড়ানোর জন্য", "অন্যদের দেখানোর জন্য"],
+                answer: 0
+            },
+            {
+                q: "বিশ্বে শান্তিস্থাপনে ও মানবতার সেবায় নোবেল শান্তি পুরস্কার প্রদান শুরু হয় কত সাল থেকে?",
+                options: ["১৯০১ সাল", "১৯৫০ সাল", "১৯৭১ সাল", "১৯৮০ সাল"],
+                answer: 0
+            },
+            {
+                q: "কোন গুণটি মানুষকে অন্যান্য প্রাণী থেকে আলাদা করেছে?",
+                options: ["নৈতিকতা ও বুদ্ধিমত্তা", "ক্ষুষ্ণা নিবারণ", "ঘুম", "বংশবৃদ্ধি"],
+                answer: 0
+            },
+            {
+                q: "কার দয়া ও সেবামূলক কাজের জন্য তাকে 'দয়ালু' হিসেবে স্মরণ করা হয়?",
+                options: ["মাদার তেরেসা", "ফ্লোরেন্স নাইটিঙ্গেল", "উভয়েই", "কেউ নন"],
+                answer: 2
+            },
+            {
+                q: "সততা হলো সর্বোৎকৃষ্ট পন্থা—কথাটি কার সাথে সংশ্লিষ্ট?",
+                options: ["সর্বজনীন নৈতিক প্রজ্ঞা", "কোনোটিই নয়", "বাণিজ্যিক সূত্র", "আইনি ধারা"],
+                answer: 0
+            },
+            {
+                q: "সহমর্মিতার ইংরেজি প্রতিশব্দ কী?",
+                options: ["Sympathy", "Apology", "Apathy", "Antpathy"],
+                answer: 0
+            },
+            {
+                q: "রোগীর মানসিক স্বাস্থ্য রক্ষায় নার্সের ভূমিকা কেমন হওয়া উচিত?",
+                options: ["উৎসাহব্যঞ্জক ও সহানুভূতিশীল", "উদাসীন", "কঠোর", "রূঢ়"],
+                answer: 0
+            },
+            {
+                q: "সমাজসেবা ও মানবকল্যাণ কোন ধর্মের মূল শিক্ষা?",
+                options: ["সব ধর্মের", "কোনো ধর্মের নয়", "শুধু নির্দিষ্ট এক ধর্মের", "নাস্তিকতার"],
+                answer: 0
+            },
+            {
+                q: "কর্তব্যে অবহেলা না করা কিসের লক্ষণ?",
+                options: ["পেশাদারিত্ব ও নৈতিক দায়িত্ববোধ", "অলসতা", "ব্যর্থতা", "অসচেতনতা"],
+                answer: 0
+            },
+            {
+                q: "মিথ্যা বলা এবং দুর্নীতি করা কোন ধরনের আচরণ?",
+                options: ["অনৈতিক ও সমাজবিরোধী", "গ্রহণযোগ্য", "প্রশংসনীয়", "স্বাভাবিক"],
+                answer: 0
+            },
+            {
+                q: "সহনশীলতা মানুষের কোন শক্তি বৃদ্ধি করে?",
+                options: ["মানসিক ও আত্মিক শক্তি", "শারীরিক ওজন", "লোভ", "ক্রোধ"],
+                answer: 0
+            },
+            {
+                q: "মানবতার কল্যাণে নিবেদিত প্রাণ ব্যক্তিদের মূল লক্ষ্য কী থাকে?",
+                options: ["মানুষের কষ্ট লাঘব করা", "খ্যাতি অর্জন", "অর্থ উপার্জন", "ক্ষমতা দখল"],
+                answer: 0
+            },
+            {
+                q: "কোন গুণটির কারণে মানুষ সমাজের অবিচ্ছেদ্য অংশ হয়ে ওঠে?",
+                options: ["পারস্পরিক সহযোগিতা ও ভালোবাসা", "বিদ্বেষ", "বিচ্ছিন্নতা", "স্বার্থপরতা"],
+                answer: 0
+            },
+            {
+                q: "নিষ্ঠা ও সততা বজায় রেখে কাজ করলে মনের মধ্যে কী আসে?",
+                options: ["প্রশান্তি ও আত্মতৃপ্তি", "হতাশা", "ভয়", "অশান্তি"],
+                answer: 0
+            },
+            {
+                q: "হাসপাতালের মতো সেবামূলক প্রতিষ্ঠানে সবচেয়ে বড় গুণ কোনটি?",
+                options: ["রোগীর প্রতি আন্তরিকতা ও সেবা মনোভাব", "দ্রুত কাজ শেষ করা", "বিনা কারণে কথা না বলা", "উপস্থিতি নিশ্চিত করা"],
+                answer: 0
+            },
+            {
+                q: "সৎ চরিত্র মানুষের কোন পরিচয় তুলে ধরে?",
+                options: ["শ্রেষ্ঠত্বের ও উন্নত মানসিকতার", "দুর্বলতার", "অজ্ঞতার", "ভীতুতার"],
+                answer: 0
+            },
+            {
+                q: "সামাজিক সম্প্রীতি বজায় রাখতে সবচেয়ে বেশি প্রয়োজন কোনটি?",
+                options: ["সদাচরণ ও পারস্পরিক সম্মান", "সংঘাত", "উগ্রতা", "স্বার্থপরতা"],
+                answer: 0
+            },
+            {
+                q: "একজন আদর্শ নার্স বা স্বাস্থ্যকর্মীর প্রধান ভূষণ কী হওয়া উচিত?",
+                options: ["মানবিক গুণাবলী ও হাসিমুখ সেবা", "গম্ভীর ভাব", "অহংকার", "উদাসীনতা"],
+                answer: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let timerInterval = null;
+        let timeLeft = 30 * 60; // 30 Minutes
+        let studentInfo = {};
+
+        // UI navigation helper
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function openRegistrationModal() {
+            document.getElementById('regModal').classList.add('active');
+        }
+
+        function closeRegistrationModal() {
+            document.getElementById('regModal').classList.remove('active');
+        }
+
+        function selectRadio(element, groupName, value) {
+            document.querySelectorAll(`input[name="${groupName}"]`).forEach(input => {
+                input.checked = (input.value === value);
+                input.closest('.radio-card').classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.name = document.getElementById('stdName').value.trim();
+            studentInfo.phone = document.getElementById('stdPhone').value.trim();
+            studentInfo.course = document.querySelector('input[name="stdCourse"]:checked').value;
+            studentInfo.timerType = document.querySelector('input[name="stdTimerType"]:checked').value;
+
+            if(!studentInfo.name || !studentInfo.phone) {
+                alert('দয়া করে আপনার নাম ও ফোন নাম্বার প্রদান করুন।');
+                return;
+            }
+
+            closeRegistrationModal();
+            showScreen('examScreen');
+            loadQuestion(0);
+            startTimer();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা দেওয়া হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timerDisplay').innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            }, 1000);
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const q = questionsData[index];
+            document.getElementById('qProgressIndicator').innerText = `প্রশ্ন ${index + 1} / ${questionsData.length}`;
+            
+            let optionsHTML = '';
+            q.options.forEach((opt, idx) => {
+                let isChecked = userAnswers[index] === idx ? 'checked' : '';
+                let isSelectedClass = userAnswers[index] === idx ? 'selected' : '';
+                optionsHTML += `
+                    <label class="option-item ${isSelectedClass}" onclick="selectOption(${idx})">
+                        <input type="radio" name="currentOpt" value="${idx}" ${isChecked}>
+                        <span>${opt}</span>
+                    </label>
+                `;
+            });
+
+            document.getElementById('questionBox').innerHTML = `
+                <div class="question-title">${index + 1}. ${q.q}</div>
+                <div class="options-list">${optionsHTML}</div>
+            `;
+
+            document.getElementById('prevBtn').disabled = (index === 0);
+            document.getElementById('nextBtn').innerText = (index === questionsData.length - 1) ? 'পরীক্ষা জমা দিন' : 'পরবর্তী';
+        }
+
+        function selectOption(optIdx) {
+            userAnswers[currentQuestionIndex] = optIdx;
+            const optionElements = document.querySelectorAll('.option-item');
+            optionElements.forEach((el, idx) => {
+                if(idx === optIdx) {
+                    el.classList.add('selected');
+                    el.querySelector('input').checked = true;
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                loadQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questionsData.length - 1) {
+                loadQuestion(currentQuestionIndex + 1);
+            } else {
+                if(confirm('আপনি কি নিশ্চিতভাবে পরীক্ষা জমা দিতে চান?')) {
+                    submitExam();
+                }
+            }
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            
+            let score = 0;
+            let attempted = 0;
+            let wrong = 0;
+
+            userAnswers.forEach((ans, idx) => {
+                if (ans !== null) {
+                    attempted++;
+                    if (ans === questionsData[idx].answer) {
+                        score++;
+                    } else {
+                        wrong++;
+                    }
+                }
+            });
+
+            studentInfo.score = score;
+            studentInfo.attempted = attempted;
+            studentInfo.correct = score;
+            studentInfo.wrong = wrong;
+
+            // Send data to Google Apps Sheet (Background)
+            sendDataToGoogleSheet(studentInfo);
+
+            // Display Results
+            document.getElementById('resScore').innerText = score;
+            document.getElementById('resStudentName').innerText = studentInfo.name;
+            document.getElementById('resStudentDetails').innerText = `কোর্স: ${studentInfo.course} | ${studentInfo.timerType} | ফোন: ${studentInfo.phone}`;
+            document.getElementById('statAttempted').innerText = attempted;
+            document.getElementById('statCorrect').innerText = score;
+            document.getElementById('statWrong').innerText = wrong;
+
+            // Render Review
+            let reviewHTML = '';
+            questionsData.forEach((q, idx) => {
+                let userAns = userAnswers[idx];
+                let correctAns = q.answer;
+                let isCorrect = userAns === correctAns;
+                let statusText = userAns === null ? '<span style="color:var(--gray);">উত্তর দেননি</span>' : (isCorrect ? '<span style="color:var(--success);">সঠিক</span>' : '<span style="color:var(--danger);">ভুল</span>');
+                
+                reviewHTML += `
+                    <div style="background:white; padding:15px; border-radius:12px; border:1px solid var(--border);">
+                        <div style="font-size:0.9rem; font-weight:700; margin-bottom:8px;">${idx + 1}. ${q.q}</div>
+                        <div style="font-size:0.85rem; margin-bottom:4px;">আপনার উত্তর: <b>${userAns !== null ? q.options[userAns] : 'নিনাই'}</b> (${statusText})</div>
+                        ${!isCorrect ? `<div style="font-size:0.85rem; color:var(--success);">সঠিক উত্তর: <b>${q.options[correctAns]}</b></div>` : ''}
+                    </div>
+                `;
+            });
+            document.getElementById('reviewContainer').innerHTML = reviewHTML;
+
+            showScreen('resultScreen');
+        }
+
+        function sendDataToGoogleSheet(data) {
+            const formData = new FormData();
+            formData.append('name', data.name);
+            formData.append('phone', data.phone);
+            formData.append('course', data.course);
+            formData.append('timerType', data.timerType);
+            formData.append('score', data.score);
+            formData.append('examName', 'Exam 03: মানবিক গুণাবলী');
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            }).catch(err => console.log('Sheet submission note:', err));
+        }
+
+        function loadLeaderboard() {
+            const lbContainer = document.getElementById('landingLeaderboard');
+            lbContainer.innerHTML = '<p style="text-align: center; color: var(--gray); font-size: 0.85rem; padding: 10px;">মেধাতালিকা আপডেট হচ্ছে...</p>';
+            
+            fetch(GOOGLE_SCRIPT_URL)
+                .then(res => res.json())
+                .then(data => {
+                    if(!data || data.length === 0) {
+                        lbContainer.innerHTML = '<p style="text-align: center; color: var(--gray); font-size: 0.85rem; padding: 10px;">এখনো কোনো ডেটা জমা হয়নি।</p>';
+                        return;
+                    }
+
+                    // Sort by score descending
+                    data.sort((a, b) => b.score - a.score);
+
+                    let html = '';
+                    data.slice(0, 10).forEach((item, idx) => {
+                        let topClass = idx === 0 ? 'top-rank' : '';
+                        html += `
+                            <div class="leaderboard-item ${topClass}">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div class="rank-badge">${idx + 1}</div>
+                                    <div>
+                                        <div style="font-weight: 700; font-size: 0.9rem;">${item.name}</div>
+                                        <div style="font-size: 0.75rem; color: var(--gray);">${item.course} | ${item.timerType || ''}</div>
+                                    </div>
+                                </div>
+                                <div style="font-weight: 800; color: var(--primary); font-size: 0.95rem;">নম্বর: ${item.score}</div>
+                            </div>
+                        `;
+                    });
+                    lbContainer.innerHTML = html;
+                })
+                .catch(err => {
+                    lbContainer.innerHTML = '<p style="text-align: center; color: var(--danger); font-size: 0.85rem; padding: 10px;">লিডারবোর্ড লোড করতে সমস্যা হয়েছে।</p>';
+                });
+        }
+
+        // Initial load on page start
+        window.onload = function() {
+            loadLeaderboard();
+        };
+    </script>
+</body>
+</html>
