@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pulse Nursing Coaching - Routine System</title>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   
   <!-- Firebase SDK (Modular v9) & Config -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, getDocFromServer, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDl386A9T9TsU4f2V73owB5tAjhf-UpC9A",
@@ -138,9 +137,18 @@
       );
     }
 
+    // PDF export uses a fresh Firestore read so the downloaded routine always
+    // comes directly from the current backend document. The live-sync UI is untouched.
+    window.getFreshRoutineForPDF = async function(monthIndex, year) {
+      const routineRef = doc(db, 'routines', `${year}-${monthIndex}`);
+      const snap = await getDocFromServer(routineRef);
+      if (!snap.exists()) throw new Error('Routine document not found');
+      const packet = snap.data();
+      return packet.data || packet;
+    };
+
     window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
     window.startRoutineLiveSync = startRoutineLiveSync;
-    window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
   </script>
 
   <style>
@@ -206,7 +214,30 @@
       background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);margin-bottom:13px
     }
     .today-card{padding:16px;border-top:4px solid var(--primary)}
-    .selected-card{padding:16px;min-height:78px}
+    .selected-card{display:none}
+    .selected-card.visible{display:block}
+    .details-modal-overlay{
+      position:fixed;inset:0;background:rgba(15,23,42,.58);backdrop-filter:blur(5px);
+      z-index:9999;display:none;align-items:flex-end;justify-content:center;padding:12px;
+    }
+    .details-modal-overlay.visible{display:flex}
+    .details-modal{
+      width:min(520px,100%);background:#fff;border-radius:24px 24px 18px 18px;
+      box-shadow:0 24px 70px rgba(0,0,0,.28);overflow:hidden;
+      animation:detailsPop .22s ease-out;
+    }
+    @keyframes detailsPop{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .details-modal-head{padding:17px 18px 13px;background:linear-gradient(135deg,#fff5f5,#fff);border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between}
+    .details-modal-title{font-size:15px;font-weight:800;color:#111827}
+    .details-modal-close{width:32px;height:32px;border:0;border-radius:50%;background:#f1f5f9;color:#475569;font-size:20px;line-height:1;cursor:pointer}
+    .details-modal-body{padding:18px}
+    .details-modal-date{font-size:19px;font-weight:800;color:#d71920;margin-bottom:5px}
+    .details-modal-subject{font-size:14px;font-weight:800;color:#1f2937;line-height:1.45}
+    .details-modal-topic{font-size:13px;color:#475569;line-height:1.6;margin:6px 0 15px}
+    .details-modal-footer{display:flex;gap:9px;margin-top:14px}
+    .details-hide-btn{flex:0 0 auto;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;border-radius:11px;padding:11px 14px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer}
+    .details-modal .btn-exam{flex:1}
+    body.modal-open{overflow:hidden}
     .section-label{font-size:10px;font-weight:800;color:#6b7280;letter-spacing:.25px;margin-bottom:8px}
     .today-loading,.selected-empty{color:#9ca3af;font-size:13px;font-weight:600}
     .details-row1{font-size:16px;color:var(--primary);font-weight:800;margin:0 0 3px}
@@ -228,9 +259,58 @@
     .calendar-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
     .calendar-kicker{font-size:9px;color:#9ca3af;font-weight:800;letter-spacing:1px}
     .calendar-title-row h3{margin:1px 0 0;font-size:19px;color:#111827;font-weight:800}
-    .today-btn{
+    .calendar-actions{display:flex;align-items:center;gap:7px}
+    .today-btn,.pdf-btn{
       border:1px solid #fecdd3;background:var(--primary-soft);color:var(--primary);border-radius:9px;
-      padding:7px 11px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer
+      padding:7px 10px;font-family:inherit;font-size:10px;font-weight:800;cursor:pointer
+    }
+    .pdf-btn{
+      background:#111827;color:#fff;border-color:#111827;display:inline-flex;align-items:center;gap:4px;
+    }
+    .pdf-btn-label{display:inline}
+    @media(max-width:360px){.pdf-btn-label{display:none}.pdf-btn{padding:7px 9px}}
+    .today-btn:active,.pdf-btn:active{transform:scale(.97)}
+    .pdf-generating{opacity:.7;pointer-events:none}
+    .full-routine-trigger{
+      width:100%;margin-top:13px;padding:12px 14px;border:0;border-radius:11px;
+      background:linear-gradient(135deg,#d71920,#b51218);color:#fff;font-family:inherit;
+      font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 7px 18px rgba(215,25,32,.18);
+    }
+    .full-routine-trigger:active,.print-routine-btn:active,.close-routine-btn:active{transform:scale(.985)}
+    .full-routine-section{display:none;margin-top:12px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(15,23,42,.08)}
+    .full-routine-section.visible{display:block}
+    .full-routine-screen-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:16px;background:linear-gradient(135deg,#fff5f5,#fff);border-bottom:1px solid #fee2e2}
+    .full-routine-brand{display:flex;align-items:center;gap:10px;min-width:0}.full-routine-logo{width:46px;height:46px;object-fit:contain;border-radius:8px;background:#fff;flex:none}.full-routine-brand>div:last-child{min-width:0}
+    .full-routine-kicker{font-size:8px;letter-spacing:1.2px;color:#d71920;font-weight:900}
+    .full-routine-screen-head h3{margin:3px 0 2px;font-size:19px;color:#111827}
+    .full-routine-screen-head p{margin:0;color:#6b7280;font-size:10px;font-weight:600}
+    .full-routine-close{width:31px;height:31px;border:0;border-radius:50%;background:#f3f4f6;color:#4b5563;font-size:16px;cursor:pointer}
+    .full-routine-table-wrap{padding:9px;overflow-x:auto}
+    .full-routine-table{width:100%;border-collapse:collapse;min-width:560px;font-size:10px}
+    .full-routine-table th{background:#111827;color:#fff;padding:8px 6px;text-align:left;font-size:9px;font-weight:800}
+    .full-routine-table td{padding:7px 6px;border-bottom:1px solid #e5e7eb;vertical-align:top;line-height:1.35}
+    .full-routine-table tr:nth-child(even) td{background:#fafafa}
+    .full-routine-date{font-weight:800;color:#d71920;white-space:nowrap}.full-routine-day{color:#6b7280;font-weight:700;white-space:nowrap}
+    .routine-subject-badge{display:inline-block;padding:3px 6px;border-radius:5px;background:#d71920;color:#fff;font-weight:800;font-size:8px;white-space:nowrap}
+    .routine-subject-badge.off{background:#9ca3af}.routine-subject-badge.model{background:#d97706}
+    .full-routine-actions{display:flex;gap:8px;padding:11px;border-top:1px solid #f1f5f9;background:#fafafa}
+    .print-routine-btn,.close-routine-btn{flex:1;border:0;border-radius:9px;padding:11px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer}
+    .print-routine-btn{background:#d71920;color:#fff}.close-routine-btn{background:#e5e7eb;color:#374151}
+    @media print{
+      @page{size:A4 portrait;margin:8mm}
+      html,body{background:#fff!important;margin:0!important;padding:0!important}
+      body *{visibility:hidden!important}
+      #fullRoutineSection,#fullRoutineSection *{visibility:visible!important}
+      #fullRoutineSection{display:block!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important}
+      .full-routine-screen-head{padding:0 0 8px!important;border-bottom:2px solid #d71920!important;background:#fff!important}
+      .full-routine-logo{width:42px!important;height:42px!important}
+      .full-routine-close,.full-routine-actions{display:none!important}
+      .full-routine-table-wrap{padding:7px 0 0!important;overflow:visible!important}
+      .full-routine-table{min-width:0!important;width:100%!important;font-size:9px!important}
+      .full-routine-table th{padding:5px!important;font-size:8px!important}
+      .full-routine-table td{padding:4px 5px!important;font-size:8.5px!important}
+      .routine-subject-badge{font-size:7.5px!important;padding:2px 4px!important}
+      .student-header,.student-footer,.student-app>.student-hero,.student-app>.today-card,.student-app>.selected-card,.mobile-calendar-card{display:none!important}
     }
     .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
     .weekday-header{
@@ -252,6 +332,7 @@
     .day-subject.off{background:#9ca3af}.day-subject.model{background:#d97706}
     .short-sub{display:none}
     .student-footer{text-align:center;color:#9ca3af;font-size:11px;padding:7px 0 0}
+    @media(min-width:600px){.details-modal-overlay{align-items:center}.details-modal{border-radius:24px}}
     .student-footer small{display:block;margin-top:2px;font-size:9px}
     @media(max-width:430px){
       .student-app{padding-left:9px;padding-right:9px}
@@ -277,7 +358,7 @@
     <section class="student-hero">
       <div class="hero-month" id="heroMonth">Foundation Batch</div>
       <h2 id="heroTitle">Exam Routine</h2>
-      <div class="hero-sync"><span class="sync-dot"></span> ফায়ারস্টোর লাইভ রুটিন</div>
+      <div class="hero-sync"><span class="sync-dot"></span> নার্সিং ভর্তি প্রস্তুতি ২০২৬-২৭</div>
     </section>
 
     <section class="today-card" id="liveExamBox">
@@ -296,7 +377,9 @@
           <span class="calendar-kicker">MONTHLY SCHEDULE</span>
           <h3 id="calendarTitle">Loading...</h3>
         </div>
-        <button class="today-btn" onclick="goToToday()">আজ</button>
+        <div class="calendar-actions">
+          <button class="today-btn" onclick="goToToday()">আজ</button>
+        </div>
       </div>
       <div class="calendar-grid" id="calendarGrid">
         <div class="weekday-header">রবি</div>
@@ -307,6 +390,26 @@
         <div class="weekday-header">শুক্র</div>
         <div class="weekday-header">শনি</div>
       </div>
+      <button class="full-routine-trigger" type="button" onclick="openFullRoutine()">📋 পূর্ণাঙ্গ রুটিন দেখুন</button>
+    </section>
+
+    <section class="full-routine-section" id="fullRoutineSection" aria-hidden="true">
+      <div class="full-routine-screen-head">
+        <div class="full-routine-brand">
+          <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Coaching Logo" class="full-routine-logo">
+          <div>
+            <span class="full-routine-kicker">PULSE NURSING COACHING</span>
+            <h3 id="fullRoutineTitle">পূর্ণাঙ্গ রুটিন</h3>
+            <p>নার্সিং ভর্তি প্রস্তুতি ২০২৬-২৭ • Foundation Batch</p>
+          </div>
+        </div>
+        <button class="full-routine-close" type="button" onclick="closeFullRoutine()">✕</button>
+      </div>
+      <div class="full-routine-table-wrap" id="fullRoutineTableWrap"></div>
+      <div class="full-routine-actions">
+        <button class="print-routine-btn" type="button" onclick="printFullRoutine()">🖨️ Download করুন</button>
+        <button class="close-routine-btn" type="button" onclick="closeFullRoutine()">বন্ধ করুন</button>
+      </div>
     </section>
 
     <div class="student-footer">
@@ -314,6 +417,17 @@
       <small>নতুন রুটিন পেতে Internet চালু রাখুন</small>
     </div>
   </main>
+
+  <div class="details-modal-overlay" id="detailsModalOverlay" onclick="closeDetailsModal(event)" aria-hidden="true">
+    <div class="details-modal" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle" onclick="event.stopPropagation()">
+      <div class="details-modal-head">
+        <div class="details-modal-title" id="detailsModalTitle">নির্বাচিত তারিখ</div>
+        <button class="details-modal-close" type="button" onclick="hideDetails()" aria-label="বন্ধ করুন">&times;</button>
+      </div>
+      <div class="details-modal-body" id="detailsModalBody"></div>
+    </div>
+  </div>
+
 
   <script id="embeddedRoutineConfig">
     // Frontend auto-selects the current Bangladesh month/year.
@@ -421,10 +535,13 @@
       }
 
       document.getElementById('calendarGrid').innerHTML = gridHTML;
+      hideDetails();
       const calTitle = document.getElementById('calendarTitle'); if (calTitle) calTitle.innerText = `${monthName} ${year}`;
       const heroTitle = document.getElementById('heroTitle'); if (heroTitle) heroTitle.innerText = `Exam Routine`;
       const heroMonth = document.getElementById('heroMonth'); if (heroMonth) heroMonth.innerText = `Foundation Batch • ${monthName} ${year}`;
       initLiveExam(monthIndex, year);
+      const fullSection = document.getElementById('fullRoutineSection');
+      if (fullSection && fullSection.classList.contains('visible')) buildFullRoutineTable();
     }
 
     function initLiveExam(activeMonth, activeYear) {
@@ -457,19 +574,53 @@
 
     function showDetails(day) {
       const data = window.currentRoutineData[day];
-      const box = document.getElementById("detailsBox");
-      const formattedLink = formatURL(data.link);
-      let actionHTML = data.subject === "OFF"
-        ? '<div class="off-notice">☕ আজ কোনো নির্ধারিত পরীক্ষা নেই। বিগত সপ্তাহের সকল আলোচিত টপিকসমূহ নিজে নিজে চমৎকারভাবে রিভিশন দিন।</div>'
-        : (formattedLink ? `<a href="${formattedLink}" target="_blank" rel="noopener noreferrer" class="btn-exam">📝 পরীক্ষা দিন</a>` : '<span class="btn-exam disabled">পরীক্ষার লিংক যুক্ত হয়নি</span>');
+      if (!data) return;
 
-      box.innerHTML = `
-        <span class="card-badge select-badge">📅 নির্বাচন করা তারিখ</span>
-        <div class="details-row1">${data.dateFormatted} | ${data.dayBangla}</div>
-        <div class="details-row2">${data.subject} | ${data.topic}</div>
-        <div>${actionHTML}</div>
+      const overlay = document.getElementById('detailsModalOverlay');
+      const body = document.getElementById('detailsModalBody');
+      const title = document.getElementById('detailsModalTitle');
+      if (!overlay || !body) return;
+
+      const formattedLink = formatURL(data.link);
+      const actionHTML = data.subject === 'OFF'
+        ? '<div class="off-notice">☕ আজ কোনো নির্ধারিত পরীক্ষা নেই। বিগত সপ্তাহের সকল আলোচিত টপিক রিভিশন দিন।</div>'
+        : (formattedLink
+          ? `<a href="${formattedLink}" target="_blank" rel="noopener noreferrer" class="btn-exam">📝 পরীক্ষা দিন</a>`
+          : '<span class="btn-exam disabled">পরীক্ষার লিংক যুক্ত হয়নি</span>');
+
+      title.textContent = '📅 নির্বাচিত তারিখ';
+      body.innerHTML = `
+        <div class="details-modal-date">${escapeHTML(data.dateFormatted)}</div>
+        <div class="details-modal-subject">${escapeHTML(data.subject)} | ${escapeHTML(data.dayBangla)}</div>
+        <div class="details-modal-topic">${escapeHTML(data.topic)}</div>
+        <div class="details-modal-footer">
+          <button class="details-hide-btn" type="button" onclick="hideDetails()">✕ বন্ধ করুন</button>
+          ${actionHTML}
+        </div>
       `;
+
+      overlay.classList.add('visible');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
     }
+
+    function hideDetails() {
+      const overlay = document.getElementById('detailsModalOverlay');
+      if (overlay) {
+        overlay.classList.remove('visible');
+        overlay.setAttribute('aria-hidden', 'true');
+      }
+      document.body.classList.remove('modal-open');
+    }
+
+    function closeDetailsModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      hideDetails();
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') hideDetails();
+    });
 
     function goToToday() {
       const dhaka = getDhakaDateParts();
@@ -480,9 +631,76 @@
           window.currentRoutineData[dhaka.day]) {
         showDetails(dhaka.day);
       } else {
-        const box = document.getElementById("detailsBox");
-        box.innerHTML = '<div class="section-label">📅 আজকের তারিখ</div><div class="selected-empty">এই মাসের রুটিনে আজকের তারিখ নেই।</div>';
+        hideDetails();
       }
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function buildFullRoutineTable() {
+      const active = getActiveRoutineMonth();
+      const monthName = monthNames[active.monthIndex];
+      const totalDays = getDaysInMonth(active.monthIndex, active.year);
+      const data = window.currentRoutineData || {};
+      const wrap = document.getElementById('fullRoutineTableWrap');
+      const title = document.getElementById('fullRoutineTitle');
+      if (!wrap) return;
+
+      if (title) title.textContent = `পূর্ণাঙ্গ রুটিন • ${monthName} ${active.year}`;
+
+      let rows = '';
+      for (let day = 1; day <= totalDays; day++) {
+        const item = data[day] || {};
+        const subject = item.subject || '—';
+        const isOff = subject === 'OFF';
+        const isModel = String(subject).toUpperCase().includes('MODEL');
+        const cls = isOff ? 'off' : (isModel ? 'model' : '');
+        rows += `
+          <tr>
+            <td class="full-routine-date">${escapeHTML(item.dateFormatted || `${day} ${monthName} ${active.year}`)}</td>
+            <td class="full-routine-day">${escapeHTML(item.dayBangla || '')}</td>
+            <td><span class="routine-subject-badge ${cls}">${escapeHTML(subject)}</span></td>
+            <td>${escapeHTML(item.topic || '—')}</td>
+          </tr>`;
+      }
+
+      wrap.innerHTML = `
+        <table class="full-routine-table">
+          <thead><tr><th>তারিখ</th><th>বার</th><th>বিষয়</th><th>টপিক</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    function openFullRoutine() {
+      buildFullRoutineTable();
+      const section = document.getElementById('fullRoutineSection');
+      if (!section) return;
+      section.classList.add('visible');
+      section.setAttribute('aria-hidden','false');
+      setTimeout(() => section.scrollIntoView({behavior:'smooth', block:'start'}), 40);
+    }
+
+    function closeFullRoutine() {
+      const section = document.getElementById('fullRoutineSection');
+      if (!section) return;
+      section.classList.remove('visible');
+      section.setAttribute('aria-hidden','true');
+    }
+
+    function printFullRoutine() {
+      buildFullRoutineTable();
+      const section = document.getElementById('fullRoutineSection');
+      if (!section) return;
+      section.classList.add('visible');
+      section.setAttribute('aria-hidden','false');
+      setTimeout(() => window.print(), 100);
     }
 
     window.addEventListener('online', () => {
