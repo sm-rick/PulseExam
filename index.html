@@ -10,7 +10,7 @@
   <!-- Firebase SDK (Modular v9) & Config -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDl386A9T9TsU4f2V73owB5tAjhf-UpC9A",
@@ -22,150 +22,242 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+
+    // Persistent Firestore cache: the student can still see the last
+    // successfully received routine when the phone is offline.
+    let db;
+    try {
+      db = initializeFirestore(app, {
+        localCache: persistentLocalCache({
+          tabManager: persistentMultipleTabManager()
+        })
+      });
+    } catch (e) {
+      // Safe fallback if persistence was already initialized in this browser.
+      db = getFirestore(app);
+    }
+
+    let unsubscribeRoutine = null;
+
+    function routineCacheKey(monthIndex, year) {
+      return `pulse_student_routine_${year}_${monthIndex}`;
+    }
+
+    function applyRoutinePacket(routinePacket, monthIndex, year, sourceLabel) {
+      window.EMBEDDED_DATA = routinePacket?.data || routinePacket || {};
+      window.EMBEDDED_MONTH = parseInt(monthIndex, 10);
+      window.EMBEDDED_YEAR = parseInt(year, 10);
+      window.currentRoutineSource = sourceLabel;
+      try {
+        localStorage.setItem(routineCacheKey(monthIndex, year), JSON.stringify({
+          data: window.EMBEDDED_DATA, month: Number(monthIndex), year: Number(year),
+          savedAt: new Date().toISOString()
+        }));
+      } catch (e) {}
+      const status = document.getElementById('syncStatus');
+      if (status) status.innerText = sourceLabel === 'cache'
+        ? '● অফলাইন ক্যাশ'
+        : '● লাইভ সিঙ্ক';
+      if (typeof window.renderRoutinePage === 'function') window.renderRoutinePage();
+    }
+
+    function loadLocalRoutineCache(monthIndex, year) {
+      try {
+        const raw = localStorage.getItem(routineCacheKey(monthIndex, year));
+        if (!raw) return false;
+        const cached = JSON.parse(raw);
+        if (!cached || !cached.data) return false;
+        applyRoutinePacket(cached.data, monthIndex, year, 'cache');
+        return true;
+      } catch (e) { return false; }
+    }
+
+    async function findRoutineDoc(monthIndex, year) {
+      const possibleIds = [...new Set([
+        `${year}-${monthIndex}`,
+        `${year}-${monthIndex + 1}`,
+        `${year}-${String(monthIndex + 1).padStart(2, '0')}`,
+        `${year}-${monthIndex}-0`
+      ])];
+      for (const id of possibleIds) {
+        const snap = await getDoc(doc(db, 'routines', id));
+        if (snap.exists()) return { id, snap };
+      }
+      return null;
+    }
 
     async function fetchRoutineFromFirestore(monthIndex, year) {
+      // Show cached data immediately, if available.
+      loadLocalRoutineCache(monthIndex, year);
       try {
-        // সম্ভাব্য সবকটি আইডি ফরম্যাট একসঙ্গে চেক করা হবে যাতে মিস না হয়
-        const possibleIds = [
-          `${year}-${monthIndex}`,                      // যেমন: 2026-8
-          `${year}-${monthIndex + 1}`,                  // যেমন: 2026-9
-          `${year}-${String(monthIndex + 1).padStart(2, '0')}`, // যেমন: 2026-09
-          `${year}-${monthIndex}-0`                     // যদি অন্য কোনো ফরম্যাট হয়
-        ];
-
-        let docSnap = null;
-        for (let id of possibleIds) {
-          const docRef = doc(db, "routines", id);
-          docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            console.log("Found routine with ID:", id);
-            break;
-          }
+        const found = await findRoutineDoc(monthIndex, year);
+        if (found) {
+          applyRoutinePacket(found.snap.data(), monthIndex, year, 'server');
+          return true;
         }
-
-        if (docSnap && docSnap.exists()) {
-          const routinePacket = docSnap.data();
-          window.EMBEDDED_DATA = routinePacket.data || routinePacket;
-          window.EMBEDDED_MONTH = parseInt(monthIndex);
-          window.EMBEDDED_YEAR = parseInt(year);
-          document.getElementById('syncStatus').innerText = "● ফায়ারস্টোর লাইভ ডাটা";
-          if (typeof renderRoutinePage === 'function') {
-            renderRoutinePage();
-          }
-        } else {
-          document.getElementById('syncStatus').innerText = "● এই মাসের রুটিন পাওয়া যায়নি";
-          console.log("No routine found in Firestore for any variations of:", year, monthIndex);
-        }
+        const status = document.getElementById('syncStatus');
+        if (status) status.innerText = loadLocalRoutineCache(monthIndex, year)
+          ? '● অফলাইন ক্যাশ (সর্বশেষ)'
+          : '● এই মাসের রুটিন পাওয়া যায়নি';
+        return false;
       } catch (error) {
-        document.getElementById('syncStatus').innerText = "● কানেকশন এরর";
-        console.error("Error fetching from Firestore:", error);
+        const hadCache = loadLocalRoutineCache(monthIndex, year);
+        const status = document.getElementById('syncStatus');
+        if (status) status.innerText = hadCache ? '● অফলাইন ক্যাশ' : '● কানেকশন এরর';
+        console.error('Error fetching routine:', error);
+        return false;
       }
     }
 
+    function startRoutineLiveSync(monthIndex, year) {
+      if (unsubscribeRoutine) unsubscribeRoutine();
+      // The Editor uses year-monthIndex, e.g. Loading... = 2026-8.
+      const routineRef = doc(db, 'routines', `${year}-${monthIndex}`);
+      unsubscribeRoutine = onSnapshot(routineRef,
+        { includeMetadataChanges: true },
+        (snap) => {
+          if (!snap.exists()) {
+            fetchRoutineFromFirestore(monthIndex, year);
+            return;
+          }
+          const source = snap.metadata.fromCache ? 'cache' : 'server';
+          applyRoutinePacket(snap.data(), monthIndex, year, source);
+          const status = document.getElementById('syncStatus');
+          if (status) {
+            status.innerText = snap.metadata.fromCache
+              ? '● অফলাইন ক্যাশ'
+              : '● লাইভ সিঙ্ক';
+          }
+        },
+        (error) => {
+          const hadCache = loadLocalRoutineCache(monthIndex, year);
+          const status = document.getElementById('syncStatus');
+          if (status) status.innerText = hadCache ? '● অফলাইন ক্যাশ' : '● সিঙ্ক এরর';
+          console.error('Live sync error:', error);
+        }
+      );
+    }
+
+    window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
+    window.startRoutineLiveSync = startRoutineLiveSync;
     window.fetchRoutineFromFirestore = fetchRoutineFromFirestore;
   </script>
 
   <style>
     :root {
-      --primary: #0f766e;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
+      --primary:#d71920;
+      --primary-dark:#a90f15;
+      --primary-soft:#fff1f2;
+      --accent:#f5b700;
+      --bg:#f6f7f9;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --success:#16a34a;
+      --shadow:0 10px 30px rgba(17,24,39,.07);
     }
-    body {
-      font-family: 'Hind Siliguri', sans-serif;
-      background-color: var(--bg);
-      color: var(--text-main);
-      margin: 0;
-      padding: 0;
+    *{box-sizing:border-box}
+    body{
+      font-family:'Hind Siliguri',sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%,rgba(215,25,32,.07),transparent 28%),
+        linear-gradient(180deg,#fafafa 0%,var(--bg) 100%);
+      color:var(--text);margin:0;padding:0;
     }
-
-    .student-header {
-      position: sticky; top: 0; z-index: 1000;
-      background: rgba(255,255,255,.96);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid #e2e8f0;
-      padding: 12px 16px;
+    .student-header{
+      position:sticky;top:0;z-index:1000;
+      background:rgba(255,255,255,.94);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(229,231,235,.9);
+      padding:11px 14px;
     }
-    .student-brand {
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    .student-brand{max-width:560px;margin:auto;display:flex;align-items:center;gap:11px}
+    .student-brand img{
+      width:43px;height:43px;object-fit:contain;background:#fff;border-radius:12px;
+      padding:3px;box-shadow:0 5px 15px rgba(0,0,0,.08)
     }
-    .student-brand > div { flex:1; }
-    .student-brand img { width:40px; height:40px; object-fit:contain; }
-    .student-brand h1 { margin:0; font-size:16px; line-height:1.2; font-weight:800; color:#0f172a; }
-    .student-brand p { margin:2px 0 0; font-size:12px; color:#64748b; font-weight:600; }
-    .sync-status {
-      font-size:10px; color:#64748b; background:#f1f5f9;
-      padding:5px 8px; border-radius:20px; white-space:nowrap;
+    .student-brand>div{flex:1;min-width:0}
+    .student-brand h1{margin:0;font-size:16px;line-height:1.2;font-weight:800;color:#151515}
+    .student-brand p{margin:2px 0 0;font-size:11px;color:var(--muted);font-weight:700}
+    .sync-status{
+      font-size:9px;color:#15803d;background:#f0fdf4;border:1px solid #bbf7d0;
+      padding:5px 8px;border-radius:999px;white-space:nowrap;font-weight:800
     }
-
-    .student-app {
-      max-width:560px; margin:0 auto; padding:12px 12px 30px;
+    .student-app{max-width:560px;margin:0 auto;padding:14px 12px 32px}
+    .student-hero{
+      position:relative;overflow:hidden;color:#fff;border-radius:22px;padding:21px 19px;margin-bottom:13px;
+      background:linear-gradient(135deg,#a90f15 0%,#d71920 58%,#e3262d 100%);
+      box-shadow:0 14px 32px rgba(215,25,32,.22)
     }
-    .student-hero {
-      background:linear-gradient(135deg,#0f766e,#115e59);
-      color:white; border-radius:20px; padding:20px 18px; margin-bottom:12px;
-      box-shadow:0 10px 24px rgba(15,118,110,.18);
+    .student-hero:after{
+      content:"";position:absolute;width:150px;height:150px;border:1px solid rgba(255,255,255,.15);
+      border-radius:50%;right:-50px;top:-55px
     }
-    .hero-month { font-size:12px; font-weight:700; opacity:.82; text-transform:uppercase; letter-spacing:.5px; }
-    .student-hero h2 { margin:3px 0 10px; font-size:24px; line-height:1.15; }
-    .hero-sync { font-size:11px; opacity:.9; display:flex; align-items:center; gap:6px; }
-    .sync-dot { width:7px; height:7px; background:#86efac; border-radius:50%; display:inline-block; }
-
-    .today-card, .selected-card, .mobile-calendar-card {
-      background:#fff; border:1px solid #e2e8f0; border-radius:18px;
-      box-shadow:0 5px 18px rgba(15,23,42,.05); margin-bottom:12px;
+    .student-hero:before{
+      content:"";position:absolute;width:95px;height:95px;border:1px solid rgba(255,255,255,.12);
+      border-radius:50%;right:20px;bottom:-58px
     }
-    .today-card { padding:16px; border-top:4px solid #10b981; }
-    .selected-card { padding:16px; min-height:70px; }
-    .section-label { font-size:11px; font-weight:800; color:#64748b; letter-spacing:.3px; margin-bottom:8px; }
-    .today-loading, .selected-empty { color:#94a3b8; font-size:13px; font-weight:600; }
-    .details-row1 { font-size:16px; color:#0f766e; font-weight:800; margin:0 0 4px; }
-    .details-row2 { font-size:13px; color:#334155; margin:0 0 12px; font-weight:700; }
-    .card-badge {
-      background: #ecfdf5; color: #047857; font-size: 11px; font-weight: 700;
-      padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; border: 1px solid #a7f3d0;
+    .hero-month{font-size:10px;font-weight:800;letter-spacing:.6px;opacity:.86;text-transform:uppercase}
+    .student-hero h2{margin:3px 0 7px;font-size:25px;line-height:1.15;font-weight:800;position:relative;z-index:1}
+    .hero-sync{font-size:11px;opacity:.94;display:flex;align-items:center;gap:7px;position:relative;z-index:1}
+    .sync-dot{width:7px;height:7px;background:#fde68a;border-radius:50%;display:inline-block;box-shadow:0 0 0 4px rgba(253,230,138,.12)}
+    .today-card,.selected-card,.mobile-calendar-card{
+      background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);margin-bottom:13px
     }
-    .card-badge.select-badge { background: #f0f9ff; color: #0369a1; border-color: #bae6fd; }
-    .btn-exam {
-      display:inline-flex; align-items:center; justify-content:center;
-      background:#0f766e; color:#fff; padding:10px 16px; border-radius:10px;
-      text-decoration:none; font-weight:800; font-size:13px; width:100%;
-      box-sizing:border-box;
+    .today-card{padding:16px;border-top:4px solid var(--primary)}
+    .selected-card{padding:16px;min-height:78px}
+    .section-label{font-size:10px;font-weight:800;color:#6b7280;letter-spacing:.25px;margin-bottom:8px}
+    .today-loading,.selected-empty{color:#9ca3af;font-size:13px;font-weight:600}
+    .details-row1{font-size:16px;color:var(--primary);font-weight:800;margin:0 0 3px}
+    .details-row2{font-size:13px;color:#374151;margin:0 0 12px;font-weight:700;line-height:1.5}
+    .card-badge{
+      background:var(--primary-soft);color:var(--primary);font-size:10px;font-weight:800;
+      padding:4px 9px;border-radius:999px;display:inline-block;margin-bottom:8px;border:1px solid #fecdd3
     }
-    .btn-exam.disabled { background:#cbd5e1; color:#64748b; cursor:not-allowed; }
-    .off-notice { background:#fef2f2; border:1px solid #fecaca; color:#991b1b;
-      padding:9px 11px; border-radius:10px; font-size:12px; font-weight:700; }
-
-    .mobile-calendar-card { padding:14px; }
-    .calendar-title-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-    .calendar-kicker { font-size:9px; color:#94a3b8; font-weight:800; letter-spacing:.8px; }
-    .calendar-title-row h3 { margin:1px 0 0; font-size:18px; color:#0f172a; }
-    .today-btn { border:0; background:#ecfdf5; color:#047857; border-radius:8px;
-      padding:7px 10px; font-family:inherit; font-size:11px; font-weight:800; cursor: pointer; }
-    .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
-    .weekday-header { text-align:center; padding:6px 1px; background:#f8fafc; color:#64748b;
-      border-radius:7px; font-size:9px; font-weight:800; }
-    .day-cell { min-height:58px; background:#fff; border:1px solid #e2e8f0; border-radius:9px;
-      padding:4px; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between;
-      box-sizing:border-box; }
-    .day-cell:active { transform:scale(.97); }
-    .day-cell.empty { background:transparent; border:0; cursor:default; }
-    .day-number { font-size:12px; font-weight:800; color:#1e293b; }
-    .day-subject { font-size:8px; line-height:1.1; font-weight:800; background:#0f766e; color:#fff;
-      padding:3px 2px; border-radius:4px; text-align:center; overflow:hidden; white-space:nowrap; }
-    .day-subject.off { background:#64748b; }
-    .day-subject.model { background:#d97706; }
-
-    /* Mobile calendar: show subject abbreviations only. */
-    .day-subject .full-sub { display:none !important; }
-    .day-subject .short-sub { display:inline !important; }
-
-    .student-footer { text-align:center; color:#94a3b8; font-size:11px; padding:8px 0 0; }
-    .student-footer small { display:block; margin-top:2px; font-size:9px; }
+    .card-badge.select-badge{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+    .btn-exam{
+      display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:#fff;
+      padding:11px 15px;border-radius:11px;text-decoration:none;font-weight:800;font-size:13px;width:100%;
+      box-shadow:0 7px 16px rgba(215,25,32,.16);transition:.18s ease
+    }
+    .btn-exam:active{transform:scale(.985)}
+    .btn-exam.disabled{background:#e5e7eb;color:#6b7280;box-shadow:none;cursor:not-allowed}
+    .off-notice{background:#f9fafb;border:1px solid #e5e7eb;color:#4b5563;padding:10px 11px;border-radius:11px;font-size:12px;font-weight:700}
+    .mobile-calendar-card{padding:14px}
+    .calendar-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .calendar-kicker{font-size:9px;color:#9ca3af;font-weight:800;letter-spacing:1px}
+    .calendar-title-row h3{margin:1px 0 0;font-size:19px;color:#111827;font-weight:800}
+    .today-btn{
+      border:1px solid #fecdd3;background:var(--primary-soft);color:var(--primary);border-radius:9px;
+      padding:7px 11px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer
+    }
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+    .weekday-header{
+      text-align:center;padding:6px 1px;background:#f8fafc;color:#6b7280;border-radius:7px;
+      font-size:9px;font-weight:800;border:1px solid #f1f5f9
+    }
+    .day-cell{
+      min-height:62px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:5px;
+      cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;transition:.16s ease
+    }
+    .day-cell:hover{border-color:#fda4af;box-shadow:0 4px 12px rgba(215,25,32,.08)}
+    .day-cell:active{transform:scale(.965)}
+    .day-cell.empty{background:transparent;border:0;cursor:default;box-shadow:none}
+    .day-number{font-size:12px;font-weight:800;color:#1f2937}
+    .day-subject{
+      font-size:8px;line-height:1.1;font-weight:800;background:var(--primary);color:#fff;
+      padding:4px 2px;border-radius:5px;text-align:center;overflow:hidden;white-space:nowrap
+    }
+    .day-subject.off{background:#9ca3af}.day-subject.model{background:#d97706}
+    .short-sub{display:none}
+    .student-footer{text-align:center;color:#9ca3af;font-size:11px;padding:7px 0 0}
+    .student-footer small{display:block;margin-top:2px;font-size:9px}
+    @media(max-width:430px){
+      .student-app{padding-left:9px;padding-right:9px}
+      .day-cell{min-height:58px;padding:4px}.full-sub{display:none}.short-sub{display:inline}
+      .student-hero{padding:19px 16px}.student-hero h2{font-size:23px}
+    }
   </style>
 </head>
 <body>
@@ -202,7 +294,7 @@
       <div class="calendar-title-row">
         <div>
           <span class="calendar-kicker">MONTHLY SCHEDULE</span>
-          <h3 id="calendarTitle">September 2026</h3>
+          <h3 id="calendarTitle">Loading...</h3>
         </div>
         <button class="today-btn" onclick="goToToday()">আজ</button>
       </div>
@@ -219,13 +311,15 @@
 
     <div class="student-footer">
       <div>Pulse Nursing Coaching</div>
-      <small>রুটিন আপডেট পেতে Internet চালু রাখুন</small>
+      <small>নতুন রুটিন পেতে Internet চালু রাখুন</small>
     </div>
   </main>
 
   <script id="embeddedRoutineConfig">
-    var EMBEDDED_MONTH = 8; // September (0-based)
-    var EMBEDDED_YEAR = 2026;
+    // Frontend auto-selects the current Bangladesh month/year.
+    // Firestore remains the only live source; no backend changes are required.
+    var EMBEDDED_MONTH = null;
+    var EMBEDDED_YEAR = null;
     var EMBEDDED_DATA = null;
   </script>
 
@@ -247,16 +341,42 @@
       return url;
     }
 
+    function getDhakaDateParts() {
+      const parts = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Dhaka',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).formatToParts(new Date());
+
+      const out = {};
+      parts.forEach(p => { if (p.type !== 'literal') out[p.type] = p.value; });
+      return {
+        year: parseInt(out.year, 10),
+        monthIndex: parseInt(out.month, 10) - 1,
+        day: parseInt(out.day, 10)
+      };
+    }
+
+    function getActiveRoutineMonth() {
+      const dhaka = getDhakaDateParts();
+      return {
+        monthIndex: EMBEDDED_MONTH !== null ? Number(EMBEDDED_MONTH) : dhaka.monthIndex,
+        year: EMBEDDED_YEAR !== null ? Number(EMBEDDED_YEAR) : dhaka.year
+      };
+    }
+
     function renderRoutinePage() {
-      let monthIndex = EMBEDDED_MONTH !== null ? EMBEDDED_MONTH : 8;
-      let year = EMBEDDED_YEAR !== null ? EMBEDDED_YEAR : 2026;
+      const active = getActiveRoutineMonth();
+      let monthIndex = active.monthIndex;
+      let year = active.year;
       
       const monthName = monthNames[monthIndex];
       const monthShort = monthShortNames[monthIndex];
       const totalDays = getDaysInMonth(monthIndex, year);
       const firstDayOfWeek = new Date(year, monthIndex, 1).getDay();
 
-      document.getElementById('headerSubtitle').innerText = `ফাউন্ডেশন ব্যাচ - ${monthName} ${year} রুটিন`;
+      document.getElementById('headerSubtitle').innerText = `ফাউন্ডেশন ব্যাচ • ${monthName} ${year}`;
 
       let savedData = EMBEDDED_DATA || {};
 
@@ -293,6 +413,7 @@
           <div class="day-cell" onclick="showDetails(${dayNum})">
             <div class="day-number">${dayNum}</div>
             <div class="day-subject ${subClass}">
+              <span class="full-sub">${sub}</span>
               <span class="short-sub">${shortForms[sub] || sub}</span>
             </div>
           </div>
@@ -307,10 +428,10 @@
     }
 
     function initLiveExam(activeMonth, activeYear) {
-      const now = new Date();
-      const todayDate = now.getDate();
-      const todayMonth = now.getMonth();
-      const todayYear = now.getFullYear();
+      const dhaka = getDhakaDateParts();
+      const todayDate = dhaka.day;
+      const todayMonth = dhaka.monthIndex;
+      const todayYear = dhaka.year;
       const box = document.getElementById("liveExamBox");
 
       if (todayMonth === activeMonth && todayYear === activeYear && window.currentRoutineData[todayDate]) {
@@ -351,26 +472,61 @@
     }
 
     function goToToday() {
-      const now = new Date();
-      const monthIndex = EMBEDDED_MONTH !== null ? EMBEDDED_MONTH : 8;
-      const year = EMBEDDED_YEAR !== null ? EMBEDDED_YEAR : 2026;
-      if (now.getMonth() === monthIndex && now.getFullYear() === year && window.currentRoutineData[now.getDate()]) {
-        showDetails(now.getDate());
+      const dhaka = getDhakaDateParts();
+      const active = getActiveRoutineMonth();
+
+      if (dhaka.monthIndex === active.monthIndex &&
+          dhaka.year === active.year &&
+          window.currentRoutineData[dhaka.day]) {
+        showDetails(dhaka.day);
       } else {
         const box = document.getElementById("detailsBox");
         box.innerHTML = '<div class="section-label">📅 আজকের তারিখ</div><div class="selected-empty">এই মাসের রুটিনে আজকের তারিখ নেই।</div>';
       }
     }
 
+    window.addEventListener('online', () => {
+      const el = document.getElementById('syncStatus');
+      if (el) el.innerText = '● আবার অনলাইনে সিঙ্ক হচ্ছে...';
+    });
+    window.addEventListener('offline', () => {
+      const el = document.getElementById('syncStatus');
+      if (el) el.innerText = '● অফলাইন ক্যাশ';
+    });
+
     window.addEventListener('DOMContentLoaded', () => {
-      let currentMonth = 8; // সেপ্টেম্বর
-      let currentYear = 2026;
-      
-      if (typeof window.fetchRoutineFromFirestore === 'function') {
-        window.fetchRoutineFromFirestore(currentMonth, currentYear);
-      } else {
-        renderRoutinePage();
+      const active = getActiveRoutineMonth();
+
+      renderRoutinePage();
+
+      if (typeof window.startRoutineLiveSync === 'function') {
+        window.startRoutineLiveSync(active.monthIndex, active.year);
+      } else if (typeof window.fetchRoutineFromFirestore === 'function') {
+        window.fetchRoutineFromFirestore(active.monthIndex, active.year);
       }
+
+      // Keep the open page aligned with Bangladesh month changes.
+      let lastMonthKey = `${active.year}-${active.monthIndex}`;
+      setInterval(() => {
+        const next = getActiveRoutineMonth();
+        const nextKey = `${next.year}-${next.monthIndex}`;
+
+        if (nextKey !== lastMonthKey) {
+          lastMonthKey = nextKey;
+          EMBEDDED_MONTH = next.monthIndex;
+          EMBEDDED_YEAR = next.year;
+          EMBEDDED_DATA = null;
+          renderRoutinePage();
+
+          if (typeof window.startRoutineLiveSync === 'function') {
+            window.startRoutineLiveSync(next.monthIndex, next.year);
+          } else if (typeof window.fetchRoutineFromFirestore === 'function') {
+            window.fetchRoutineFromFirestore(next.monthIndex, next.year);
+          }
+        } else {
+          initLiveExam(next.monthIndex, next.year);
+        }
+      }, 60000);
     });
   </script>
 </body>
