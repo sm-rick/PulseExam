@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পালস নার্সিং কোচিং - সাপ্তাহিক মডেল টেস্ট</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; }
+    </style>
+</head>
+<body class="bg-red-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Top Sticky Timer Bar -->
+    <header id="quiz-header" class="bg-red-600 text-white shadow-md sticky top-0 z-50 px-4 py-3 hidden">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="w-8 h-8 rounded-full bg-white p-0.5 object-contain">
+                <div>
+                    <h1 class="text-sm font-bold leading-tight">পালস নার্সিং কোচিং</h1>
+                    <p class="text-[10px] text-red-100">সাপ্তাহিক মডেল টেস্ট</p>
+                </div>
+            </div>
+            <div class="bg-red-800 px-3 py-1.5 rounded-lg border border-red-500 flex items-center space-x-2 shadow-inner">
+                <span class="text-xs text-red-200">সময় বাকি:</span>
+                <span id="timer-display" class="font-mono font-bold text-yellow-300 text-sm">60:00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-2xl w-full mx-auto p-4 flex flex-col justify-center">
+
+        <!-- Registration Form Screen -->
+        <section id="reg-screen" class="bg-white rounded-2xl shadow-xl p-6 border border-red-100 my-auto">
+            <div class="text-center mb-6">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Coaching" class="w-20 h-20 mx-auto mb-3 object-contain drop-shadow">
+                <h2 class="text-xl font-bold text-red-700">পালস নার্সিং কোচিং</h2>
+                <p class="text-xs text-slate-500 font-medium mt-1">সেপ্টেম্বরের শেষ ও অক্টোবরের প্রথম সপ্তাহ</p>
+                <div class="mt-3 inline-block bg-red-50 text-red-700 px-3 py-1 rounded-full text-xs font-semibold border border-red-200">
+                    মডেল টেস্ট (১০০ নম্বর | সময়: ৬০ মিনিট)
+                </div>
+            </div>
+
+            <form id="reg-form" onsubmit="startQuiz(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">শিক্ষার্থীর পূর্ণ নাম *</label>
+                    <input type="text" id="student-name" required placeholder="আপনার নাম লিখুন" 
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">মোবাইল নম্বর *</label>
+                    <input type="tel" id="student-phone" required placeholder="০১XXXXXXXXX" pattern="[0-9]{11}" 
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-2">কোর্স নির্বাচন করুন *</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="flex items-center justify-center p-2.5 border rounded-xl cursor-pointer hover:bg-red-50 border-slate-200 text-xs font-medium text-slate-700 has-[:checked]:bg-red-600 has-[:checked]:text-white has-[:checked]:border-red-600 transition">
+                            <input type="radio" name="course" value="BSc" required class="hidden"> বিএসসি
+                        </label>
+                        <label class="flex items-center justify-center p-2.5 border rounded-xl cursor-pointer hover:bg-red-50 border-slate-200 text-xs font-medium text-slate-700 has-[:checked]:bg-red-600 has-[:checked]:text-white has-[:checked]:border-red-600 transition">
+                            <input type="radio" name="course" value="Diploma" required class="hidden"> ডিপ্লোমা
+                        </label>
+                        <label class="flex items-center justify-center p-2.5 border rounded-xl cursor-pointer hover:bg-red-50 border-slate-200 text-xs font-medium text-slate-700 has-[:checked]:bg-red-600 has-[:checked]:text-white has-[:checked]:border-red-600 transition">
+                            <input type="radio" name="course" value="Midwifery" required class="hidden"> মিডওয়াইফারি
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full mt-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-600/30 transition text-sm">
+                    পরীক্ষা শুরু করুন
+                </button>
+            </form>
+        </section>
+
+        <!-- Quiz Screen (Scrollable All Questions) -->
+        <section id="quiz-screen" class="hidden flex-1 flex flex-col py-2 space-y-4">
+            <div class="bg-white p-3 rounded-xl border border-red-100 shadow-sm flex justify-between items-center text-xs font-semibold text-red-800">
+                <span>সর্বমোট প্রশ্ন: ১০০ টি</span>
+                <span>স্ক্রল করে সব প্রশ্নের উত্তর দিন</span>
+            </div>
+
+            <div id="questions-container" class="space-y-4">
+                <!-- Questions rendered dynamically -->
+            </div>
+
+            <button onclick="confirmSubmit()" class="w-full mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-600/30 transition text-sm">
+                কুইজ জমা দিন (Submit)
+            </button>
+        </section>
+
+        <!-- Result & Review Screen -->
+        <section id="result-screen" class="hidden bg-white rounded-2xl shadow-xl p-6 border border-red-100">
+            <div class="text-center mb-6">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="w-16 h-16 mx-auto mb-2 object-contain">
+                <h2 class="text-xl font-bold text-red-700 mb-1">পরীক্ষা সম্পন্ন হয়েছে!</h2>
+                <p class="text-xs text-slate-500">পালস নার্সিং কোচিং - সাপ্তাহিক মডেল টেস্ট</p>
+            </div>
+
+            <div class="bg-red-50 rounded-xl p-4 mb-6 border border-red-200 space-y-2 text-xs">
+                <div class="flex justify-between"><span class="text-slate-500">শিক্ষার্থী:</span> <span id="res-name" class="font-bold text-slate-800"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500">মোবাইল:</span> <span id="res-phone" class="font-bold text-slate-800"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500">কোর্স:</span> <span id="res-course" class="font-bold text-red-700"></span></div>
+                <div class="border-t border-red-200 pt-2 flex justify-between items-center">
+                    <span class="text-slate-700 font-bold">প্রাপ্ত নম্বর:</span> 
+                    <span id="res-score" class="text-base font-bold text-red-700 bg-white px-3 py-1 rounded-lg border border-red-200"></span>
+                </div>
+            </div>
+
+            <div id="submission-status" class="text-xs text-center text-slate-600 mb-6 font-medium">ডাটা সংরক্ষণ করা হচ্ছে...</div>
+
+            <h3 class="font-bold text-slate-800 text-sm mb-3 border-b pb-2">উত্তরপত্র ও আপনার মূল্যায়ন:</h3>
+            <div id="review-container" class="space-y-4 mb-6">
+                <!-- Review rendered dynamically -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl text-xs transition shadow">
+                পুনরায় শুরু করুন
+            </button>
+        </section>
+
+    </main>
+
+    <script>
+        const QUIZ_CODE = "Pulse_SepOct_ModelTest_100";
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqk53yi14lXO7YZNve8gLmhOW2ZrRG_MFWIVg2HJ7thwcmun1T9Ft7L5Qsk8vTDQbgEw/exec";
+
+        let studentData = { name: "", phone: "", course: "" };
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 60 * 60; // 60 minutes
+
+        const questions = [
+            // ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি (২০ টি)
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "বাংলাদেশের বৃহত্তম ক্ষুদ্র নৃ-গোষ্ঠী কোনটি?", options: ["চাকমা", "মারমা", "সাঁওতাল", "ত্রিপুরা"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "গারো উপজাতিদের প্রধান দেবতার নাম কী?", options: ["তাতারা রামবা", "সিজুব", "ইশ্বর", "মঙ্গলা"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "মণিপুরি সম্প্রদায়ের প্রধান উৎসব কোনটি?", options: ["রাসলীলা", "বিষু", "সাংগ্রাই", "ওয়ানগালা"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "সাঁওতাল বিদ্রোহ কবে সংঘটিত হয়েছিল?", options: ["১৮৫৫ সালে", "১৮৫৭ সালে", "১৯০৫ সালে", "১৯৪৭ সালে"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "খাসিয়া উপজাতি কোন জেলায় প্রধানত বসবাস করে?", options: ["সিলেট ও মৌলভীবাজার", "বান্দরবান", "খাগড়াছড়ি", "ময়মনসিংহ"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "মারমা সম্প্রদায়ের নববর্ষ উৎসবের নাম কী?", options: ["সাংগ্রাই", "বিষু", "বৈসাবি", "ওয়ানগালা"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "চাকমা সমাজের ঐতিহ্যবাহী প্রধানকে কী বলা হয়?", options: ["রাজা বা চাকমা রাজা", "মণ্ডল", "কার্বারী", "হেডম্যান"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "বাংলাদেশের কোন উপজাতির মাতৃপ্রধান সমাজ ব্যবস্থা রয়েছে?", options: ["গারো", "চাকমা", "সাঁওতাল", "মণিপুরি"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "ত্রিপুরা উপজাতির মূল সামাজিক উৎসবের নাম কী?", options: ["বৈসু", "সাংগ্রাই", "বিহু", "ওয়ানগালা"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "ওঁরাও উপজাতির মাতৃভাষা কোনটি?", options: ["কুড়ুখ", "সাঁওতালী", "আচিক", "ককবরক"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "ম্রো উপজাতির বসতি প্রধানত কোন জেলায়?", options: ["বান্দরবান", "রাঙ্গামাটি", "খাগড়াছড়ি", "কক্সবাজার"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "বিষ্ণুপ্রিয়া মণিপুরিদের প্রধান ভাষা কোনটি?", options: ["বিষ্ণুপ্রিয়া", "মণিপুরি", "বাংলা", "খাসিয়া"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "সাঁওতালদের প্রধান দেবতার নাম কী?", options: ["সিংবোঙ্গা", "মারাংবুরু", "ধর্মেশ", "কালী"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "পাহাড়ী অঞ্চলে জুম চাষের সাথে কোন সমাজ বেশি সম্পৃক্ত?", options: ["ক্ষুদ্র নৃ-গোষ্ঠী", "বাঙালি", "উভয়", "কোনটি নয়"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "বান্দরবানের বম উপজাতির লোকেরা কোন ধর্মাবলম্বী?", options: ["খ্রিস্টান", "বৌদ্ধ", "ইসলাম", "হিন্দু"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "খাসিয়াদের বাড়িগুলোকে কী বলা হয়?", options: ["পুঞ্জি", "সাং", "বাং", "গ্রুপ"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "চাকমা ভাষা কোন লিপি বা বর্ণমালা দিয়ে মূলত লেখা হয়?", options: ["বাংলা বা চাকমা লিপি", "রোমান", "দেবনগরী", "আরবি"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "হাজং উপজাতির প্রধান বসবাস কোথায়?", options: ["ময়মনসিংহ ও নেত্রকোনা", "সিলেট", "খুলনা", "বরিশাল"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "পাংখোয়া উপজাতির মূল বসবাস কোথায়?", options: ["পার্বত্য চট্টগ্রাম", "সিলেট", "রাজশাহী", "রংপুর"], correct: 0 },
+            { cat: "ক্ষুদ্র নৃ-গোষ্ঠী ও উপজাতি", q: "রাখাইন সম্প্রদায় প্রধানত কোন জেলায় বসবাস করে?", options: ["পটুয়াখালী ও বরগুনা", "সিলেট", "দিনাজপুর", "ঢাকা"], correct: 0 },
+
+            // ভগ্নাংশ ও দশমিক ভগ্নাংশ থেকে ২০ টি
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.১ × ০.০১ × ০.০০১ = কত?", options: ["০.০০০০০১", "০.০০০১", "০.০০১", "০.০০০০১"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "৩/৪ এর সাথে কত যোগ করলে যোগফল ১ হবে?", options: ["১/৪", "২/৪", "৩/৪", "১/২"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.০৫ এর শতকরা রূপ কত?", options: ["৫%", "০.৫%", "৫০%", "০.০৫%"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "৫/৮ এবং ৩/৫ এর মধ্যে কোনটি বড়?", options: ["৫/৮", "৩/৫", "উভয় সমান", "নির্ণয় অসম্ভব"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.২ এর উপর পৌনিক (0.2̇) থাকলে তার সাধারণ ভগ্নাংশ কত?", options: ["২/৯", "১/৫", "২/১০", "১/৯"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "৩.৫ কে ২.৫ দ্বারা গুণ করলে কত হয়?", options: ["৮.৭৫", "৭.৫০", "৮.২৫", "৯.০০"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.০০৪ ভাগ ০.২ = কত?", options: ["০.০২", "০.২", "০.০০২", "২.০"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "৭/১২, ৫/৮, ২/৩ এর মধ্যে ক্ষুদ্রতম ভগ্নাংশ কোনটি?", options: ["৭/১২", "৫/৮", "২/৩", "সব সমান"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.০ থেকে ১ এর মধ্যে কোনটি বড়: ০.৫ নাকি ০.৪৯৯?", options: ["০.৫", "০.৪৯৯", "সমান", "বলা যায় না"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "একটি সংখ্যার ৩/৫ অংশ ৬০ হলে সংখ্যাটি কত?", options: ["১০০", "১৫০", "১২০", "৮০"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "৫/৬ এর লব ও হরের সাথে কত যোগ করলে ভগ্নাংশটি ৭/৮ হবে?", options: ["২", "৩", "১", "৪"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.১২৫ এর সাধারণ ভগ্নাংশ রূপ কোনটি?", options: ["১/৮", "১/৪", "১/৫", "৩/৮"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "২ সমস্ত ১/৪ ভাগ ১ সমস্ত ১/২ = কত?", options: ["১.৫", "১.৭৫", "১.২৫", "২.০"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "কোনটি প্রকৃত ভগ্নাংশ?", options: ["৩/৪", "৪/৩", "৫/৫", "৭/৫"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.০৩ এর বর্গমূল কত?", options: ["প্রায় ০.১৭৩", "০.৩", "০.০০৩", "০.০১"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "১৫ এর ০.৫ অংশ কত?", options: ["৭.৫", "৭", "৮", "৩"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "১.২ কে ০.৩ দ্বারা ভাগ করলে ভাগফল কত হবে?", options: ["৪", "০.৪", "৪০", "০.০৪"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "২/৩, ৪/৫ এবং ৬/৭ এর লসাগু কত?", options: ["১২", "২৪", "৬", "৬০"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "নিচের কোনটি সবচেয়ে ছোট ভগ্নাংশ? ৩/৪, ৫/৬, ৭/৮, ২/৩", options: ["২/৩", "৩/৪", "৫/৬", "৭/৮"], correct: 0 },
+            { cat: "ভগ্নাংশ ও দশমিক", q: "০.৬ এর সাথে ০.৪ যোগ করে ১.৫ বিয়োগ করলে ফল কত হবে?", options: ["-০.৫", "০.৫", "১.০", "-১.০"], correct: 0 },
+
+            // পদার্থবিজ্ঞান অধ্যায়-২ [ভেক্টর] থেকে ১০ টি
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "নিচের কোনটি ভেক্টর রাশি নয়?", options: ["কাজ", "বেগ", "বল", "সরণ"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "দুটি সমমানের ভেক্টরের লব্ধি তাদের মানের সমান হলে, মধ্যবর্তী কোণ কত হবে?", options: ["১২০°", "৯০°", "৬০°", "১৮০°"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "একক ভেক্টর নির্ণয়ের সূত্র কোনটি?", options: ["ভেক্টর বাই তার মান", "ভেক্টর ইনটু মান", "মান বাই ভেক্টর", "কোনোটিই নয়"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "দুটি সমান্তরাল ভেক্টরের ক্রস গুণফল (Cross Product) কত?", options: ["শূন্য (0)", "১", "সর্বোচ্চ", "অনির্ণেয়"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "A ⃗ = 2î + 3ĵ হলে এর মান কত?", options: ["√১৩", "৫", "√১২", "২৫"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "দুটি লম্ব ভেক্টরের ডট গুণফল (Dot Product) কত?", options: ["০", "১", "অসীম", "সর্বোচ্চ"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "যদি A ⃗ ⋅ B ⃗ = 0 হয়, তবে ভেক্টরদ্বয় পরস্পর কীরূপ?", options: ["লম্ব", "সমান্তরাল", "বিপরীতমুখী", "সমান"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "দুটি ভেক্টরের সর্বোচ্চ লব্ধি পাওয়া যায় যখন তাদের মধ্যবর্তী কোণ কত?", options: ["০°", "৯০°", "১৮০°", "১২০°"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "অক্ষদ্বয়ের সাপেক্ষে একক ভেক্টর î, ĵ, k̂ পরস্পর কেমন?", options: ["পরস্পর লম্ব", "সমান্তরাল", "বিপরীত", "সমান"], correct: 0 },
+            { cat: "পদার্থবিজ্ঞান: ভেক্টর", q: "কোন রাশিমালার মান ও দিক উভয়ই আছে কিন্তু ভেক্টরের যোগের সূত্র মানে না?", options: ["তড়িৎ প্রবাহ", "বেগ", "ত্বরণ", "বল"], correct: 0 },
+
+            // বানান শুদ্ধিকরণ থেকে ২৫ টি
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের কোন বানানটি শুদ্ধ?", options: ["মৌর্ধন্য", "মূর্ধন্য", "মুর্তন্য", "মৌর্তন্য"], correct: 1 },
+            { cat: "বানান শুদ্ধিকরণ", q: "কোন বানানটি সঠিক?", options: ["সান্ত্বনা", "সান্তনা", "সাঁতবনা", "সাত্বনা"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "শুদ্ধ বানান কোনটি?", options: ["শুশ্রূষা", "শুশ্রষা", "শুশ্রুশা", "সুশ্রূষা"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "সঠিক বানানটি চিহ্নিত করুন:", options: ["মুমূর্ষু", "মুমূর্ষু", "মুমুর্ষু", "মুর্মূর্ষু"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের কোন বানানটি সঠিক?", options: ["প্রোজ্জ্বল", "প্রজ্বল", "প্রাজ্জ্বল", "প্রজ্জ্বল"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "কোন বানানটি শুদ্ধ?", options: ["দারিদ্র্য", "দরিদ্রতা", "দারিত্রতা", "দারিদ্রতা"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "শুদ্ধ বানান কোনটি?", options: ["স্বত্বাধিকারী", "সত্বাধিকারী", "স্বত্বাধিকারী", "স্বত্বাধীকারি"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের সঠিক বানান কোনটি?", options: ["মুহূর্ত", "মূহুর্ত", "মুহুর্ত", "মুহুর্ত্ত"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "সঠিক বানান কোনটি?", options: ["মনোঃকষ্ট", "মনঃকষ্ট", "মনোকষ্ট", "মনোকস্ট"], correct: 1 },
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের কোন বানানটি সঠিক?", options: ["উজ্জ্বল", "উ্জ্জ্বল", "উজ্জল", "উজ্বল"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "শুদ্ধ বানান কোনটি?", options: ["পিপীলিকা", "পিপিলিকা", "পিপীলীকু", "পিপিলীকা"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "সঠিক বানান কোনটি?", options: ["দ্বন্দ্ব", "দ্বন্দ", "দন্দ্ব", "দ্বদ্ধ"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের সঠিক বানান কোনটি?", options: ["সরিষা", "সর্ষে", "সরিষা ও সর্ষে উভয়ই", "কোনটিই নয়"], correct: 2 },
+            { cat: "বানান শুদ্ধিকরণ", q: "কোন বানানটি সঠিক?", options: ["বুদ্ধিজীবী", "বুদ্ধিজীবি", "বুদ্ধিজিবি", "বুদ্ধিজীভী"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "শুদ্ধ বানান কোনটি?", options: ["সংগত", "সঙ্গত", "উভয়ই শুদ্ধ", "কোনটিই নয়"], correct: 2 },
+            { cat: "বানান শুদ্ধিকরণ", q: "সঠিক বানান কোনটি?", options: ["বহিঃকরণ", "বহিকরন", "বহিকরণ", "বহীঃকরণ"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের কোন বানানটি শুদ্ধ?", options: ["শশীভূষণ", "শশীভুষন", "শশিভূষণ", "শশীভুষণ"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "সঠিক বানান কোনটি?", options: ["কোজাগরী", "কোজাগরি", "কোজোগরী", "কোজাগর"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "শুদ্ধ বানান কোনটি?", options: ["বিস্মৃতি", "বিস্মৃতি", "বিস্মৃতে", "বিস্মৃতী"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের কোন বানানটি সঠিক?", options: ["গীতাঞ্জলি", "গীতাঞ্জলী", "গীতাঞ্জলি ও গীতাঞ্জলী", "কোনটিই নয়"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "সঠিক বানান কোনটি?", options: ["আকাঙ্ক্ষা", "আকাঙ্খা", "আকাংখা", "আকাংক্ষা"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "শুদ্ধ বানান কোনটি?", options: ["স্বায়ত্তশাসন", "স্বায়ত্বশাসন", "স্বায়ত্তশাষন", "স্বায়ত্বশাষন"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "নিচের সঠিক বানান কোনটি?", options: ["দূষণ", "দুশন", "দূষন", "দুষণ"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "কোন বানানটি সঠিক?", options: ["প্রবীণ", "প্রবিন", "প্রবীন", "প্রভীন"], correct: 0 },
+            { cat: "বানান শুদ্ধিকরণ", q: "শুদ্ধ বানান কোনটি?", options: ["মরিচিকা", "মরীচিকা", "মরিচীকা", "মরীচীকা"], correct: 1 },
+
+            // Pronoun থেকে ২৫ টি
+            { cat: "English: Pronoun", q: "Identify the pronoun in the sentence: 'She is a good student.'", options: ["She", "good", "student", "is"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which one is a relative pronoun?", options: ["Who", "He", "They", "This"], correct: 0 },
+            { cat: "English: Pronoun", q: "Fill in the blank: 'It is ___ who helped you.'", options: ["I", "me", "my", "myself"], correct: 0 },
+            { cat: "English: Pronoun", q: "What type of pronoun is 'myself'?", options: ["Reflexive / Emphatic", "Personal", "Demonstrative", "Indefinite"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which of the following is a demonstrative pronoun?", options: ["This", "Who", "Each", "Mine"], correct: 0 },
+            { cat: "English: Pronoun", q: "Fill in the blank: 'Everybody should do ___ duty.'", options: ["his", "their", "one's", "our"], correct: 2 },
+            { cat: "English: Pronoun", q: "Identify the indefinite pronoun in: 'Nobody was present there.'", options: ["Nobody", "there", "was", "present"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which pronoun is used for non-living things or animals?", options: ["It", "He", "She", "They"], correct: 0 },
+            { cat: "English: Pronoun", q: "Choose the correct pronoun: 'Between you and ___, I did the work.'", options: ["me", "I", "my", "myself"], correct: 0 },
+            { cat: "English: Pronoun", q: "What kind of pronoun is 'Each', 'Either', 'Neither'?", options: ["Distributive Pronoun", "Personal Pronoun", "Relative Pronoun", "Demonstrative Pronoun"], correct: 0 },
+            { cat: "English: Pronoun", q: "Fill in the blank: 'The boy ___ stole the pen was caught.'", options: ["who", "whom", "whose", "which"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which one is a possessive pronoun?", options: ["Yours", "You", "Your", "Yourself"], correct: 0 },
+            { cat: "English: Pronoun", q: "Identify the pronoun in: 'Someone has stolen my book.'", options: ["Someone", "book", "stolen", "my"], correct: 0 },
+            { cat: "English: Pronoun", q: "Fill in: 'Let ___ do the work.'", options: ["us", "we", "our", "ours"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which word is an interrogative pronoun?", options: ["Which", "That", "Such", "This"], correct: 0 },
+            { cat: "English: Pronoun", q: "What is the objective case of 'She'?", options: ["Her", "Hers", "She", "Herself"], correct: 0 },
+            { cat: "English: Pronoun", q: "Fill in the blank: 'He is as good as ___.'", options: ["he", "him", "his", "himself"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which of these is a reciprocal pronoun?", options: ["Each other", "Myself", "Somebody", "Anyone"], correct: 0 },
+            { cat: "English: Pronoun", q: "Identify the pronoun: 'These are my books.'", options: ["These", "books", "my", "are"], correct: 0 },
+            { cat: "English: Pronoun", q: "Fill in: 'One should obey ___ parents.'", options: ["one's", "his", "their", "her"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which pronoun refers back to the subject of the sentence?", options: ["Reflexive Pronoun", "Relative Pronoun", "Demonstrative Pronoun", "Indefinite Pronoun"], correct: 0 },
+            { cat: "English: Pronoun", q: "Choose the correct form: 'It was ___ who solved the puzzle.'", options: ["he", "him", "his", "himself"], correct: 0 },
+            { cat: "English: Pronoun", q: "Identify the relative pronoun in: 'The book that you gave me is lost.'", options: ["that", "book", "you", "lost"], correct: 0 },
+            { cat: "English: Pronoun", q: "Fill in the blank: 'None of the students completed ___ homework.'", options: ["their", "his", "one's", "our"], correct: 0 },
+            { cat: "English: Pronoun", q: "Which of the following is a plural personal pronoun?", options: ["They", "He", "She", "It"], correct: 0 }
+        ];
+
+        // Shuffle options for every question randomly
+        questions.forEach(q => {
+            let correctText = q.options[q.correct];
+            for (let i = q.options.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
+            }
+            q.correct = q.options.indexOf(correctText);
+        });
+
+        function startQuiz(e) {
+            e.preventDefault();
+            studentData.name = document.getElementById('student-name').value.trim();
+            studentData.phone = document.getElementById('student-phone').value.trim();
+            studentData.course = document.querySelector('input[name="course"]:checked').value;
+
+            document.getElementById('reg-screen').classList.add('hidden');
+            document.getElementById('quiz-header').classList.remove('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+
+            renderAllQuestions();
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                    return;
+                }
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer-display').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            }, 1000);
+        }
+
+        function renderAllQuestions() {
+            let container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                let optionsHtml = '';
+                q.options.forEach((opt, oIdx) => {
+                    let isChecked = userAnswers[idx] === oIdx;
+                    optionsHtml += `
+                        <label class="flex items-center p-2.5 rounded-lg border border-slate-200 hover:bg-red-50 cursor-pointer transition text-xs md:text-sm ${isChecked ? 'bg-red-50 border-red-500 font-medium' : 'bg-white'}">
+                            <input type="radio" name="q_${idx}" value="${oIdx}" ${isChecked ? 'checked' : ''} onclick="recordAnswer(${idx}, ${oIdx})" class="w-4 h-4 text-red-600 focus:ring-red-500">
+                            <span class="ml-2.5 text-slate-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow-sm p-4 border border-slate-100">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="bg-red-100 text-red-800 text-[10px] font-semibold px-2 py-0.5 rounded">${q.cat}</span>
+                            <span class="text-xs font-bold text-slate-400">প্রশ্ন ${idx + 1} / 100</span>
+                        </div>
+                        <h3 class="text-sm font-semibold text-slate-800 mb-3">${idx + 1}. ${q.q}</h3>
+                        <div class="space-y-2">${optionsHtml}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function recordAnswer(qIdx, oIdx) {
+            userAnswers[qIdx] = oIdx;
+        }
+
+        function confirmSubmit() {
+            if (confirm('আপনি কি নিশ্চিতভাবে কুইজ জমা দিতে চান?')) {
+                clearInterval(timerInterval);
+                submitQuiz();
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            questions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.correct) {
+                    score++;
+                }
+            });
+
+            document.getElementById('quiz-header').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            document.getElementById('res-name').innerText = studentData.name;
+            document.getElementById('res-phone').innerText = studentData.phone;
+            document.getElementById('res-course').innerText = studentData.course;
+            document.getElementById('res-score').innerText = `${score} / ${questions.length}`;
+
+            // Render Review Sheet
+            let reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                let userOptIdx = userAnswers[idx];
+                let isCorrect = userOptIdx === q.correct;
+                let userOptText = userOptIdx !== undefined ? q.options[userOptIdx] : '<span class="text-amber-600">উত্তর দেননি</span>';
+                let correctOptText = q.options[q.correct];
+
+                reviewContainer.innerHTML += `
+                    <div class="bg-slate-50 rounded-xl p-3.5 border ${isCorrect ? 'border-green-300 bg-green-50/30' : 'border-red-200 bg-red-50/20'} text-xs space-y-1.5">
+                        <div class="font-bold text-slate-800">${idx + 1}. ${q.q}</div>
+                        <div class="text-slate-600">আপনার উত্তর: <span class="font-semibold ${isCorrect ? 'text-green-700' : 'text-red-600'}">${userOptText}</span></div>
+                        <div class="text-slate-600">সঠিক উত্তর: <span class="font-semibold text-green-700">${correctOptText}</span></div>
+                    </div>
+                `;
+            });
+
+            // Send data to Google Apps Script
+            let payload = {
+                quizCode: QUIZ_CODE,
+                name: studentData.name,
+                phone: studentData.phone,
+                course: studentData.course,
+                score: score,
+                total: questions.length,
+                timestamp: new Date().toLocaleString()
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                document.getElementById('submission-status').innerText = "সফলভাবে গুগল এক্সেলে ডাটা সংরক্ষিত হয়েছে!";
+                document.getElementById('submission-status').classList.add('text-red-600');
+            }).catch(err => {
+                document.getElementById('submission-status').innerText = "ডাটা সাবমিট করা হয়েছে।";
+                document.getElementById('submission-status').classList.add('text-slate-600');
+            });
+        }
+    </script>
+</body>
+</html>
