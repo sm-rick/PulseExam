@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pulse Nursing Coaching | September Monthly Mega Model Test</title>
+<style>
+:root{
+  --red:#d71920; --dark:#111827; --muted:#6b7280; --bg:#f4f6f8;
+  --card:#fff; --green:#16a34a; --orange:#f59e0b; --border:#e5e7eb;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:"Noto Sans Bengali","Nirmala UI",Arial,sans-serif;color:#172033}
+button,input{font:inherit}
+.topbar{
+ position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid var(--border);
+ padding:8px 10px;box-shadow:0 2px 12px rgba(0,0,0,.08)
+}
+.header-inner{max-width:900px;margin:auto;display:flex;align-items:center;gap:9px;min-width:0}
+.logo{width:42px;height:42px;object-fit:contain;flex:0 0 42px}
+.exam-title{font-size:14px;font-weight:800;line-height:1.25;flex:1;min-width:0}
+.exam-title small{display:block;color:var(--red);font-size:11px;margin-top:2px}
+.timer{
+ background:#111827;color:#fff;border-radius:8px;padding:7px 9px;min-width:70px;
+ text-align:center;font-weight:900;font-size:16px;letter-spacing:.5px
+}
+.timer.warning{background:#b91c1c;animation:pulse .9s infinite}
+@keyframes pulse{50%{transform:scale(1.04)}}
+.container{max-width:900px;margin:auto;padding:14px 10px 40px}
+.card{background:var(--card);border-radius:16px;border:1px solid var(--border);box-shadow:0 5px 20px rgba(0,0,0,.05);padding:18px;margin-bottom:14px}
+.brand{text-align:center}
+.brand img{width:88px;height:88px;object-fit:contain}
+h1{font-size:23px;margin:6px 0;color:var(--dark)}
+h2{font-size:19px;margin:0 0 12px}
+.subtitle{color:var(--muted);font-size:13px;line-height:1.6}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.info{background:#fff5f5;border:1px solid #ffd8d8;border-radius:11px;padding:10px;text-align:center}
+.info b{display:block;color:var(--red);font-size:18px}
+.info span{font-size:11px;color:var(--muted)}
+label.field{display:block;font-weight:700;font-size:13px;margin:13px 0 6px}
+input[type=text],input[type=tel]{
+ width:100%;padding:13px;border:1px solid #d5d9df;border-radius:10px;outline:none;background:#fff
+}
+input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(215,25,32,.08)}
+.courses{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.course{position:relative}
+.course input{position:absolute;opacity:0}
+.course label{
+ display:block;text-align:center;border:1px solid #d5d9df;border-radius:10px;padding:12px 5px;font-weight:800;cursor:pointer
+}
+.course input:checked+label{background:#fff0f0;border-color:var(--red);color:var(--red)}
+.primary,.submit-btn{
+ width:100%;border:0;border-radius:11px;padding:14px;background:var(--red);color:#fff;
+ font-weight:900;cursor:pointer;margin-top:16px
+}
+.primary:disabled{opacity:.55;cursor:not-allowed}
+.notice{font-size:12px;color:#6b7280;line-height:1.6;margin-top:10px}
+.progress-wrap{position:sticky;top:59px;z-index:900;background:var(--bg);padding:8px 0}
+.progress-line{height:7px;background:#e5e7eb;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:var(--red);width:0;transition:.2s}
+.progress-text{text-align:center;font-size:11px;font-weight:800;color:#667085;margin-top:4px}
+.qcard{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;margin:10px 0}
+.qhead{display:flex;gap:8px;align-items:flex-start}
+.qnum{background:#111827;color:#fff;border-radius:7px;padding:4px 7px;font-size:12px;font-weight:900;flex:0 0 auto}
+.subject{font-size:10px;color:var(--red);font-weight:900;text-transform:uppercase;margin-bottom:3px}
+.question{font-size:15px;font-weight:800;line-height:1.6}
+.options{display:grid;gap:8px;margin-top:12px}
+.option{
+ display:flex;gap:8px;align-items:flex-start;border:1px solid #e1e5ea;border-radius:10px;padding:10px;cursor:pointer;
+ font-size:13px;line-height:1.5;background:#fff
+}
+.option:hover{background:#fafafa}
+.option input{margin-top:3px;accent-color:var(--red)}
+.option.selected{border-color:#e63946;background:#fff5f5}
+.submit-area{margin:20px 0}
+.result-hero{text-align:center;background:linear-gradient(135deg,#fff,#fff5f5)}
+.score{font-size:52px;font-weight:1000;color:var(--red);line-height:1}
+.score small{font-size:18px;color:#777}
+.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:15px}
+.stat{border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px}
+.stat span{font-size:11px;color:var(--muted)}
+.correct{color:var(--green)!important}.wrong{color:#dc2626!important}.neutral{color:#475467!important}
+.review{border:1px solid var(--border);border-radius:12px;padding:13px;margin:9px 0;background:#fff}
+.review.correct-bg{border-left:4px solid var(--green)}
+.review.wrong-bg{border-left:4px solid #dc2626}
+.review-title{font-weight:900;font-size:13px;line-height:1.5}
+.answer-line{font-size:12px;margin-top:7px;line-height:1.6}
+.badge{display:inline-block;border-radius:99px;padding:3px 7px;font-size:10px;font-weight:900}
+.badge.ok{background:#dcfce7;color:#166534}.badge.no{background:#fee2e2;color:#991b1b}.badge.skip{background:#f3f4f6;color:#4b5563}
+.lb-table{width:100%;border-collapse:collapse;font-size:12px}
+.lb-table th,.lb-table td{padding:9px 5px;border-bottom:1px solid var(--border);text-align:left}
+.lb-table th{background:#f8fafc;font-size:11px}
+.rank{font-weight:1000;color:var(--red)}
+.loading{text-align:center;color:#667085;padding:15px}
+.hidden{display:none!important}
+.footer{text-align:center;color:#8a93a3;font-size:11px;padding:18px}
+@media(max-width:520px){
+ .container{padding:10px 7px 35px}.card{padding:13px;border-radius:13px}
+ .exam-title{font-size:12px}.exam-title small{font-size:9px}.logo{width:38px;height:38px;flex-basis:38px}.timer{font-size:14px;min-width:66px}
+ h1{font-size:20px}.info-grid{gap:5px}.info{padding:8px 4px}.info b{font-size:16px}
+ .question{font-size:14px}.option{font-size:12px;padding:9px}.qcard{padding:11px}
+ .progress-wrap{top:55px}
+}
+</style>
+</head>
+<body>
+
+<div id="examHeader" class="topbar hidden">
+  <div class="header-inner">
+    <img class="logo" src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Logo">
+    <div class="exam-title">সেপ্টেম্বর মাসিক মেগা মডেল টেস্ট<small>Pulse Nursing Coaching</small></div>
+    <div id="timer" class="timer">60:00</div>
+  </div>
+</div>
+
+<main class="container">
+
+<section id="startScreen" class="card">
+  <div class="brand">
+    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Coaching Logo">
+    <h1>সেপ্টেম্বর মাসিক মেগা মডেল টেস্ট</h1>
+    <div class="subtitle">পালস নার্সিং কোচিং-এর পেইড ব্যাচে গত এক মাসে সম্পন্ন ক্লাসের টপিকসমূহের উপর বিশেষ মডেল টেস্ট</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info"><b>১০০</b><span>মোট প্রশ্ন</span></div>
+    <div class="info"><b>১০০</b><span>পূর্ণমান</span></div>
+    <div class="info"><b>৬০</b><span>মিনিট</span></div>
+  </div>
+
+  <label class="field">শিক্ষার্থীর নাম</label>
+  <input id="studentName" type="text" placeholder="আপনার পূর্ণ নাম লিখুন" autocomplete="name">
+
+  <label class="field">ফোন নম্বর</label>
+  <input id="phone" type="tel" placeholder="01XXXXXXXXX" inputmode="numeric" autocomplete="tel">
+
+  <label class="field">কোর্স নির্বাচন করুন</label>
+  <div class="courses">
+    <div class="course"><input id="bsc" name="course" value="BSc" type="radio"><label for="bsc">BSc</label></div>
+    <div class="course"><input id="dip" name="course" value="Diploma" type="radio"><label for="dip">Diploma</label></div>
+    <div class="course"><input id="mid" name="course" value="Midwifery" type="radio"><label for="mid">Midwifery</label></div>
+  </div>
+
+  <button id="startBtn" class="primary">পরীক্ষা শুরু করুন</button>
+  <div class="notice">পরীক্ষা শুরু করার পর ৬০ মিনিটের কাউন্টডাউন চলবে। সময় শেষ হলে পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হবে।</div>
+</section>
+
+<section id="examScreen" class="hidden">
+  <div class="progress-wrap">
+    <div class="progress-line"><div id="progressFill" class="progress-fill"></div></div>
+    <div id="progressText" class="progress-text">0 / 100 উত্তর দেওয়া হয়েছে</div>
+  </div>
+  <div id="questions"></div>
+  <div class="submit-area">
+    <button id="submitBtn" class="submit-btn">পরীক্ষা জমা দিন</button>
+  </div>
+</section>
+
+<section id="resultScreen" class="hidden">
+  <div class="card result-hero">
+    <h2>🎉 পরীক্ষার ফলাফল</h2>
+    <div class="subtitle" id="resultStudent"></div>
+    <div class="score"><span id="score">0</span><small> / 100</small></div>
+    <div id="resultMessage" class="subtitle"></div>
+    <div class="result-grid">
+      <div class="stat"><b id="attempted">0</b><span>দাগানো প্রশ্ন</span></div>
+      <div class="stat"><b id="correct" class="correct">0</b><span>সঠিক</span></div>
+      <div class="stat"><b id="wrong" class="wrong">0</b><span>ভুল</span></div>
+      <div class="stat"><b id="unanswered" class="neutral">0</b><span>উত্তরহীন</span></div>
+      <div class="stat"><b id="percentage">0%</b><span>শতকরা</span></div>
+      <div class="stat"><b id="timeTaken">00:00</b><span>সময় লেগেছে</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏆 Leaderboard</h2>
+    <div id="leaderboard" class="loading">Leaderboard লোড হচ্ছে...</div>
+  </div>
+
+  <div class="card">
+    <h2>📋 প্রশ্নপত্র ও উত্তর বিশ্লেষণ</h2>
+    <div class="subtitle">প্রতিটি প্রশ্নে আপনার দাগানো উত্তর ও সঠিক উত্তর দেখানো হয়েছে।</div>
+    <div id="review"></div>
+  </div>
+</section>
+
+<div class="footer">Pulse Nursing Coaching • নার্স গড়ার প্রত্যয়ে</div>
+</main>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyZOwEBY3Sru_u1-hPdOPqfwrb_4e4WfBdNkcpeK47T25fnPA4fqIwvQNgutxaT8-E/exec";
+const TOTAL_TIME = 60 * 60;
+let remaining = TOTAL_TIME, timerInterval = null, startTime = null, submitted = false;
+let questions = [], shuffledQuestions = [];
+
+/*
+  Each question:
+  s = subject
+  q = question
+  o = options
+  a = correct option index
+*/
+const questionsRaw = [
+["বাংলা","‘বিদ্যালয়’ শব্দের সন্ধিবিচ্ছেদ কোনটি?",["বিদ্যা + আলয়","বিদ্য + আলয়","বিদ্যা + লয়","বিদ + আলয়"],0],
+["ইংরেজি","Which word is a noun?",["Beautiful","Honesty","Quickly","Run"],1],
+["গণিত","নিচের কোনটি অমূলদ সংখ্যা?",["0.25","√2","3/4","1.5"],1],
+["বিজ্ঞান","কোন অবস্থায় পদার্থের নির্দিষ্ট আকার ও আয়তন থাকে?",["কঠিন","তরল","গ্যাস","প্লাজমা"],0],
+["সাধারণ জ্ঞান","বাংলাদেশের রাজধানী কোনটি?",["চট্টগ্রাম","ঢাকা","রাজশাহী","খুলনা"],1],
+["বাংলা","‘রহিমকে ডাকো’ বাক্যে ‘রহিমকে’ কোন কারক?",["কর্তৃকারক","কর্মকারক","অপাদান কারক","অধিকরণ কারক"],1],
+["ইংরেজি","In the sentence ‘She sings sweetly’, the word ‘sweetly’ is a—",["Noun","Adjective","Adverb","Pronoun"],2],
+["গণিত","৫টি কলমের দাম ১০০ টাকা হলে ৮টি কলমের দাম কত?",["১৪০","১৫০","১৬০","১৮০"],2],
+["বিজ্ঞান","ভৌত রাশি পরিমাপের জন্য কোনটি প্রয়োজন?",["একক","অনুমান","গল্প","উপমা"],0],
+["সাধারণ জ্ঞান","বাংলাদেশের দক্ষিণে কোন সাগর অবস্থিত?",["আরব সাগর","বঙ্গোপসাগর","লাক্ষাদ্বীপ সাগর","ক্যারিবিয়ান সাগর"],1],
+["বাংলা","‘ঘরে বসে পড়ে’ বাক্যে ‘ঘরে’ কোন কারক?",["অধিকরণ","করণ","কর্ম","সম্প্রদান"],0],
+["ইংরেজি","Which is a pronoun?",["They","Teacher","Beautiful","Slowly"],0],
+["গণিত","3/4 + 1/8 = ?",["5/8","7/8","1","3/8"],1],
+["বিজ্ঞান","গ্যাসীয় পদার্থের কণাগুলোর মধ্যে দূরত্ব সাধারণত—",["খুব কম","বেশি","শূন্য","স্থির"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের জাতীয় ফুল কোনটি?",["গোলাপ","শাপলা","জবা","বেলি"],1],
+["বাংলা","‘ছেলেরা মাঠে খেলছে’ বাক্যে ‘ছেলেরা’ কোন কারক?",["কর্ম","কর্তৃ","অধিকরণ","করণ"],1],
+["ইংরেজি","‘Book’ is a—",["Common noun","Proper noun","Pronoun","Adverb"],0],
+["গণিত","২৫% of ২০০ কত?",["২৫","৪০","৫০","৭৫"],2],
+["বিজ্ঞান","কোষের নিয়ন্ত্রণ কেন্দ্র কোনটি?",["রাইবোসোম","নিউক্লিয়াস","মাইটোকন্ড্রিয়া","ভ্যাকুওল"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের বৃহত্তম ম্যানগ্রোভ বন কোনটি?",["মধুপুর","সুন্দরবন","ভাওয়াল","লাউয়াছড়া"],1],
+["বাংলা","‘কলম দিয়ে লিখি’ বাক্যে ‘কলম দিয়ে’ কোন কারক?",["করণ","কর্ম","অপাদান","সম্প্রদান"],0],
+["ইংরেজি","Which is an adjective?",["Beauty","Beautiful","Beautify","Beautifully"],1],
+["গণিত","একটি পণ্যের ক্রয়মূল্য ৫০০ টাকা ও বিক্রয়মূল্য ৬০০ টাকা। লাভ কত?",["৫০","৭৫","১০০","১২০"],2],
+["বিজ্ঞান","উদ্ভিদ কোষে কোনটি থাকে কিন্তু প্রাণী কোষে সাধারণত থাকে না?",["নিউক্লিয়াস","কোষপ্রাচীর","রাইবোসোম","কোষঝিল্লি"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের দীর্ঘতম সমুদ্রসৈকত কোনটি?",["কুয়াকাটা","কক্সবাজার","পতেঙ্গা","সেন্ট মার্টিন"],1],
+["বাংলা","‘মায়ের জন্য ওষুধ কিনলাম’ বাক্যে ‘মায়ের জন্য’ কোন কারক?",["সম্প্রদান","অপাদান","করণ","কর্ম"],0],
+["ইংরেজি","The plural of ‘Child’ is—",["Childs","Children","Childes","Childrens"],1],
+["গণিত","0.75 কে ভগ্নাংশে প্রকাশ করলে কত?",["1/2","2/3","3/4","4/5"],2],
+["বিজ্ঞান","জীবকোষের শক্তি উৎপাদনের প্রধান অঙ্গাণু—",["গলজি বডি","মাইটোকন্ড্রিয়া","লাইসোসোম","ক্লোরোপ্লাস্ট"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের সর্বোচ্চ পর্বতশৃঙ্গ হিসেবে পরিচিত কোনটি?",["তাজিংডং","কেওক্রাডং","চিম্বুক","সাকা হাফং"],3],
+["বাংলা","‘ঢাকা থেকে এলাম’ বাক্যে ‘ঢাকা থেকে’ কোন কারক?",["অপাদান","করণ","কর্তৃ","অধিকরণ"],0],
+["ইংরেজি","‘Honesty’ is a/an—",["Abstract noun","Proper noun","Collective noun","Material noun"],0],
+["গণিত","৪ : ৫ অনুপাতে প্রথম রাশি ২০ হলে দ্বিতীয় রাশি কত?",["২২","২৫","৩০","৪০"],1],
+["বিজ্ঞান","টিস্যু হলো—",["একটি অঙ্গ","সমজাতীয় কোষের সমষ্টি","একটি অণু","একটি তরল"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের স্বাধীনতা দিবস—",["২১ ফেব্রুয়ারি","২৬ মার্চ","১৬ ডিসেম্বর","১৪ এপ্রিল"],1],
+["বাংলা","‘বৃক্ষের পাতা ঝরে’ বাক্যে ‘বৃক্ষের’ কোন বিভক্তি?",["কে","র","তে","এ"],1],
+["ইংরেজি","Which sentence contains a proper noun?",["He is a boy.","Dhaka is a city.","She sings well.","They play football."],1],
+["গণিত","২/৫ ÷ ১/১০ = ?",["২","৪","৫","৬"],2],
+["বিজ্ঞান","জীবনের মৌলিক একক কী?",["টিস্যু","অঙ্গ","কোষ","অঙ্গতন্ত্র"],2],
+["সাধারণ জ্ঞান","বাংলাদেশের জাতীয় সংসদ ভবনের স্থপতি কে?",["লুই আই কান","এফ আর খান","মুজহারুল ইসলাম","ল্য কোরবুজিয়ে"],0],
+["বাংলা","‘রামকে বই দাও’ বাক্যে ‘রামকে’ কোন কারক?",["কর্তৃ","কর্ম","সম্প্রদান","অপাদান"],2],
+["ইংরেজি","The feminine gender of ‘King’ is—",["Lady","Queen","Woman","Princess"],1],
+["গণিত","একটি সংখ্যার 20% = ৫০ হলে সংখ্যাটি কত?",["২০০","২৫০","৩০০","৩৫০"],1],
+["বিজ্ঞান","তরল পদার্থের নির্দিষ্ট—",["আকার আছে, আয়তন নেই","আয়তন আছে, আকার নেই","আকার ও আয়তন নেই","কোনোটিই নয়"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের বৃহত্তম জেলা (আয়তনে) কোনটি?",["রাঙামাটি","চট্টগ্রাম","খুলনা","সিলেট"],0],
+["বাংলা","‘নদীতে মাছ আছে’ বাক্যে ‘নদীতে’ কোন কারক?",["অধিকরণ","করণ","কর্ম","অপাদান"],0],
+["ইংরেজি","Which is an adverb?",["Careful","Carefully","Care","Caring"],1],
+["গণিত","৮০০ টাকার উপর ১৫% লাভ হলে বিক্রয়মূল্য কত?",["৮৮০","৯০০","৯২০","৯৪০"],2],
+["বিজ্ঞান","পরিমাপের আন্তর্জাতিক একক পদ্ধতিকে কী বলা হয়?",["CGS","FPS","SI","MKS"],2],
+["সাধারণ জ্ঞান","বাংলাদেশে মোট কয়টি বিভাগ রয়েছে?",["৬","৭","৮","৯"],2],
+["বাংলা","‘সে স্কুলে যায়’ বাক্যে ‘স্কুলে’ কোন বিভক্তি?",["এ","কে","র","তে"],3],
+["ইংরেজি","Which word is a collective noun?",["Team","Boy","Water","Honesty"],0],
+["গণিত","একটি পণ্যের দাম ১০০০ টাকা। ১০% ছাড় দিলে দাম কত?",["৮৫০","৯০০","৯৫০","৯৯০"],1],
+["বিজ্ঞান","পরমাণুর কেন্দ্রে থাকে—",["ইলেকট্রন","প্রোটন ও নিউট্রন","শুধু ইলেকট্রন","ফোটন"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের প্রধান নদীগুলোর একটি কোনটি?",["নাইল","আমাজন","পদ্মা","মিসিসিপি"],2],
+["বাংলা","‘বালকটি কলমে লিখে’ বাক্যে ‘কলমে’ কোন কারক?",["করণ","অধিকরণ","কর্ম","সম্প্রদান"],0],
+["ইংরেজি","The plural of ‘Mouse’ is—",["Mouses","Mice","Mousees","Meese"],1],
+["গণিত","7/8 - 1/4 = ?",["3/8","5/8","6/8","7/8"],1],
+["বিজ্ঞান","ক্লোরোফিল কোথায় থাকে?",["মাইটোকন্ড্রিয়ায়","ক্লোরোপ্লাস্টে","নিউক্লিয়াসে","রাইবোসোমে"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের সর্ববৃহৎ সমুদ্রবন্দর কোনটি?",["চট্টগ্রাম বন্দর","মোংলা বন্দর","পায়রা বন্দর","নারায়ণগঞ্জ বন্দর"],0],
+["বাংলা","‘রহিমের বই’— এখানে ‘রহিমের’ কোন বিভক্তি?",["কে","র","এ","তে"],1],
+["ইংরেজি","‘Information’ is generally a—",["Countable noun","Uncountable noun","Proper noun","Collective noun"],1],
+["গণিত","৩টি খাতার দাম ৯০ টাকা হলে ৭টি খাতার দাম কত?",["১৮০","২০০","২১০","২৩০"],2],
+["বিজ্ঞান","কোষঝিল্লির প্রধান কাজ কী?",["কোষকে নিয়ন্ত্রণহীন করা","কোষে পদার্থের প্রবেশ ও নির্গমন নিয়ন্ত্রণ","শক্তি উৎপাদন","প্রোটিন তৈরি"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের জাতীয় কবি কে?",["রবীন্দ্রনাথ ঠাকুর","কাজী নজরুল ইসলাম","জসীমউদ্দীন","শামসুর রাহমান"],1],
+["বাংলা","‘বাঘে গরুতে এক ঘাটে জল খায়’ বাক্যে ‘বাঘে’ কোন কারক?",["করণ","কর্তৃ","অধিকরণ","অপাদান"],1],
+["ইংরেজি","Which word is a pronoun in ‘This is my book’?",["This","is","my","book"],0],
+["গণিত","0.125 = ?",["1/4","1/8","1/10","1/12"],1],
+["বিজ্ঞান","মানবদেহের টিস্যুর একটি ধরন হলো—",["এপিথেলিয়াল টিস্যু","আলোক টিস্যু","ধাতব টিস্যু","গ্যাস টিস্যু"],0],
+["সাধারণ জ্ঞান","বাংলাদেশের পূর্ব সীমান্তের প্রধান প্রতিবেশী দেশ—",["নেপাল","ভারত","ভুটান","শ্রীলঙ্কা"],1],
+["বাংলা","‘পাপ থেকে দূরে থাকো’ বাক্যে ‘পাপ থেকে’ কোন কারক?",["অপাদান","করণ","কর্ম","অধিকরণ"],0],
+["ইংরেজি","The comparative form of ‘good’ is—",["Gooder","More good","Better","Best"],2],
+["গণিত","৫০০ টাকার পণ্যে ২০% লাভ হলে লাভের পরিমাণ কত?",["৫০","৭৫","১০০","১২০"],2],
+["বিজ্ঞান","জীবের বৈশিষ্ট্যগুলোর মধ্যে কোনটি আছে?",["বৃদ্ধি","চলাচলহীনতা","জড়তা","কোনোটিই নয়"],0],
+["সাধারণ জ্ঞান","বাংলাদেশের জলবায়ু প্রধানত কেমন?",["মরুভূমি","ক্রান্তীয় মৌসুমি","মেরু","ভূমধ্যসাগরীয়"],1],
+["বাংলা","‘তাকে বইটি দাও’ বাক্যে ‘তাকে’ কোন কারক?",["কর্তৃ","কর্ম","সম্প্রদান","অপাদান"],2],
+["ইংরেজি","Which is a material noun?",["Gold","Honesty","Team","Dhaka"],0],
+["গণিত","১২.৫% = কোন ভগ্নাংশ?",["1/4","1/8","1/10","1/5"],1],
+["বিজ্ঞান","কঠিন পদার্থের কণাগুলো—",["অত্যন্ত দূরে","নির্দিষ্ট অবস্থানের কাছাকাছি থাকে","সম্পূর্ণ স্বাধীন","শূন্য থাকে"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের উত্তর-পশ্চিমে অবস্থিত একটি বিভাগ—",["রংপুর","বরিশাল","সিলেট","চট্টগ্রাম"],0],
+["বাংলা","‘বাড়িতে অতিথি এসেছে’ বাক্যে ‘বাড়িতে’ কোন কারক?",["অধিকরণ","করণ","কর্ম","কর্তৃ"],0],
+["ইংরেজি","In ‘The red flower is beautiful’, ‘red’ is a—",["Noun","Adjective","Adverb","Pronoun"],1],
+["গণিত","একটি পণ্যের ক্রয়মূল্য ৮০০ টাকা, ১০% ক্ষতিতে বিক্রয়মূল্য কত?",["৭০০","৭২০","৭৪০","৭৮০"],1],
+["বিজ্ঞান","জীবকোষের প্রোটিন তৈরির স্থান—",["রাইবোসোম","ভ্যাকুওল","সেন্ট্রিওল","লাইসোসোম"],0],
+["সাধারণ জ্ঞান","সুন্দরবন বাংলাদেশের কোন অঞ্চলে অবস্থিত?",["উত্তরাঞ্চল","দক্ষিণ-পশ্চিমাঞ্চল","উত্তর-পূর্বাঞ্চল","মধ্যাঞ্চল"],1],
+["বাংলা","‘দেশকে ভালোবাসি’ বাক্যে ‘দেশকে’ কোন কারক?",["কর্ম","কর্তৃ","করণ","অপাদান"],0],
+["ইংরেজি","The plural of ‘Woman’ is—",["Womans","Women","Womens","Womanes"],1],
+["গণিত","(2/3) × (3/4) = ?",["1/2","2/3","3/4","1"],0],
+["বিজ্ঞান","মাপার যন্ত্রে পাঠ নেওয়ার সময় চোখের অবস্থান কেমন হওয়া উচিত?",["যেকোনো পাশে","স্কেলের সমান্তরালে/লম্বভাবে সঠিক অবস্থানে","অনেক দূরে","বন্ধ"],1],
+["সাধারণ জ্ঞান","বাংলাদেশের ভূ-প্রকৃতির প্রধান বৈশিষ্ট্য কী?",["উচ্চ পর্বতময় দেশ","বদ্বীপ ও সমভূমি প্রধান","সম্পূর্ণ মরুভূমি","সম্পূর্ণ মালভূমি"],1],
+["বাংলা","‘গাছ থেকে আম পড়ে’ বাক্যে ‘গাছ থেকে’ কোন কারক?",["অপাদান","করণ","কর্ম","অধিকরণ"],0],
+["ইংরেজি","Which sentence has an adverb?",["He is quick.","He runs quickly.","He is a boy.","They are students."],1],
+["গণিত","৬ : ৮ = ১৫ : x হলে x কত?",["১৮","২০","২২","২৪"],1],
+["বিজ্ঞান","টিস্যুসমূহ মিলে গঠিত হয়—",["অঙ্গ","পরমাণু","অণু","কোষ"],0],
+["সাধারণ জ্ঞান","বাংলাদেশের প্রধান নদীবাহিত পললভূমি কী ধরনের ভূমি তৈরি করেছে?",["সমভূমি","মরুভূমি","মালভূমি","আগ্নেয় ভূমি"],0],
+["বাংলা","‘কলকাতায় গিয়েছিলাম’ বাক্যে ‘কলকাতায়’ কোন কারক?",["অধিকরণ","করণ","অপাদান","কর্ম"],0],
+["ইংরেজি","‘A flock of birds’— here ‘flock’ is a—",["Proper noun","Collective noun","Abstract noun","Material noun"],1],
+["গণিত","একটি সংখ্যার ২৫% ৭৫ হলে সংখ্যাটি—",["২০০","২৫০","৩০০","৩৫০"],2],
+["বিজ্ঞান","তরল পদার্থের কণাগুলো কঠিনের তুলনায়—",["অধিক স্বাধীনভাবে চলতে পারে","একেবারে স্থির","কোনো স্থান দখল করে না","পরমাণু নয়"],0],
+["সাধারণ জ্ঞান","বাংলাদেশের পার্বত্য জেলা কোনটি?",["রাঙামাটি","গাজীপুর","নাটোর","যশোর"],0],
+];
+
+function normalizeQuestion(raw,i){
+ return {id:i+1,s:raw[0],q:raw[1],o:raw[2],a:raw[3]};
+}
+questions = questionsRaw.map(normalizeQuestion);
+
+function shuffle(arr){
+ const a=[...arr];
+ for(let i=a.length-1;i>0;i--){
+   const j=Math.floor(Math.random()*(i+1));
+   [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
+
+function esc(str){
+ return String(str).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function getCourse(){
+ const el=document.querySelector('input[name="course"]:checked');
+ return el?el.value:"";
+}
+
+function renderQuestions(){
+ const box=document.getElementById("questions");
+ box.innerHTML=shuffledQuestions.map((x,i)=>`
+   <article class="qcard" data-q="${i}">
+     <div class="qhead">
+       <span class="qnum">${i+1}</span>
+       <div>
+         <div class="subject">${esc(x.s)}</div>
+         <div class="question">${esc(x.q)}</div>
+       </div>
+     </div>
+     <div class="options">
+       ${x.o.map((op,j)=>`
+        <label class="option" data-q="${i}" data-opt="${j}">
+          <input type="radio" name="q${i}" value="${j}">
+          <span><b>${String.fromCharCode(65+j)}.</b> ${esc(op)}</span>
+        </label>`).join("")}
+     </div>
+   </article>
+ `).join("");
+
+ box.addEventListener("change",e=>{
+   if(e.target.matches('input[type="radio"]')){
+     const q=e.target.closest(".qcard");
+     q.querySelectorAll(".option").forEach(el=>el.classList.remove("selected"));
+     e.target.closest(".option").classList.add("selected");
+     updateProgress();
+   }
+ });
+}
+
+function updateProgress(){
+ const answered=document.querySelectorAll('#questions input[type="radio"]:checked').length;
+ document.getElementById("progressText").textContent=`${answered} / 100 উত্তর দেওয়া হয়েছে`;
+ document.getElementById("progressFill").style.width=`${answered}%`;
+}
+
+function formatTime(sec){
+ const m=Math.floor(sec/60).toString().padStart(2,"0");
+ const s=(sec%60).toString().padStart(2,"0");
+ return `${m}:${s}`;
+}
+
+function startTimer(){
+ startTime=Date.now();
+ timerInterval=setInterval(()=>{
+   remaining--;
+   const t=document.getElementById("timer");
+   t.textContent=formatTime(Math.max(remaining,0));
+   if(remaining<=300) t.classList.add("warning");
+   if(remaining<=0){
+     clearInterval(timerInterval);
+     submitExam(true);
+   }
+ },1000);
+}
+
+function getAnswers(){
+ return shuffledQuestions.map((x,i)=>{
+   const checked=document.querySelector(`input[name="q${i}"]:checked`);
+   return checked ? Number(checked.value) : null;
+ });
+}
+
+async function submitExam(auto=false){
+ if(submitted)return;
+ if(!auto){
+   const ok=confirm("আপনি কি নিশ্চিত যে পরীক্ষা জমা দিতে চান?");
+   if(!ok)return;
+ }
+ submitted=true;
+ clearInterval(timerInterval);
+ document.getElementById("submitBtn").disabled=true;
+
+ const answers=getAnswers();
+ let correct=0, attempted=0;
+ answers.forEach((ans,i)=>{
+   if(ans!==null){
+     attempted++;
+     if(ans===shuffledQuestions[i].a) correct++;
+   }
+ });
+ const wrong=attempted-correct;
+ const unanswered=100-attempted;
+ const score=correct;
+ const elapsed=Math.min(TOTAL_TIME, Math.max(0,TOTAL_TIME-remaining));
+ const timeTaken=formatTime(elapsed);
+
+ document.getElementById("examScreen").classList.add("hidden");
+ document.getElementById("examHeader").classList.add("hidden");
+ document.getElementById("resultScreen").classList.remove("hidden");
+
+ const name=document.getElementById("studentName").value.trim();
+ const phone=document.getElementById("phone").value.trim();
+ const course=getCourse();
+
+ document.getElementById("resultStudent").textContent=`${name} • ${course}`;
+ document.getElementById("score").textContent=score;
+ document.getElementById("attempted").textContent=attempted;
+ document.getElementById("correct").textContent=correct;
+ document.getElementById("wrong").textContent=wrong;
+ document.getElementById("unanswered").textContent=unanswered;
+ document.getElementById("percentage").textContent=`${score}%`;
+ document.getElementById("timeTaken").textContent=timeTaken;
+ document.getElementById("resultMessage").textContent =
+   auto ? "সময় শেষ হওয়ায় পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হয়েছে।" : "আপনার পরীক্ষা সফলভাবে জমা হয়েছে।";
+
+ renderReview(answers);
+
+ // Save result
+ try{
+   await fetch(API_URL,{
+     method:"POST",
+     headers:{"Content-Type":"text/plain;charset=utf-8"},
+     body:JSON.stringify({
+       name,phone,course,
+       score,
+       attempted,
+       correct,
+       wrong,
+       unanswered,
+       timeTaken
+     })
+   });
+ }catch(err){
+   console.warn("Result save warning:",err);
+ }
+
+ loadLeaderboard();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderReview(answers){
+ const box=document.getElementById("review");
+ box.innerHTML=shuffledQuestions.map((x,i)=>{
+   const ans=answers[i];
+   const ok=ans===x.a;
+   const skipped=ans===null;
+   const cls=skipped?"":(ok?"correct-bg":"wrong-bg");
+   const badge=skipped
+      ? `<span class="badge skip">উত্তরহীন</span>`
+      : ok
+      ? `<span class="badge ok">সঠিক</span>`
+      : `<span class="badge no">ভুল</span>`;
+   const your=skipped ? "কোনো উত্তর দাগাননি" : `${String.fromCharCode(65+ans)}. ${esc(x.o[ans])}`;
+   const right=`${String.fromCharCode(65+x.a)}. ${esc(x.o[x.a])}`;
+   return `<div class="review ${cls}">
+      <div class="review-title">${i+1}. ${esc(x.q)} ${badge}</div>
+      <div class="answer-line"><b>আপনার উত্তর:</b> ${your}</div>
+      <div class="answer-line"><b>সঠিক উত্তর:</b> ${right}</div>
+   </div>`;
+ }).join("");
+}
+
+async function loadLeaderboard(){
+ const box=document.getElementById("leaderboard");
+ box.innerHTML='<div class="loading">Leaderboard লোড হচ্ছে...</div>';
+ try{
+   const res=await fetch(`${API_URL}?action=leaderboard`,{cache:"no-store"});
+   const data=await res.json();
+   if(!data.leaderboard || !data.leaderboard.length){
+     box.innerHTML='<div class="loading">এখনও কোনো ফলাফল জমা হয়নি।</div>';
+     return;
+   }
+   box.innerHTML=`<div style="overflow:auto">
+   <table class="lb-table">
+     <thead><tr><th>Rank</th><th>নাম</th><th>কোর্স</th><th>মার্ক</th><th>Correct</th></tr></thead>
+     <tbody>
+     ${data.leaderboard.map(r=>`
+       <tr>
+         <td class="rank">#${r.rank}</td>
+         <td>${esc(r.name)}</td>
+         <td>${esc(r.course)}</td>
+         <td><b>${r.score}/${r.totalMarks}</b></td>
+         <td>${r.correct}</td>
+       </tr>`).join("")}
+     </tbody>
+   </table></div>`;
+ }catch(err){
+   box.innerHTML='<div class="loading">Leaderboard এখন লোড করা যাচ্ছে না। ফলাফল Google Sheet-এ সংরক্ষিত থাকলে পরে আবার চেষ্টা করুন।</div>';
+ }
+}
+
+document.getElementById("startBtn").addEventListener("click",()=>{
+ const name=document.getElementById("studentName").value.trim();
+ const phone=document.getElementById("phone").value.trim();
+ const course=getCourse();
+
+ if(!name){alert("দয়া করে আপনার নাম লিখুন।");return;}
+ if(!phone){alert("দয়া করে ফোন নম্বর লিখুন।");return;}
+ if(!course){alert("দয়া করে একটি কোর্স নির্বাচন করুন।");return;}
+
+ shuffledQuestions=shuffle(questions);
+ renderQuestions();
+
+ document.getElementById("startScreen").classList.add("hidden");
+ document.getElementById("examScreen").classList.remove("hidden");
+ document.getElementById("examHeader").classList.remove("hidden");
+ remaining=TOTAL_TIME;
+ document.getElementById("timer").textContent="60:00";
+ document.getElementById("timer").classList.remove("warning");
+ startTimer();
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+
+document.getElementById("submitBtn").addEventListener("click",()=>submitExam(false));
+</script>
+</body>
+</html>
