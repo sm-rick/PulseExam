@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফ্রি মেগা মডেল টেস্ট - পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f8fafc;
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- 1. HOME / DASHBOARD SECTION -->
+    <div id="homeSection" class="max-w-4xl mx-auto p-4 space-y-4">
+        
+        <!-- Top Action Banner (Mobile Optimized - No Scroll Needed) -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl p-5 shadow-lg text-center space-y-3">
+            <span class="bg-amber-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase">ফ্রি মেগা মডেল টেস্ট ২০২৬</span>
+            <h2 class="text-xl md:text-2xl font-bold">পালস নার্সিং কোচিং অনলাইন পোর্টাল</h2>
+            <p class="text-xs md:text-sm text-indigo-100">প্রস্তুতি নিন এক ক্লিকে। এখনই আপনার পরীক্ষা শুরু করুন!</p>
+            <button onclick="openRegistrationModal()" class="w-full bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold py-3 px-6 rounded-xl shadow-md transition transform active:scale-95 text-base">
+                🚀 পরীক্ষা শুরু করুন
+            </button>
+        </div>
+
+        <!-- Logo & Header -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+            <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="w-12 h-12 object-contain">
+            <div>
+                <h1 class="text-lg font-bold text-indigo-700 leading-tight">পালস নার্সিং কোচিং</h1>
+                <p class="text-gray-500 text-xs">নার্সিং ভর্তি পরীক্ষার নির্ভরযোগ্য প্ল্যাটফর্ম</p>
+            </div>
+        </div>
+
+        <!-- Promotional Banner (Foundation Batch) -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-indigo-100 space-y-3">
+            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full inline-block">বিশেষ অফার ২০২৬-২৭</span>
+            <h2 class="text-lg font-bold text-gray-900">ফাউন্ডেশন ব্যাচে ২ হাজার টাকা ছাড়ে মাত্র ৩ হাজার টাকায় ভর্তি চলছে!</h2>
+            <p class="text-gray-600 text-xs md:text-sm leading-relaxed">
+                নার্সিং ভর্তি পরীক্ষার সেরা প্রস্তুতির জন্য আজই যুক্ত হোন। ভর্তি হলেই পাচ্ছেন পালস ডাইজেস্ট বই, মাস্টারমাইন্ড, প্রশ্নব্যাংক, ওএমআর বুক, সাজেশন বুক, নিয়মিত ক্লাস ও ২৪/৭ মেন্টর সাপোর্ট।
+            </p>
+        </div>
+
+        <!-- Exam Info Card -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <span class="text-indigo-600 font-semibold text-xs">মডেল টেস্ট ইনফো</span>
+                <h3 class="text-base font-bold text-gray-900">পরীক্ষা: ফ্রি মেগা মডেল টেস্ট (১০০ মার্কস)</h3>
+                <p class="text-gray-500 text-xs mt-0.5">পূর্ণমান: ১০০ | সময়: ৬০ মিনিট</p>
+            </div>
+            <button onclick="openRegistrationModal()" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow transition">
+                পরীক্ষায় অংশগ্রহণ করুন
+            </button>
+        </div>
+
+        <!-- Live Leaderboard Section -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <h3 class="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                🏆 লাইভ লিডারবোর্ড (সেরা ১০ জন)
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b text-gray-600 text-xs">
+                            <th class="p-2.5 rounded-l-lg">অবস্থান</th>
+                            <th class="p-2.5">নাম</th>
+                            <th class="p-2.5">কোর্স</th>
+                            <th class="p-2.5 text-right rounded-r-lg">প্রাপ্ত মার্ক</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody" class="text-xs md:text-sm">
+                        <tr>
+                            <td colspan="4" class="p-4 text-center text-gray-400">লিডারবোর্ড লোড হচ্ছে...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. REGISTRATION MODAL -->
+    <div id="regModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4">
+            <h2 class="text-xl font-bold text-gray-900">আপনার তথ্য দিন</h2>
+            <p class="text-gray-500 text-xs">পরীক্ষা শুরু করতে নিচের ফর্মটি পূরণ করুন।</p>
+            
+            <form id="regForm" onsubmit="startExam(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">পূর্ণ নাম</label>
+                    <input type="text" id="studentName" required placeholder="যেমন: ফাতেমা খাতুন" class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:border-indigo-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">ফোন নাম্বার (WhatsApp)</label>
+                    <input type="tel" id="studentPhone" required placeholder="যেমন: 01712345678" class="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 focus:outline-none focus:border-indigo-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">কোর্স নির্বাচন করুন</label>
+                    <div class="flex gap-4 mt-1 text-sm">
+                        <label class="flex items-center gap-2 cursor-pointer font-medium">
+                            <input type="radio" name="course" value="বিএসসি" required class="w-4 h-4 text-indigo-600"> বিএসসি
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer font-medium">
+                            <input type="radio" name="course" value="ডিপ্লোমা" required class="w-4 h-4 text-indigo-600"> ডিপ্লোমা
+                        </label>
+                    </div>
+                </div>
+                <div class="pt-3 flex gap-2">
+                    <button type="button" onclick="closeRegistrationModal()" class="w-1/2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 rounded-xl text-sm transition">বাতিল</button>
+                    <button type="submit" class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-sm shadow transition">শুরু করুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. EXAM SECTION -->
+    <div id="quizSection" class="hidden min-h-screen flex flex-col">
+        <header class="sticky-header shadow-sm border-b border-gray-200 py-2.5 px-4 bg-white">
+            <div class="max-w-3xl mx-auto flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="w-8 h-8 object-contain">
+                    <span class="font-bold text-xs md:text-sm text-gray-900">পালস নার্সিং কোচিং</span>
+                </div>
+                <div class="bg-indigo-50 border border-indigo-200 text-indigo-700 px-3 py-1 rounded-lg font-bold text-xs md:text-sm">
+                    ⏱️ সময়: <span id="timerDisplay">60:00</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-2xl w-full mx-auto p-3 md:p-4 flex-grow my-2">
+            <form id="quizForm" class="space-y-4">
+                <div id="questionsContainer" class="space-y-4">
+                    <!-- Dynamic Questions -->
+                </div>
+                <div class="text-center pt-4 pb-10">
+                    <button type="button" onclick="submitExam()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold px-8 py-3 rounded-xl shadow-lg transition">
+                        উত্তরপত্র জমা দিন
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- 4. RESULT SECTION -->
+    <div id="resultSection" class="hidden max-w-2xl mx-auto p-4 space-y-4">
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 text-center space-y-3">
+            <h2 class="text-xl font-bold text-gray-900">পরীক্ষার ফলাফল</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100">
+                    <span class="text-gray-500 text-xs block">প্রাপ্ত মার্ক</span>
+                    <span id="resScore" class="text-xl font-bold text-indigo-600">0</span>
+                </div>
+                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                    <span class="text-gray-500 text-xs block">সঠিক উত্তর</span>
+                    <span id="resCorrect" class="text-xl font-bold text-emerald-600">0</span>
+                </div>
+                <div class="bg-rose-50 p-3 rounded-xl border border-rose-100">
+                    <span class="text-gray-500 text-xs block">ভুল উত্তর</span>
+                    <span id="resWrong" class="text-xl font-bold text-rose-600">0</span>
+                </div>
+                <div class="bg-amber-50 p-3 rounded-xl border border-amber-100">
+                    <span class="text-gray-500 text-xs block">দাগানো প্রশ্ন</span>
+                    <span id="resAttempted" class="text-xl font-bold text-amber-600">0</span>
+                </div>
+            </div>
+            <button onclick="scrollToHomeAndLeaderboard()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-sm transition">
+                লিডারবোর্ড দেখুন ও হোম পেজে চলুন
+            </button>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <h3 class="text-base font-bold text-gray-900 mb-3">উত্তরপত্র বিশ্লেষণ</h3>
+            <div id="reviewContainer" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // আপনার নতুন গুগল অ্যাপস স্ক্রিপ্ট ওয়েব অ্যাপ ইউআরএল
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHxa7Bths0UHLIt6aJ5m_NuVYLeex6swLLI0t5nQIXyS-MFzC_BC9PZ2IPHyCpBnOR/exec";
+
+        const questionsData = [
+            // বাংলা ব্যাকরণ (১-২০)
+            {q: "১. 'ভাষা' কোন শব্দমূল থেকে এসেছে?", options: ["ভায্ + আ", "ভাষ্ + আ", "ভোষ্ + আ", "ভাষ্ + অ"], ans: 1},
+            {q: "২. বাংলা লিপির উৎস কোন লিপি?", options: ["ব্রাহ্মী লিপি", "হীরোগ্লিফিক্স", "চীনা লিপি", "রোমান লিপি"], ans: 0},
+            {q: "৩. 'কাকল্য বর্ণ' বা অঘোষ অল্পপ্রাণ ধ্বনি কোনটি?", options: ["হ", "র", "ল", "শ"], ans: 0},
+            {q: "৪. বাংলা বর্ণমালায় পূর্ণমাত্রা কয়টি বর্ণ আছে?", options: ["৩২ টি", "৪০ টি", "১০ টি", "৫০ টি"], ans: 0},
+            {q: "৫. 'উষ্ম বর্ণ' কোনগুলো?", options: ["অন্তঃস্থ জ, র, ল, ব", "শ, ষ, স, হ", "ক, খ, গ, ঘ", "চ, ছ, জ, ঝ"], ans: 1},
+            {q: "৬. 'অম্বুধি' শব্দের সঠিক সন্ধি বিচ্ছেদ কোনটি?", options: ["অম্বু + ধি", "অম্ব + উদধি", "অম্বু + অধি", "অম্বুম + ধি"], ans: 0},
+            {q: "৭. নিচের কোনটি নিত্য পুরুষবাচক শব্দ?", options: ["কবিরাজ", "পাগল", "পিতা", "ভাই"], ans: 0},
+            {q: "৮. 'নদী' শব্দের সমার্থক শব্দ কোনটি নয়?", options: ["তরঙ্গিনী", "তটিনী", "সরিষা", "নিঝরিণী"], ans: 2},
+            {q: "৯. 'সকালে সূর্য ওঠে' - এখানে 'সকালে' কোন কারকে কোন বিভক্তি?", options: ["কর্মে ৭মী", "করণে ৭মী", "অধিকরণে ৭মী", "অপাদানে ৭মী"], ans: 2},
+            {q: "১০. 'সমাস' শব্দের অর্থ কী?", options: ["সংক্ষেপ", "বিস্তার", "মিলন", "বিচ্ছেদ"], ans: 0},
+            {q: "১১. 'সিংহাসন' কোন সমাস?", options: ["কর্মধারয়", "মধ্যপদলোপী কর্মধারয়", "দ্বন্দ্বর", "বহুব্রীহি"], ans: 1},
+            {q: "১২. 'আকাশে তো আর তারা নাই' - এখানে 'আর' কোন পদ?", options: ["বিশেষণ", "অব্যয়", "সর্বনাম", "ক্রিয়া"], ans: 1},
+            {q: "১৩. 'অগাধ জলের মাছ' বাগধারাটির অর্থ কী?", options: ["বোকা মানুষ", "খুব চালাক ব্যক্তি", "অসাধু", "অলস"], ans: 1},
+            {q: "১৪. 'উড়নচণ্ডী' বাগধারাটির অর্থ কী?", options: ["মিতব্যয়ী", "অমিতব্যয়ী", "উড়ন্ত পাখি", "অতি চালাক"], ans: 1},
+            {q: "১৫. 'যা দীপ্তি পাচ্ছে' - এক কথায় প্রকাশ কী হবে?", options: ["দীপ্যমান", "প্রদীপ্ত", "উজ্জ্বল", "দীপ্তিমান"], ans: 0},
+            {q: "১৬. 'যার কোনো উপায় নেই' - এক কথায় কী বলে?", options: ["অনুপায়", "নিরুপায়", "অসহায়", "দুর্বিপাক"], ans: 1},
+            {q: "১৭. 'সঞ্চয়' শব্দের বিপরীতার্থক শব্দ কোনটি?", options: ["ব্যয়", "বিসর্জন", "উদার", "সংক্ষেপ"], ans: 0},
+            {q: "১৮. 'ঐহিক' শব্দের বিপরীত শব্দ কোনটি?", options: ["পারত্রিক", "স্বর্গীয়", "লৌকিক", "অপার"], ans: 0},
+            {q: "১৯. শুদ্ধ বানান কোনটি?", options: ["সান্ত্বনা", "সান্তনা", "সাত্বনা", "সান্থনা"], ans: 0},
+            {q: "২০. নিচের কোন বানানটি শুদ্ধ?", options: ["মুহুর্ত", "মুহূর্ত", "মুহুর্ত্ত", "মূহুর্ত"], ans: 1},
+
+            // ইংরেজি গ্রামার (২১-৪০)
+            {q: "২১. What is the noun form of 'arrive'?", options: ["Arrival", "Arriving", "Arrivable", "Arrived"], ans: 0},
+            {q: "২২. Choose the correct spelling:", options: ["Lieutenant", "Leutinant", "Lieuetant", "Lutenent"], ans: 0},
+            {q: "২৩. 'He died ____ cholera.' Fill in the blank.", options: ["from", "of", "by", "with"], ans: 1},
+            {q: "২৪. The antonym of 'Benevolent' is:", options: ["Malevolent", "Kind", "Generous", "Friendly"], ans: 0},
+            {q: "২৫. Synonym of 'Abundant' is:", options: ["Scarce", "Plentiful", "Little", "Short"], ans: 1},
+            {q: "২৬. 'Out of the wood' means:", options: ["In danger", "Safe from danger", "In the forest", "Lost"], ans: 1},
+            {q: "২৭. Which one is a plural noun?", options: ["Agenda", "Agendum", "Formula", "Radius"], ans: 0},
+            {q: "২৮. Change the voice: 'Who has done the work?'", options: ["By whom has the work been done?", "Who has been done the work?", "By whom the work has done?", "Who had done the work?"], ans: 0},
+            {q: "২৯. He said to me, 'I am writing a letter.' (Indirect)", options: ["He told me that he is writing a letter.", "He told me that he was writing a letter.", "He told me that I was writing a letter.", "He told me that he had written a letter."], ans: 1},
+            {q: "৩০. One who knows everything is called:", options: ["Omniscient", "Omnipotent", "Omnipresent", "Optimist"], ans: 0},
+            {q: "৩১. The feminine gender of 'Drake' is:", options: ["Duck", "Goose", "Hen", "Cow"], ans: 0},
+            {q: "৩২. Choose the correct sentence:", options: ["He speaks English like English.", "He speaks English like the English.", "He speaks English as English.", "He speaks the English like English."], ans: 1},
+            {q: "৩৩. 'A rolling stone gathers no moss.' Here 'rolling' is a:", options: ["Participle", "Gerund", "Infinitive", "Noun"], ans: 0},
+            {q: "৩৪. What is the verb form of 'Food'?", options: ["Feed", "Fulfill", "Fooded", "Provide"], ans: 0},
+            {q: "৩৫. The idiom 'A bolt from the blue' means:", options: ["A good news", "An unexpected disaster", "Thunder storm", "Rainy day"], ans: 1},
+            {q: "৩৬. Fill in the blank: 'Neither he nor his brothers ____ present.'", options: ["is", "are", "was", "has"], ans: 1},
+            {q: "৩৭. The superlative degree of 'Little' is:", options: ["Littlest", "Least", "Less", "Littlemost"], ans: 1},
+            {q: "৩৮. Identify the abstract noun:", options: ["Honesty", "Team", "Iron", "Crowd"], ans: 0},
+            {q: "৩৯. 'To read between the lines' means:", options: ["To read carefully", "To understand the hidden meaning", "To read fast", "To skip lines"], ans: 1},
+            {q: "৪০. Choose the correct passive form: 'Open the door.'", options: ["The door should open.", "Let the door be opened.", "Open be the door.", "Let the door opened."], ans: 1},
+
+            // গণিত (৪১-৫০)
+            {q: "৪১. একটি ত্রিভুজের বাহুর অনুপাত ৩:৪:৫ হলে, এটি কী ধরনের ত্রিভুজ?", options: ["সমকোণী", "সমবাহু", "স্থূলকোণী", "সমদ্বিবাহু"], ans: 0},
+            {q: "৪২. ২ টাকার ৪ বছরের সুদ ও ৪ টাকার ২ বছরের সুদের হার সমান হলে অনুপাত কত?", options: ["২:১", "১:১", "১:২", "৪:২"], ans: 1},
+            {q: "৪৩. লঘিষ্ঠ সাধারণ গুণিতককে সংক্ষেপে কী বলা হয়?", options: ["লসাগু", "গসাগু", "ভগ্নাংশ", "অনুপাত"], ans: 0},
+            {q: "৪৪. লগারিদম (Logarithm) এর প্রবর্তক কে?", options: ["জন নেপিয়ার", "আইজ্যাক নিউটন", "পিথাগোরাস", "আর্কিমিডিস"], ans: 0},
+            {q: "৪৫. বৃত্তের কেন্দ্রগামী জ্যাকে কী বলা হয়?", options: ["ব্যাসার্ধ", "ব্যাস", "পরিধি", "চাপ"], ans: 1},
+            {q: "৪৬. এক ডজন ডিমের দাম ৭২ টাকা হলে, ৫ হালি ডিমের দাম কত?", options: ["৭২ টাকা", "১৪৪ টাকা", "৩৬ টাকা", "২১৬ টাকা"], ans: 1},
+            {q: "৪৭. কোনো সংখ্যার ৪০% এর সাথে ৪৫ যোগ করলে যোগফল সংখ্যাটিই হলে, সংখ্যাটি কত?", options: ["৭৫", "৯০", "১০০", "১২০"], ans: 0},
+            {q: "৪৮. a + b = ৫ এবং ab = ৬ হলে, (a - b)^2 এর মান কত?", options: ["১", "২৫", "২৪", "৪৯"], ans: 0},
+            {q: "৪৯. সমবাহু ত্রিভুজের প্রতি কোণের পরিমাপ কত?", options: ["৬০ ডিগ্রি", "৯০ ডিগ্রি", "৪৫ ডিগ্রি", "১২০ ডিগ্রি"], ans: 0},
+            {q: "৫০. প্রথম ১০টি স্বাভাবিক সংখ্যার যোগফল কত?", options: ["৫৫", "৪৫", "৫০", "৬০"], ans: 0},
+
+            // সাধারণ জ্ঞান (৫১-৭০)
+            {q: "৫১. বাংলাদেশের জাতীয় সংসদের মোট আসন সংখ্যা কত?", options: ["৩০০", "৩৫০", "৩১৫", "৪০০"], ans: 1},
+            {q: "৫২. বাংলাদেশের সর্বমোট সীমানা কত?", options: ["৫১৩৮ কিমি", "৪৫৩৮ কিমি", "৩৭০৬ কিমি", "৪৪২৭ কিমি"], ans: 0},
+            {q: "৫৩. ভাষা আন্দোলনের সময় পাকিস্তানের প্রধানমন্ত্রী কে ছিলেন?", options: ["খাজা নাজিমুদ্দিন", "লিয়াকত আলী খান", "আইয়ুব খান", "মালিক গোলাম মোহাম্মদ"], ans: 1},
+            {q: "৫৪. স্বাধীন বাংলাদেশের প্রথম পতাকা উত্তোলিত হয়েছিল কবে?", options: ["২ মার্চ ১৯৭১", "২৩ মার্চ ১৯৭১", "২৬ মার্চ ১৯৭১", "১৬ ডিসেম্বর ১৯৭১"], ans: 0},
+            {q: "৫৫. সুন্দরবনকে কবে রামসার সাইট হিসেবে ঘোষণা করা হয়?", options: ["১৯৯৭ সালে", "১৯৯২ সালে", "১৯৭১ সালে", "২০০১ সালে"], ans: 1},
+            {q: "৫৬. বাংলাদেশের প্রথম নারী প্রধানমন্ত্রী কে?", options: ["বেগম খালেদা জিয়া", "শেখ হাসিনা", "ড. দীপু মনি", "রওশন এরশাদ"], ans: 0},
+            {q: "৫৭. ঐতিহাসিক ছয় দফা দাবি কবে পেশ করা হয়?", options: ["১৯৬৬ সালের ৫-৬ ফেব্রুয়ারি", "১৯৬৯ সালের ২৪ জানুয়ারি", "১৯৭০ সালের ৭ মার্চ", "১৯৭১ সালের ১ মার্চ"], ans: 0},
+            {q: "৫৮. বাংলাদেশের সবচেয়ে গভীরতম নদী কোনটি?", options: ["পদ্মা", "মেঘনা", "যমুনা", "ব্রহ্মপুত্র"], ans: 1},
+            {q: "৫৯. বাংলাদেশের জাতীয় প্রতীকের ডিজাইনার কে?", options: ["কামরুল হাসান", "জয়নুল আবেদিন", "মর্তুজা বশীর", "কাইয়ুম চৌধুরী"], ans: 0},
+            {q: "৬০. জাতিসংঘ কত সালে প্রতিষ্ঠিত হয়?", options: ["১৯৪৫ সালের ২৪ অক্টোবর", "১৯৪৫ সালের ১০ জানুয়ারি", "১৯৫০ সালের ১ জানুয়ারি", "১৯১৯ সালের ২০ জুন"], ans: 0},
+            {q: "৬১. বিশ্ব স্বাস্থ্য সংস্থা (WHO)-এর সদর দপ্তর কোথায়?", options: ["জেনেভা", "নিউইয়র্ক", "প্যারিস", "রোম"], ans: 0},
+            {q: "৬২. কত সালে বাংলাদেশ কমনওয়েলথের সদস্যপদ লাভ করে?", options: ["১৯৭২", "১৯৭৪", "১৯৭১", "১৯৭৫"], ans: 0},
+            {q: "৬৩. এশিয়ান উন্নয়ন ব্যাংক (ADB)-এর সদর দপ্তর কোথায়?", options: ["ম্যানিলা", "টোকিও", "ব্যাংকক", "বেইজিং"], ans: 0},
+            {q: "৬৪. ইন্টারপোল (Interpol)-এর সদর দপ্তর কোথায়?", options: ["লিয়োঁ, ফ্রান্স", "ভিয়েনা, অস্ট্রিয়া", "লন্ডন", "ওয়াশিংটন ডিসি"], ans: 0},
+            {q: "৬৫. নিচের কোন দেশটি ইউরোপীয় ইউনিয়নের সদস্য নয়?", options: ["সুইজারল্যান্ড", "ফ্রান্স", "জার্মানি", "ইতালি"], ans: 0},
+            {q: "৬৬. শান্তিতে প্রথম নোবেল পুরস্কার লাভ করেন কে?", options: ["জাঁ হেনরি ডুনান্ট ও ফ্রেডেরিক প্যাসি", "মাদার তেরেসা", "মার্টিন লুথার", "নেলসন ম্যান্ডেলা"], ans: 0},
+            {q: "৬৭. 'মুক্তিবাহিনী' কত সালে গঠিত হয়?", options: ["১৯৭১ সালের ১১ এপ্রিল", "১৯৭১ সালের ২৬ মার্চ", "১৯৭১ সালের ১৭ এপ্রিল", "১৯৭১ সালের ১০ এপ্রিল"], ans: 0},
+            {q: "৬৮. বীরশ্রেষ্ঠদের মধ্যে খেতাবপ্রাপ্ত একমাত্র বিদেশি নাগরিক কে?", options: ["ডব্লিউ এস ওডারল্যান্ড", "সাইমন ড্রিং", "মার্ক টালি", "পল কনান"], ans: 0},
+            {q: "৬৯. বাংলাদেশের সংবিধানের কত অনুচ্ছেদে স্বাস্থ্যকে মৌলিক অধিকার বলা হয়েছে?", options: ["১৫ অনুচ্ছেদে", "১৮ অনুচ্ছেদে", "৩২ অনুচ্ছেদে", "২১ অনুচ্ছেদে"], ans: 0},
+            {q: "৭০. বাংলাদেশ নার্সিং ও মিডওয়াইফারি কাউন্সিল কবে প্রতিষ্ঠিত হয়?", options: ["২০০৮ সালে", "১৯৮৩ সালে", "১৯৭১ সালে", "২০১৬ সালে"], ans: 0},
+
+            // বিজ্ঞান (৭১-১০০)
+            {q: "৭১. মানুষের রক্তে হিমোগ্লোবিনের প্রধান কাজ কী?", options: ["অক্সিজেন পরিবহন করা", "রোগ প্রতিরোধ করা", "রক্ত জমাট বাঁধা", "খাদ্য পরিপাক"], ans: 0},
+            {q: "৭২. মানুষের শরীরে ক্রোমোজোম বা গুণসূত্রের সংখ্যা কতটি?", options: ["৪৬ টি", "২৩ টি", "৪৪ টি", "৪৮ টি"], ans: 0},
+            {q: "৭৩. নিচের কোনটি রক্তের গ্রুপ নয়?", options: ["A", "B", "O", "X"], ans: 3},
+            {q: "৭৪. মানবদেহের সবচেয়ে বড় গ্রন্থি কোনটি?", options: ["যকৃত (Liver)", "অগ্ন্যাশয়", "থাইরয়েড", "পিটুইটারি"], ans: 0},
+            {q: "৭৫. ভিটামিন সি এর অভাবে কোন রোগ হয়?", options: ["স্কার্ভি", "বেরিবেরি", "রিকেটস", "রাতকানা"], ans: 0},
+            {q: "৭৬. মস্তিষ্কের সবচেয়ে বড় অংশ কোনটি?", options: ["সেরিব্রাম", "সেরিবেলাম", "পন্স", "মেডুলা"], ans: 0},
+            {q: "৭৭. কোনটি পানির স্থায়ী খরতার জন্য দায়ী?", options: ["ক্যালসিয়াম সালফেট", "সোডিয়াম ক্লোরাইড", "পটাশিয়াম নাইট্রেট", "অ্যামোনিয়াম ক্লোরাইড"], ans: 0},
+            {q: "৭৮. ড্রাই আইস মূলত কী?", options: ["কঠিন কার্বন ডাই-অক্সাইড", "তরল নাইট্রোজেন", "কঠিন পানি", "বরফের গুঁড়া"], ans: 0},
+            {q: "৭৯. মিথেন গ্যাসের সংকেত কী?", options: ["CH4", "CO2", "NH3", "H2O"], ans: 0},
+            {q: "৮০. বৈদ্যুতিক বাল্বের ফিলামেন্ট কী দিয়ে তৈরি?", options: ["টাংস্টেন", "তামা", "লোহা", "নিকেল"], ans: 0},
+            {q: "৮১. প্রাকৃতিক গ্যাসের প্রধান উপাদান কোনটি?", options: ["মিথেন", "প্রোপেন", "বিউটেন", "ইথেন"], ans: 0},
+            {q: "৮২. একক কোষী প্রাণী কোনটি?", options: ["অ্যামিবা", "হাইড্রা", "কেঁচো", "ফিতা কৃমি"], ans: 0},
+            {q: "৮৩. ডেঙ্গু জ্বর ছড়ায় কোন মশার কামড়ে?", options: ["এডিস ইজিপ্টি", "কিউলেক্স মশা", "অ্যানোফিলিস মশা", "টাইগার মশা"], ans: 0},
+            {q: "৮৪. আলোকবর্ষ কিসের একক?", options: ["দূরত্ব", "সময়", "গতিবেগ", "আলোর তীব্রতা"], ans: 0},
+            {q: "৮৫. সোনার খাঁটিত্ব পরিমাপের একক কী?", options: ["ক্যারেট", "গ্রাম", "আউন্স", "পাউন্ড"], ans: 0},
+            {q: "৮৬. ফল পাকানোর জন্য কোন গ্যাস ব্যবহার করা হয়?", options: ["ইথিলিন", "অক্সিজেন", "নাইট্রোজেন", "হিলিয়াম"], ans: 0},
+            {q: "৮৭. সবচেয়ে হালকা ধাতু কোনটি?", options: ["লিথিয়াম", "হাইড্রোজেন", "সোডিয়াম", "ম্যাগনেসিয়াম"], ans: 0},
+            {q: "৮৮. চোখের রেটিনায় গঠিত বিম্ব কেমন হয়?", options: ["বাস্তব ও উল্টো", "অবাস্তব ও সোজা", "বাস্তব ও সোজা", "অবাস্তব ও উল্টো"], ans: 0},
+            {q: "৮৯. স্বাভাবিক মানুষের শরীরের তাপমাত্রা কত?", options: ["৩৭°C", "৯৮.৪°C", "৩২°C", "৪০°C"], ans: 0},
+            {q: "৯০. পিত্তরস কোথায় তৈরি হয়?", options: ["যকৃতে", "পিত্তথলিতে", "অগ্ন্যাশয়ে", "ক্ষুদ্রান্ত্রে"], ans: 0},
+            {q: "৯১. উদ্ভিদের প্রধান মূল কোনটি?", options: ["প্রধানমূল", "অস্থানিক মূল", "গুচ্ছমূল", "পত্রমূল"], ans: 0},
+            {q: "৯২. কোন রক্তকণিকাকে 'রোগের প্রহরী' বলা হয়?", options: ["শ্বেত রক্তকণিকা", "লোহিত রক্তকণিকা", "অনুচক্রিকা", "প্লাজমা"], ans: 0},
+            {q: "৯৩. সিরামিক শিল্পে প্রধান কাঁচামাল কোনটি?", options: ["কাদামাটি", "বালু", "চুন", "সিমেন্ট"], ans: 0},
+            {q: "৯৪. মানবদেহের স্বাভাবিক রক্তচাপ কত?", options: ["১২০/৮০ মিমি পারদ", "১৪০/৯০ মিমি পারদ", "১০০/৭০ মিমি", "১৩০/৮০ মিমি"], ans: 0},
+            {q: "৯৫. শব্দ সবচেয়ে দ্রুত চলে কোন মাধ্যমে?", options: ["কঠিন মাধ্যমে", "তরল মাধ্যমে", "বায়বীয় মাধ্যমে", "শূন্য মাধ্যমে"], ans: 0},
+            {q: "৯৬. উদ্ভিদের সালোকসংশ্লেষণ সবচেয়ে বেশি হয় কোন আলোতে?", options: ["লাল ও নীল আলোতে", "সবুজ আলোতে", "হলুদ আলোতে", "বেগুনী আলোতে"], ans: 0},
+            {q: "৯৭. বায়ুমণ্ডলে নাইট্রোজেনের পরিমাণ কত?", options: ["৭৮.০২%", "২১.০০%", "০.০৩%", "০.৯৫%"], ans: 0},
+            {q: "৯৮. ক্ষতস্থান থেকে রক্তপাত বন্ধ করতে সাহায্য করে কোন ভিটামিন?", options: ["ভিটামিন কে", "ভিটামিন এ", "ভিটামিন সি", "ভিটামিন ডি"], ans: 0},
+            {q: "৯৯. পারদের স্ফুটনাঙ্ক কত?", options: ["৩৫৭°C", "১০০°C", "০°C", "৫০০°C"], ans: 0},
+            {q: "১০০. মানবদেহের দীর্ঘতম কোষ কোনটি?", options: ["নিউরন (স্নায়ুকোষ)", "যকৃত কোষ", "পেশী কোষ", "রক্ত কোষ"], ans: 0}
+        ];
+
+        let timerInterval;
+        let timeLeft = 3600;
+
+        window.onload = function() {
+            fetchLeaderboard();
+            renderQuestions();
+        };
+
+        function renderQuestions() {
+            const container = document.getElementById("questionsContainer");
+            let html = "";
+            questionsData.forEach((item, index) => {
+                html += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-2">
+                        <p class="font-bold text-gray-900 text-sm md:text-base">${item.q}</p>
+                        <div class="grid grid-cols-1 gap-2 pt-1">
+                `;
+                item.options.forEach((opt, optIdx) => {
+                    html += `
+                        <label class="flex items-center gap-3 p-2.5 rounded-lg border border-gray-200 hover:bg-indigo-50 cursor-pointer text-xs md:text-sm">
+                            <input type="radio" name="q_${index}" value="${optIdx}" class="w-4 h-4 text-indigo-600">
+                            <span class="font-medium text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+                html += `</div></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function openRegistrationModal() {
+            document.getElementById("regModal").classList.remove("hidden");
+        }
+
+        function closeRegistrationModal() {
+            document.getElementById("regModal").classList.add("hidden");
+        }
+
+        function startExam(event) {
+            event.preventDefault();
+            const name = document.getElementById("studentName").value.trim();
+            const phone = document.getElementById("studentPhone").value.trim();
+            const courseEl = document.querySelector('input[name="course"]:checked');
+
+            if (!name || !phone || !courseEl) {
+                alert("দয়া করে সব তথ্য পূরণ করুন!");
+                return;
+            }
+
+            sessionStorage.setItem("quiz_name", name);
+            sessionStorage.setItem("quiz_phone", phone);
+            sessionStorage.setItem("quiz_course", courseEl.value);
+
+            closeRegistrationModal();
+            document.getElementById("homeSection").classList.add("hidden");
+            document.getElementById("quizSection").classList.remove("hidden");
+
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById("timerDisplay").innerText = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("সময় শেষ!");
+                    submitExam();
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            let score = 0, correctCount = 0, wrongCount = 0, attemptedCount = 0;
+            let reviewHtml = "";
+
+            questionsData.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="q_${index}"]:checked`);
+                const userAns = selected ? parseInt(selected.value) : null;
+                const isCorrect = userAns === item.ans;
+
+                if (userAns !== null) {
+                    attemptedCount++;
+                    if (isCorrect) { score++; correctCount++; }
+                    else { wrongCount++; }
+                }
+
+                reviewHtml += `
+                    <div class="p-3 rounded-lg border text-xs md:text-sm ${userAns === null ? 'border-gray-200 bg-gray-50' : (isCorrect ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50')}">
+                        <p class="font-bold text-gray-900 mb-1">${item.q}</p>
+                        <p>আপনার উত্তর: <span class="font-semibold ${userAns === null ? 'text-gray-500' : (isCorrect ? 'text-emerald-600' : 'text-rose-600')}">${userAns !== null ? item.options[userAns] : 'দাগানো হয়নি'}</span></p>
+                        <p>সঠিক উত্তর: <span class="font-semibold text-indigo-600">${item.options[item.ans]}</span></p>
+                    </div>
+                `;
+            });
+
+            document.getElementById("quizSection").classList.add("hidden");
+            document.getElementById("resultSection").classList.remove("hidden");
+
+            document.getElementById("resScore").innerText = score;
+            document.getElementById("resCorrect").innerText = correctCount;
+            document.getElementById("resWrong").innerText = wrongCount;
+            document.getElementById("resAttempted").innerText = attemptedCount;
+            document.getElementById("reviewContainer").innerHTML = reviewHtml;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const payload = {
+                name: sessionStorage.getItem("quiz_name"),
+                phone: "'" + sessionStorage.getItem("quiz_phone"),
+                course: sessionStorage.getItem("quiz_course"),
+                score: score
+            };
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                setTimeout(fetchLeaderboard, 1500);
+            }).catch(err => console.error(err));
+        }
+
+        function fetchLeaderboard() {
+            fetch(SCRIPT_URL)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.leaderboard) {
+                        let lbHtml = "";
+                        if (data.leaderboard.length === 0) {
+                            lbHtml = `<tr><td colspan="4" class="p-4 text-center text-gray-400">এখনো কেউ পরীক্ষা দেয়নি।</td></tr>`;
+                        } else {
+                            data.leaderboard.forEach((row, idx) => {
+                                lbHtml += `
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-2.5 font-bold text-indigo-600">#${idx + 1}</td>
+                                        <td class="p-2.5 font-medium text-gray-900">${row.name}</td>
+                                        <td class="p-2.5 text-gray-600">${row.course}</td>
+                                        <td class="p-2.5 text-right font-bold text-emerald-600">${row.score}</td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                        document.getElementById("leaderboardBody").innerHTML = lbHtml;
+                    }
+                }).catch(() => {
+                    document.getElementById("leaderboardBody").innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-400">লিডারবোর্ড তথ্য লোড করা যায়নি।</td></tr>`;
+                });
+        }
+
+        function scrollToHomeAndLeaderboard() {
+            document.getElementById("resultSection").classList.add("hidden");
+            document.getElementById("homeSection").classList.remove("hidden");
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
