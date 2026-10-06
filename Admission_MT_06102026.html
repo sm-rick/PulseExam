@@ -104,9 +104,15 @@
                         </ul>
                     </div>
 
-                    <a href="tel:017xxxxxxxx" class="mt-4 block text-center bg-white text-orange-700 font-bold text-xs py-3 rounded-xl shadow-md active:scale-98 transition">
-                        📞 কোর্সে ভর্তি হতে কল করুন
-                    </a>
+                    <!-- Call & WhatsApp Action Buttons -->
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <a href="tel:01792439561" class="flex items-center justify-center space-x-1.5 bg-white text-orange-700 font-bold text-xs py-3 rounded-xl shadow-md active:scale-98 transition">
+                            <span>📞 কল করুন</span>
+                        </a>
+                        <a href="https://wa.me/8801792439561?text=আসসালামু%20আলাইকুম,%20পালস%20নার্সিং%20ফাউন্ডেশন%20ব্যাচে%20ভর্তি%20সম্পর্কে%20জানতে%20চাই।" target="_blank" class="flex items-center justify-center space-x-1.5 bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl shadow-md active:scale-98 transition">
+                            <span>💬 WhatsApp</span>
+                        </a>
+                    </div>
                 </div>
 
             </div>
@@ -316,7 +322,6 @@
 
         let questions = [];
 
-        // Shuffle function to mix questions randomly every time
         function shuffleArray(array) {
             let arr = [...array];
             for (let i = arr.length - 1; i > 0; i--) {
@@ -332,7 +337,6 @@
             });
             document.getElementById('view-' + viewName).classList.remove('hidden');
             
-            // Toggle header timer display
             if (viewName === 'exam') {
                 document.getElementById('headerTimer').classList.remove('hidden');
                 document.getElementById('headerTimer').classList.add('flex');
@@ -353,7 +357,6 @@
                 return;
             }
 
-            // Randomize/Mix questions
             questions = shuffleArray(rawQuestions);
             userAnswers = {};
             timeLeft = 3600;
@@ -446,7 +449,7 @@
                 }
             });
 
-            let score = correct; // No negative marking
+            let score = correct;
             let timeTakenSec = 3600 - timeLeft;
             let timeTakenMin = Math.ceil(timeTakenSec / 60) + " মিনিট";
 
@@ -460,17 +463,12 @@
                 timeTaken: timeTakenMin
             };
 
-            // Display Score Summary
             document.getElementById('resScore').innerText = score + " / " + questions.length;
             document.getElementById('resCorrect').innerText = correct;
             document.getElementById('resWrong').innerText = wrong;
 
-            // Generate Detailed Review
             renderReviewContainer();
-
             switchView('result');
-
-            // Send to Google Sheet securely
             sendDataToGoogleSheet(scoreData);
         }
 
@@ -521,7 +519,6 @@
         }
 
         function sendDataToGoogleSheet(data) {
-            // 1. Fetch POST
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -529,7 +526,6 @@
                 body: JSON.stringify(data)
             }).catch(err => console.log('POST error:', err));
 
-            // 2. GET backup URL
             let backupUrl = `${WEB_APP_URL}?name=${encodeURIComponent(data.name)}&phone=${encodeURIComponent(data.phone)}&score=${data.score}&total=${data.total}&correct=${data.correct}&wrong=${data.wrong}&timeTaken=${encodeURIComponent(data.timeTaken)}`;
             fetch(backupUrl, { mode: 'no-cors' }).catch(err => console.log('GET backup error:', err));
         }
