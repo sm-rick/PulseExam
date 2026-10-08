@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পালস নার্সিং কোচিং - মডেল টেস্ট</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulse: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            800: '#9f1239',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f8fafc;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex justify-center min-h-screen">
+
+    <!-- App Container (Mobile View Width Limit) -->
+    <div class="w-full max-w-md bg-white shadow-xl min-h-screen flex flex-col relative pb-10">
+
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-pulse-700 to-pulse-600 text-white p-4 sticky top-0 z-50 shadow-md">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Logo" class="h-10 w-10 rounded-full bg-white p-0.5 object-contain">
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight">পালস নার্সিং কোচিং</h1>
+                        <p class="text-xs text-pulse-100">ফাউন্ডেশন ব্যাচের সৌজন্যে</p>
+                    </div>
+                </div>
+                <div id="headerTimer" class="hidden bg-white text-pulse-700 font-bold px-3 py-1 rounded-full text-sm flex items-center shadow">
+                    <i class="fa-regular fa-clock mr-1 animate-pulse"></i> <span id="timerDisplay">৬০:০০</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Views -->
+        <main class="flex-grow p-4">
+
+            <!-- VIEW 1: HOME PAGE -->
+            <div id="homeView" class="space-y-6">
+                <!-- Banner / Intro -->
+                <div class="bg-pulse-50 border border-pulse-100 rounded-2xl p-4 text-center">
+                    <span class="bg-pulse-600 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase">ফ্রি সার্ভিস</span>
+                    <h2 class="text-xl font-bold text-pulse-800 mt-2">নার্সিং ভর্তি প্রস্তুতি মডেল টেস্ট</h2>
+                    <p class="text-xs text-gray-600 mt-1">বিএসসি ও ডিপ্লোমা নার্সিং ভর্তি পরীক্ষার্থীদের জন্য বিশেষ উপহার</p>
+                </div>
+
+                <!-- Exam Card -->
+                <div class="bg-white border-2 border-pulse-500 rounded-2xl shadow-lg p-5 relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 bg-pulse-600 text-white text-xs font-bold py-8 px-8 rotate-45 text-center shadow">
+                        ১০০ নম্বর
+                    </div>
+                    
+                    <h3 class="text-lg font-bold text-gray-800 pr-12">পালস নার্সিং ফ্রি মডেল টেস্ট</h3>
+                    
+                    <div class="mt-4 space-y-2 text-sm text-gray-600">
+                        <div class="flex items-center">
+                            <i class="fa-regular fa-calendar-check w-6 text-pulse-600"></i>
+                            <span><b>তারিখ:</b> ২৪/৭ লাইভ এক্সাম</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-[#f43f5e] fa-list-check w-6 text-pulse-600"></i>
+                            <span><b>পূর্ণমান:</b> ১০০ নম্বর (১০০টি প্রশ্ন)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-regular fa-clock w-6 text-pulse-600"></i>
+                            <span><b>সময়:</b> ৬০ মিনিট</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-shield-halved w-6 text-pulse-600"></i>
+                            <span><b>নেগেটিভ মার্ক:</b> নেই</span>
+                        </div>
+                    </div>
+
+                    <button onclick="showRegistrationForm()" class="w-full mt-5 bg-pulse-600 hover:bg-pulse-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transform active:scale-95 transition-all flex items-center justify-center space-x-2">
+                        <span>পরীক্ষা দিন</span>
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- Merit List Section -->
+                <div class="mt-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-lg text-gray-800 flex items-center">
+                            <i class="fa-solid fa-trophy text-amber-500 mr-2"></i> মেরিট লিস্ট (Top Marks)
+                        </h3>
+                        <button onclick="fetchMeritList()" class="text-xs text-pulse-600 hover:underline flex items-center">
+                            <i class="fa-solid fa-rotate mr-1"></i> রিফ্রেশ
+                        </button>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                        <div id="meritLoading" class="p-6 text-center text-gray-500">
+                            <i class="fa-solid fa-circle-notch fa-spin text-pulse-600 text-2xl mb-2"></i>
+                            <p class="text-xs">মেরিট লিস্ট লোড হচ্ছে...</p>
+                        </div>
+                        
+                        <div id="meritContainer" class="hidden divide-y divide-gray-100 max-h-80 overflow-y-auto hide-scrollbar">
+                            <!-- JS Inject Merit Records -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: REGISTRATION FORM VIEW -->
+            <div id="regView" class="hidden space-y-5">
+                <div class="text-center">
+                    <h2 class="text-xl font-bold text-pulse-700">পরীক্ষার্থীর তথ্য</h2>
+                    <p class="text-xs text-gray-500 mt-1">পরীক্ষা শুরু করার পূর্বে নিচের ফর্মটি সঠিকভাবে পূরণ করুন</p>
+                </div>
+
+                <form id="regForm" onsubmit="startExam(event)" class="space-y-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">আপনার পূর্ণ নাম *</label>
+                        <input type="text" id="studentName" required placeholder="উদাহরণ: সাবিহা রহমান" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pulse-500 focus:border-pulse-500 outline-none transition text-sm">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">মোবাইল নম্বর *</label>
+                        <input type="tel" id="studentPhone" required pattern="[0-9]{11}" placeholder="017XXXXXXXX" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pulse-500 focus:border-pulse-500 outline-none transition text-sm">
+                        <p class="text-[10px] text-gray-400 mt-0.5">১১ ডিজিটের সঠিক মোবাইল নম্বর দিন</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">কোর্স নির্বাচন করুন *</label>
+                        <select id="studentCourse" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pulse-500 focus:border-pulse-500 outline-none transition text-sm bg-white">
+                            <option value="" disabled selected>কোর্স বেছে নিন</option>
+                            <option value="বিএসসি ইন নার্সিং">বিএসসি ইন নার্সিং (BSc in Nursing)</option>
+                            <option value="ডিপ্লোমা ইন নার্সিং">ডিপ্লোমা ইন নার্সিং / মিডওয়াইফারি</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-pulse-600 hover:bg-pulse-700 text-white font-bold py-3 rounded-xl shadow-md transform active:scale-95 transition-all text-sm">
+                            প্রশ্নপত্রে প্রবেশ করুন
+                        </button>
+                        <button type="button" onclick="showHomeView()" class="w-full mt-2 text-gray-500 text-xs py-2 hover:underline">
+                            ফিরে যান
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- VIEW 3: QUESTION PAPER VIEW -->
+            <div id="examView" class="hidden space-y-4">
+                <div class="bg-pulse-50 p-3 rounded-lg border border-pulse-100 text-xs text-pulse-800 flex justify-between items-center">
+                    <div><b>পরীক্ষার্থী:</b> <span id="candidateInfo">---</span></div>
+                    <div><b>মোট প্রশ্ন:</b> ১০০ টি</div>
+                </div>
+
+                <!-- Questions Container -->
+                <div id="questionsContainer" class="space-y-6">
+                    <!-- Dynamic Question Cards -->
+                </div>
+
+                <!-- Sticky Submit Button -->
+                <div class="pt-4 sticky bottom-2">
+                    <button onclick="confirmSubmit()" class="w-full bg-pulse-700 hover:bg-pulse-800 text-white font-bold py-3.5 rounded-xl shadow-lg transform active:scale-95 transition-all text-center">
+                        পরীক্ষা সম্পন্ন ও সাবমিট করুন
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 4: RESULT & ANALYSIS VIEW -->
+            <div id="resultView" class="hidden space-y-6">
+                <div class="bg-white border-2 border-pulse-500 rounded-2xl shadow-xl p-6 text-center space-y-3">
+                    <div class="w-16 h-16 bg-pulse-100 rounded-full flex items-center justify-center mx-auto text-pulse-600 text-2xl">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">ফলাফল প্রকাশিত হয়েছে!</h2>
+                    
+                    <div class="py-2">
+                        <p class="text-xs text-gray-500">আপনার প্রাপ্ত নম্বর</p>
+                        <p class="text-4xl font-extrabold text-pulse-600"><span id="scoreObtained">0</span> <span class="text-lg text-gray-400 font-normal">/ ১০০</span></p>
+                    </div>
+
+                    <div id="submissionStatus" class="text-xs font-semibold py-1 px-3 bg-gray-100 rounded-full inline-block text-gray-600">
+                        ডাটা গুগল শিটে সেভ হচ্ছে...
+                    </div>
+
+                    <button onclick="showHomeView()" class="w-full bg-gray-800 text-white py-2.5 rounded-xl text-sm font-semibold mt-2 shadow">
+                        হোম পেজ ও মেরিট লিস্টে যান
+                    </button>
+                </div>
+
+                <!-- Answer Key Review -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-lg text-gray-800 border-b pb-2">উত্তরপত্র বিশ্লেষণ</h3>
+                    <div id="reviewContainer" class="space-y-4">
+                        <!-- Questions with correct answers will render here -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MAIN SCRIPT -->
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzE3jXwZLXZHMIRxfqF3yCcb-7NmXKzCbyScoWu5KdpiS1gc4ujqAQLILwjsYAdLCFSnA/exec";
+
+        // Global State Variables
+        let userData = { name: '', phone: '', course: '' };
+        let userAnswers = {}; // { qIndex: selectedOptionIndex }
+        let timerInterval = null;
+        let timeRemaining = 60 * 60; // 60 minutes in seconds
+
+        // 100 Nursing Standard Questions Data
+        const questions = [
+            // --- বাংলা ব্যাকরণ (২০ টি) ---
+            { subject: "বাংলা ব্যাকরণ", q: "১. 'কাজী নজরুল ইসলাম' কোন কাব্যের জন্য বিশেষ খ্যাতি অর্জন করেন?", options: ["সোনার তরী", "অগ্নিবীণা", "গীতাঞ্জলি", "রূপসী বাংলা"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "২. 'সন্ধি' ব্যাকরণের কোন অংশে আলোচিত হয়?", options: ["শব্দতত্ত্বে", "রূপতত্ত্বে", "ধ্বনিঅতত্ত্বে", "বাক্যতত্ত্বে"], ans: 2 },
+            { subject: "বাংলা ব্যাকরণ", q: "৩. শুদ্ধ বানান কোনটি?", options: ["মুমুর্ষু", "মুমূর্ষু", "মুমুর্ষূ", "মুমূর্ষূ"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "৪. 'হাত গুটানো' বাগধারার অর্থ কী?", options: ["কাজে বিরতি দেওয়া", "অলসতা করা", "ঝগড়া করা", "মারামারি করা"], ans: 0 },
+            { subject: "বাংলা ব্যাকরণ", q: "৫. বাংলা ভাষার মূল উৎস কী?", options: ["বৈদিক ভাষা", "সংস্কৃত ভাষা", "প্রাকৃত ভাষা", "অপভ্রংশ"], ans: 2 },
+            { subject: "বাংলা ব্যাকরণ", q: "৬. 'যে নারী জীবনে এক সন্তান প্রসব করেছে'- তাকে এক কথায় কী বলে?", options: ["বন্ধ্যা", "কাকবন্ধ্যা", "প্রথমসূতি", "গর্ভিনী"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "৭. 'আকাশ' শব্দের সমার্থক শব্দ কোনটি?", options: ["মেদিনী", "অবনী", "অম্বল", "অন্তরিক্ষ"], ans: 3 },
+            { subject: "বাংলা ব্যাকরণ", q: "৮. ধ্বনি পরিবর্তনের নিয়মে 'জিলাপি' > 'জিলেপি' কিসের উদাহরণ?", options: ["স্বরসংগতি", "সমীভবন", "অপিনিহিতি", "বিপ্রকর্ষ"], ans: 0 },
+            { subject: "বাংলা ব্যাকরণ", q: "৯. 'গুরুজনদের ভক্তি কর'- এখানে 'গুরুজনদের' কোন কারকে কোন বিভক্তি?", options: ["কারকে প্রথমা", "কর্ম কারকে ২য়া", "সম্প্রদান কারকে ৭মী", "কর্ম কারকে ৭মী"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "১০. 'উপশহর' শব্দটি কোন সমাস?", options: ["অব্যয়ীভাব", "তৎপুরুষ", "দ্বিগু", "বহুব্রীহি"], ans: 0 },
+            { subject: "বাংলা ব্যাকরণ", q: "১১. 'সঞ্চয়' শব্দের সঠিক সন্ধি বিচ্ছেদ কোনটি?", options: ["সম্ + চয়", "সং + চয়", "সঙ্ + চয়", "সন + চয়"], ans: 0 },
+            { subject: "বাংলা ব্যাকরণ", q: "১২. নিচের কোনটি তদ্ভব শব্দ?", options: ["চন্দ্র", "হাত", "সূর্য", "ভবন"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "১৩. 'অগ্নি' শব্দের বিপরীত শব্দ কোনটি?", options: ["জল", "অনল", "পাবক", "বহ্নি"], ans: 0 },
+            { subject: "বাংলা ব্যাকরণ", q: "১৪. 'মহেশ' ছোটগল্পটির রচয়িতা কে?", options: ["রবীন্দ্রনাথ ঠাকুর", "শরৎচন্দ্র চট্টোপাধ্যায়", "কাজী নজরুল ইসলাম", "বঙ্কিমচন্দ্র"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "১৫. বাক্যের মৌলিক উপাদান কোনটি?", options: ["বর্ণ", "শব্দ", "ধ্বনি", "পদ"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "১৬. 'বুলবুলিতে ধান খেয়েছে'- 'বুলবুলিতে' কোন কারকে কোন বিভক্তি?", options: ["কর্তায় ৭মী", "কর্মে ৭মী", "করণে ৭মী", "অপাদানে ৭মী"], ans: 0 },
+            { subject: "বাংলা ব্যাকরণ", q: "১৭. 'মনোযোগ' শব্দটির সঠিক ব্যাকরণগত রূপ/সন্ধি?", options: ["মন + যোগ", "মনঃ + যোগ", "মনো + যোগ", "মনস্ + যোগ"], ans: 1 },
+            { subject: "বাংলা ব্যাকরণ", q: "১৮. 'একাদশে বৃহস্পতি' বাগধারাটির অর্থ কী?", options: ["সুসময়", "দুঃসময়", "ভাগ্য গণনা", "বৃহৎ ঘটনা"], ans: 0 },
+            { subject: "বাংলা ব্যাকরণ", q: "১৯. কোনটি মৌলিক স্বরধ্বনি?", options: ["ঐ", "ঔ", "ই", "অ্যা"], ans: 3 },
+            { subject: "বাংলা ব্যাকরণ", q: "২০. 'আমার ভাইয়ের রক্তে রাঙানো একুশে ফেব্রুয়ারি' গানটির রচয়িতা কে?", options: ["আলতাফ মাহমুদ", "আব্দুল গাফফার চৌধুরী", "গাজী মাজহারুল আনোয়ার", "আহসান হাবীব"], ans: 1 },
+
+            // --- ইংরেজি (২০ টি) ---
+            { subject: "ইংরেজি", q: "21. Choose the correct spelling:", options: ["Dysentery", "Dysentary", "Disentery", "Dysintary"], ans: 0 },
+            { subject: "ইংরেজি", q: "22. What is the synonym of 'Competent'?", options: ["Incompetent", "Capable", "Clumsy", "Weak"], ans: 1 },
+            { subject: "ইংরেজি", q: "23. What is the antonym of 'Enormous'?", options: ["Huge", "Tiny", "Vast", "Giant"], ans: 1 },
+            { subject: "ইংরেজি", q: "24. He is preferred _____ his brother.", options: ["than", "to", "from", "with"], ans: 1 },
+            { subject: "ইংরেজি", q: "25. Identify the noun form of 'Do':", options: ["Did", "Done", "Deed", "Doing"], ans: 2 },
+            { subject: "ইংরেজি", q: "26. 'Out and out' means:", options: ["Thoroughly", "Outside", "Partially", "Rarely"], ans: 0 },
+            { subject: "ইংরেজি", q: "27. Choose the passive form of 'Close the door':", options: ["Let the door close.", "Let the door be closed.", "The door should close.", "Shut the door."], ans: 1 },
+            { subject: "ইংরেজি", q: "28. The doctor advised him to abstain _____ smoking.", options: ["from", "to", "in", "with"], ans: 0 },
+            { subject: "ইংরেজি", q: "29. He came home yesterday. What part of speech is 'yesterday'?", options: ["Noun", "Adjective", "Adverb", "Preposition"], ans: 2 },
+            { subject: "ইংরেজি", q: "30. Which one is singular?", options: ["Data", "Phenomena", "Crisis", "Media"], ans: 2 },
+            { subject: "ইংরেজি", q: "31. Florence Nightingale is associated with which profession?", options: ["Teaching", "Nursing", "Law", "Medicine"], ans: 1 },
+            { subject: "ইংরেজি", q: "32. Neither he nor his friends _____ present.", options: ["was", "were", "is", "has"], ans: 1 },
+            { subject: "ইংরেজি", q: "33. 'Call it a day' means:", options: ["Start working", "Stop working on something", "Call someone", "Enjoy the day"], ans: 1 },
+            { subject: "ইংরেজি", q: "34. The teacher made the students _____ the essay.", options: ["to write", "write", "writing", "written"], ans: 1 },
+            { subject: "ইংরেজি", q: "35. Correct sentence:", options: ["One of my friend is a nurse.", "One of my friends are a nurse.", "One of my friends is a nurse.", "One of my friend are a nurse."], ans: 2 },
+            { subject: "ইংরেজি", q: "36. Antonym of 'Optimistic':", options: ["Pessimistic", "Hopeful", "Positive", "Cheerful"], ans: 0 },
+            { subject: "ইংরেজি", q: "37. What is the plural of 'Child'?", options: ["Childs", "Childrens", "Children", "Childies"], ans: 2 },
+            { subject: "ইংরেজি", q: "38. She speaks as if she _____ everything.", options: ["knows", "knew", "known", "has known"], ans: 1 },
+            { subject: "ইংরেজি", q: "39. Fill in the blank: 'Look _____ the word in the dictionary.'", options: ["after", "up", "at", "for"], ans: 1 },
+            { subject: "ইংরেজি", q: "40. Who wrote 'Hamlet'?", options: ["Charles Dickens", "William Shakespeare", "John Keats", "Jane Austen"], ans: 1 },
+
+            // --- গণিত (১০ টি) ---
+            { subject: "গণিত", q: "৪১. একটি ত্রিভুজের তিনটি কোণের সমষ্টি কত ডিগ্রী?", options: ["৯০°", "১৮০°", "৩৬০°", "২৭০°"], ans: 1 },
+            { subject: "গণিত", q: "৪২. ১ থেকে ২০ পর্যন্ত মৌলিক সংখ্যা কয়টি?", options: ["৬ টি", "৭ টি", "৮ টি", "৯ টি"], ans: 2 },
+            { subject: "গণিত", q: "৪৩. ৫x + ৩ = ২৩ হলে, x এর মান কত?", options: ["৩", "৪", "৫", "৬"], ans: 1 },
+            { subject: "গণিত", q: "৪৪. ২৫% এর ভগ্নাংশ রূপ কোনটি?", options: ["১/২", "১/৪", "১/৫", "৩/৪"], ans: 1 },
+            { subject: "গণিত", q: "৪৫. একটি বৃত্তের ব্যাসার্ধ r হলে, ক্ষেত্রফল কত?", options: ["2πr", "πr²", "4πr²", "2πr²"], ans: 1 },
+            { subject: "গণিত", q: "৪৬. পিতা ও পুত্রের বয়সের সমষ্টি ৬০ বছর। পিতার বয়স পুত্রের বয়সের ৩ গুণ হলে, পুত্রের বয়স কত?", options: ["১০ বছর", "১৫ বছর", "২০ বছর", "১২ বছর"], ans: 1 },
+            { subject: "গণিত", q: "৪৭. (a + b)² = কত?", options: ["a² + b²", "a² - 2ab + b²", "a² + 2ab + b²", "a² + ab + b²"], ans: 2 },
+            { subject: "গণিত", q: "৪৮. ২, ৪, ৮, ১৬, .... ধারাটির পরবর্তী পদ কোনটি?", options: ["২০", "২৪", "২৮", "৩২"], ans: 3 },
+            { subject: "গণিত", q: "৪৯. একটি পণ্যের ক্রয়মূল্য ১০০ টাকা এবং বিক্রয়মূল্য ১২০ টাকা হলে লাভের হার কত?", options: ["১০%", "১৫%", "২০%", "২৫%"], ans: 2 },
+            { subject: "গণিত", q: "৫০. লঘিষ্ঠ সাধারণ গুণনীয়ক (ল.সা.গু) নির্ণয় করুন: ৪ ও ৬?", options: ["১২", "২৪", "২", "৬"], ans: 0 },
+
+            // --- বিজ্ঞান (৩০ টি - জীববিজ্ঞান, রসায়ন, পদার্থ) ---
+            { subject: "বিজ্ঞান", q: "৫১. মানবদেহের রক্তের pH এর মান সাধারণত কত?", options: ["৬.৫ - ৭.০", "৭.৩৫ - ৭.৪৫", "৮.০ - ৮.৫", "৫.৫ - ৬.০"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৫২. পাওয়ার হাউজ বা কোষের শক্তিঘর কাকে বলা হয়?", options: ["রাইবোজোম", "লাইসোজোম", "মাইটোকন্ড্রিয়া", "গলগি বডি"], ans: 2 },
+            { subject: "বিজ্ঞান", q: "৫৩. রক্তে অক্সিজেন পরিবহনে সাহায্য করে কোনটি?", options: ["শ্বেত রক্তকণিকা", "হিমোগ্লোবিন", "অনুচক্রিকা", "প্লাজমা"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৫৪. মানবদেহের বৃহত্তম গ্রন্থি কোনটি?", options: ["থাইরয়েড", "অগ্ন্যাশয়", "যকৃৎ (Liver)", "পিটুইটারি"], ans: 2 },
+            { subject: "বিজ্ঞান", q: "৫৫. কোন ভিটামিনের অভাবে রিকেটস রোগ হয়?", options: ["ভিটামিন A", "ভিটামিন C", "ভিটামিন D", "ভিটামিন K"], ans: 2 },
+            { subject: "বিজ্ঞান", q: "৫৬. রক্তের জমাট বাঁধতে সাহায্য করে কোন রক্তকণিকা?", options: ["লোহিত রক্তকণিকা", "শ্বেত রক্তকণিকা", "অনুচক্রিকা (Platelet)", "মনোসাইট"], ans: 2 },
+            { subject: "বিজ্ঞান", q: "৫৭. ইনসুলিন হরমোন নিশ্চিত হয় কোনটি থেকে?", options: ["যকৃৎ", "অগ্ন্যাশয়", "বৃক্ক", "পাকস্থলী"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৫৮. বংশগতির ভৌত ভিত্তি কোনটি?", options: ["জিন", "ক্রোমোজোম", "ডিএনএ", "আরএনএ"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৫৯. পানির রাসায়নিক সংকেত কোনটি?", options: ["H2O2", "H2O", "HO2", "H3O"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৬০. খাওয়ার লবণের রাসায়নিক নাম কী?", options: ["ক্যালসিয়াম কার্বনেট", "সোডিয়াম ক্লোরাইড", "পটাশিয়াম ক্লোরাইড", "সোডিয়াম বাইকার্বনেট"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৬১. বায়ুমণ্ডলে সবচেয়ে বেশি কোন গ্যাস থাকে?", options: ["অক্সিজেন", "নাইট্রোজেন", "কার্বন ডাই অক্সাইড", "হাইড্রোজেন"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৬২. সালোকসংশ্লেষণ প্রক্রিয়ার উপজাত হিসেবে কোনটি উৎপন্ন হয়?", options: ["কার্বন ডাই অক্সাইড", "অক্সিজেন", "নাইট্রোজেন", "মিথেন"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৬৩. মস্তিষ্কের প্রধান অংশ কোনটি?", options: ["গুরুমস্তিষ্ক (Cerebrum)", "লঘুমস্তিষ্ক (Cerebellum)", "মেডুলা", "পনস"], ans: 0 },
+            { subject: "বিজ্ঞান", q: "৬৪. সার্বজনীন দাতা রক্ত গ্রুপ কোনটি?", options: ["AB positive", "O negative", "A positive", "B negative"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৬৫. মানবদেহে হাড়ের সংখ্যা কয়টি?", options: ["২০৬ টি", "২০৮ টি", "২০০ টি", "২১২ টি"], ans: 0 },
+            { subject: "বিজ্ঞান", q: "৬৬. কার্বন ডাই অক্সাইডের সংকেত কোনটি?", options: ["CO", "CO2", "C2O", "SO2"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৬৭. তরল ধাতু কোনটি?", options: ["পারদ", "সোডিয়াম", "সীসা", "লোহা"], ans: 0 },
+            { subject: "বিজ্ঞান", q: "৬৮. শব্দের গতি সবচেয়ে বেশি কোন মাধ্যমে?", options: ["বায়ু", "পানি", "কঠিন (লোহা)", "শূন্য মাধ্যম"], ans: 2 },
+            { subject: "বিজ্ঞান", q: "৬৯. শুষ্ক বরফ কাকে বলে?", options: ["কঠিন পানি", "কঠিন কার্বন ডাই অক্সাইড", "কঠিন নাইট্রোজেন", "বরফ কুচি"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৭০. আলোর বেগ প্রতি সেকেন্ডে আনুমানিক কত?", options: ["৩ লক্ষ কিমি", "২ লক্ষ কিমি", "১ লক্ষ কিমি", "৪ লক্ষ কিমি"], ans: 0 },
+            { subject: "বিজ্ঞান", q: "৭১. নিউটনের গতির সূত্র কয়টি?", options: ["২টি", "৩টি", "৪টি", "৫টি"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৭২. মানবদেহের স্বাভাবিক তাপমাত্রা কত ফারেনহাইট?", options: ["৯৬.৬° F", "৯৮.৪° F", "৯৯.০° F", "৯৭.৫° F"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৭৩. পরিপাকতন্ত্রের কোন অংশে খাদ্যের মূল শোষণ ঘটে?", options: ["পাকস্থলী", "ক্ষুদ্রান্ত্র", "বৃহদান্ত্র", "মুখগহ্বর"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৭৪. অ্যাসিড নীল লিটমাসকে কোন রঙে পরিণত করে?", options: ["লাল", "সবুজ", "হলুদ", "বেগুনি"], ans: 0 },
+            { subject: "বিজ্ঞান", q: "৭৫. ডায়াবেটিস রোগ হয় কিসের অভাবে?", options: ["থাইরক্সিন", "ইনসুলিন", "অ্যাড্রেনালিন", "প্যারাথরমোন"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৭৬. মানবদেহে বৃক্কের (Kidney) একক কোনটি?", options: ["নিউরণ", "নেফ্রন", "অ্যাক্সন", "সাইটন"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৭৭. কোনটি বায়োডিগ্রেডেবল বা পচনশীল বর্জ্য?", options: ["প্লাস্টিক", "কাঁচ", "পলিথিন", "তরি-তরকারির খোসা"], ans: 3 },
+            { subject: "বিজ্ঞান", q: "৭৮. প্রোটিন পরিপাক হয়ে কিসে রূপান্তরিত হয়?", options: ["গ্লুকোজ", "ফ্যাটি এসিড", "অ্যামিনো এসিড", "গ্লিসারল"], ans: 2 },
+            { subject: "বিজ্ঞান", q: "৭৯. কোনটি স্পর্শমুখী বা সংক্রামক ব্যাধি নয়?", options: ["যক্ষ্মা", "ক্যান্সার", "ইনফ্লুয়েঞ্জা", "করোনা"], ans: 1 },
+            { subject: "বিজ্ঞান", q: "৮০. কোনটি মৌলিক পদার্থ?", options: ["পানি", "বাতাস", "হীরা/কার্বন", "লবণ"], ans: 2 },
+
+            // --- সাধারণ জ্ঞান (২০ টি) ---
+            { subject: "সাধারণ জ্ঞান", q: "৮১. বাংলাদেশের স্বাধীনতা দিবস কবে?", options: ["১৬ ডিসেম্বর", "২৬ মার্চ", "২১ ফেব্রুয়ারি", "১৪ এপ্রিল"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৮২. বাংলাদেশের জাতীয় স্মৃতিসৌধের স্থপতি কে?", options: ["হামিদুর রহমান", "মাইনুল হোসেন", "শামীম সিকদার", "নিতুন কুন্ডু"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৮৩. জাতির পিতা বঙ্গবন্ধু শেখ মুজিবুর রহমানের ঐতিহাসিক ৭ই মার্চের ভাষণ কোথায় অনুষ্ঠিত হয়েছিল?", options: ["পল্টন ময়দান", "রেসকোর্স ময়দান", "সোহারাওয়ার্দী হাসপাতাল", "ধানমন্ডি ৩২"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৮৪. পদ্মা সেতুর দৈর্ঘ্য কত কিলোমিটার?", options: ["৬.১৫ কিমি", "৫.১৫ কিমি", "৭.১৫ কিমি", "৬.২৫ কিমি"], ans: 0 },
+            { subject: "সাধারণ জ্ঞান", q: "৮৫. স্বাস্থ্য দিবস পালিত হয় কবে?", options: ["৭ এপ্রিল", "১ মে", "৭ মে", "১৫ মার্চ"], ans: 0 },
+            { subject: "সাধারণ জ্ঞান", q: "৮৬. বিশ্ব স্বাস্থ্য সংস্থা (WHO) এর সদর দপ্তর কোথায়?", options: ["নিউইয়র্ক", "জেনেভা", "লন্ডন", "প্যারিস"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৮৭. বাংলাদেশের সংবিধান কত সালে গৃহীত হয়?", options: ["১৯৭১", "১৯৭২", "১৯৭৩", "১৯৭৪"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৮৮. রেড ক্রস / রেড ক্রিসেন্ট এর মূল কাজ কী?", options: ["শিক্ষা বিস্তার", "মানবিক সেবা ও চিকিৎসা সহায়তা", "ক্রীড়া উন্নয়ন", "বাণিজ্য সম্প্রসারণ"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৮৯. সুন্দরবন বাংলাদেশের কোন কোন বিভাগে বিস্তৃত?", options: ["ঢাকা ও খুলনা", "খুলনা ও বরিশাল", "বরিশাল ও রাজশাহী", "চট্টগ্রাম ও খুলনা"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৯০. প্রথম বিশ্বযুদ্ধ কত সালে শুরু হয়?", options: ["১৯১৪", "১৯৩৯", "১৯১৮", "১৯৪৫"], ans: 0 },
+            { subject: "সাধারণ জ্ঞান", q: "৯১. বাংলাদেশের জাতীয় পতাকার নকশাকার কে?", options: ["জয়নুল আবেদিন", "কামরুল হাসান", "মোস্তফা মনোয়ার", "হাশেম খান"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৯২. 'আমার দেখা নয়াচীন' বইটির লেখক কে?", options: ["রবীন্দ্রনাথ ঠাকুর", "বঙ্গবন্ধু শেখ মুজিবুর রহমান", "কাজী নজরুল ইসলাম", "আবু জাফর শামসুদ্দীন"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৯৩. কবিগুরু রবীন্দ্রনাথ ঠাকুর কত সালে নোবেল পুরস্কার পান?", options: ["১৯১১", "১৯১৩", "১৯১৫", "১৯২১"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৯৪. দক্ষিণ এশিয়ার কোন দেশে নার্সের অনুপাত তুলনামূলকভাবে বেশি?", options: ["বাংলাদেশ", "শ্রীলঙ্কা", "ভারত", "পাকিস্তান"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৯৫. আন্তর্জাতিক নার্স দিবস কবে পালন করা হয়?", options: ["১২ মে", "৮ মার্চ", "৭ এপ্রিল", "১ ডিসেম্বর"], ans: 0 },
+            { subject: "সাধারণ জ্ঞান", q: "৯৬. 'ফ্লোরেন্স নাইটিংগেল' কোন যুদ্ধের সাথে সম্পর্কিত ছিলেন?", options: ["প্রথম বিশ্বযুদ্ধ", "ক্রিমিয়ার যুদ্ধ", "দ্বিতীয় বিশ্বযুদ্ধ", "ফরাসি বিপ্লব"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৯৭. বাংলাদেশের একমাত্র প্রবাল দ্বীপ কোনটি?", options: ["সেন্টমার্টিন", "মহেশখালী", "হাতিয়া", "সন্দ্বীপ"], ans: 0 },
+            { subject: "সাধারণ জ্ঞান", q: "৯৮. 'মুজিবনগর সরকার' কত তারিখে শপথ গ্রহণ করে?", options: ["১০ এপ্রিল ১৯৭১", "১৭ এপ্রিল ১৯৭১", "২৬ মার্চ ১৯৭১", "১৬ ডিসেম্বর ১৯৭১"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "৯৯. আয়তনের দিক থেকে বিশ্বের বৃহত্তম দেশ কোনটি?", options: ["চীন", "রাশিয়া", "কানাডা", "আমেরিকা"], ans: 1 },
+            { subject: "সাধারণ জ্ঞান", q: "১০০. জাতিসংঘের সদর দপ্তর কোথায় অবস্থিত?", options: ["লন্ডন", "জেনেভা", "নিউইয়র্ক", "ওয়াশিংটন ডি.সি."], ans: 2 }
+        ];
+
+        // --- NAVIGATION & VIEWS ---
+        function showHomeView() {
+            document.getElementById('homeView').classList.remove('hidden');
+            document.getElementById('regView').classList.add('hidden');
+            document.getElementById('examView').classList.add('hidden');
+            document.getElementById('resultView').classList.add('hidden');
+            document.getElementById('headerTimer').classList.add('hidden');
+            
+            clearInterval(timerInterval);
+            fetchMeritList();
+        }
+
+        function showRegistrationForm() {
+            document.getElementById('homeView').classList.add('hidden');
+            document.getElementById('regView').classList.remove('hidden');
+        }
+
+        // --- EXAM LOGIC ---
+        function startExam(e) {
+            e.preventDefault();
+            userData.name = document.getElementById('studentName').value.trim();
+            userData.phone = document.getElementById('studentPhone').value.trim();
+            userData.course = document.getElementById('studentCourse').value;
+
+            if (!userData.name || !userData.phone || !userData.course) {
+                alert("সবগুলো তথ্য সঠিকভাবে পূরণ করুন!");
+                return;
+            }
+
+            document.getElementById('candidateInfo').innerText = `${userData.name} (${userData.course})`;
+
+            // Render Questions
+            renderQuestions();
+
+            // Switch view & start timer
+            document.getElementById('regView').classList.add('hidden');
+            document.getElementById('examView').classList.remove('hidden');
+            document.getElementById('headerTimer').classList.remove('hidden');
+
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            userAnswers = {};
+
+            questions.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-3";
+                
+                let optionsHTML = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHTML += `
+                        <label class="flex items-center p-2.5 rounded-lg border border-gray-100 hover:bg-pulse-50 cursor-pointer transition text-sm">
+                            <input type="radio" name="q_${qIndex}" value="${optIndex}" onchange="recordAnswer(${qIndex}, ${optIndex})" class="w-4 h-4 text-pulse-600 focus:ring-pulse-500">
+                            <span class="ml-3 text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <span class="text-[10px] font-semibold px-2 py-0.5 bg-pulse-100 text-pulse-800 rounded">${q.subject}</span>
+                    </div>
+                    <p class="font-medium text-gray-800 text-sm">${q.q}</p>
+                    <div class="space-y-1.5 pt-1">
+                        ${optionsHTML}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function recordAnswer(qIndex, optIndex) {
+            userAnswers[qIndex] = optIndex;
+        }
+
+        // --- TIMER ---
+        function startTimer() {
+            timeRemaining = 60 * 60; // 60 mins
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("সময় শেষ! আপনার উত্তরপত্র সাবমিট করা হচ্ছে।");
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const formatted = `${minutes < 10 ? '০' : ''}${toBengaliNumeral(minutes)}:${seconds < 10 ? '০' : ''}${toBengaliNumeral(seconds)}`;
+            document.getElementById('timerDisplay').innerText = formatted;
+        }
+
+        function toBengaliNumeral(num) {
+            const bnNums = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+            return num.toString().split('').map(d => bnNums[d] || d).join('');
+        }
+
+        // --- SUBMISSION & SCORING ---
+        function confirmSubmit() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < questions.length) {
+                if (!confirm(`আপনি ১০০টির মধ্যে ${answeredCount}টি প্রশ্নের উত্তর দিয়েছেন। আপনি কি নিশ্চিত যে পরীক্ষা সাবমিট করতে চান?`)) {
+                    return;
+                }
+            }
+            submitExam();
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            // Calculate Score
+            let score = 0;
+            questions.forEach((q, index) => {
+                if (userAnswers[index] === q.ans) {
+                    score++;
+                }
+            });
+
+            // Update Result UI
+            document.getElementById('scoreObtained').innerText = score;
+            document.getElementById('examView').classList.add('hidden');
+            document.getElementById('headerTimer').classList.add('hidden');
+            document.getElementById('resultView').classList.remove('hidden');
+
+            renderAnswerReview();
+
+            // Send Data to Google Apps Script
+            sendDataToGoogleSheet(score);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderAnswerReview() {
+            const container = document.getElementById('reviewContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const userSelected = userAnswers[index];
+                const isCorrect = userSelected === q.ans;
+                const isUnanswered = userSelected === undefined;
+
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-xl border text-sm space-y-2 ${
+                    isCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'
+                }`;
+
+                let optionsReview = '';
+                q.options.forEach((opt, optIdx) => {
+                    let badge = '';
+                    let itemStyle = 'text-gray-600';
+
+                    if (optIdx === q.ans) {
+                        badge = `<i class="fa-solid fa-check text-emerald-600 ml-2"></i> (সঠিক উত্তর)`;
+                        itemStyle = 'font-bold text-emerald-800';
+                    }
+                    if (userSelected === optIdx && !isCorrect) {
+                        badge = `<i class="fa-solid fa-xmark text-rose-600 ml-2"></i> (আপনার উত্তর)`;
+                        itemStyle = 'font-bold text-rose-800';
+                    }
+
+                    optionsReview += `<div class="py-1 px-2 rounded ${itemStyle}">${opt} ${badge}</div>`;
+                });
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs font-semibold">
+                        <span class="text-gray-500">${q.subject}</span>
+                        <span class="${isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                            ${isCorrect ? 'সঠিক (+১)' : (isUnanswered ? 'উত্তর দেননি (০)' : 'ভুল (০)')}
+                        </span>
+                    </div>
+                    <p class="font-semibold text-gray-800">${q.q}</p>
+                    <div class="space-y-1 bg-white/60 p-2 rounded-lg border border-gray-100">
+                        ${optionsReview}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- GOOGLE APPS SCRIPT INTEGRATION ---
+        function sendDataToGoogleSheet(score) {
+            const statusElem = document.getElementById('submissionStatus');
+            statusElem.className = 'text-xs font-semibold py-1 px-3 bg-amber-100 text-amber-800 rounded-full inline-block';
+            statusElem.innerText = 'মেরিট লিস্টে ফলাফল যোগ করা হচ্ছে...';
+
+            const payload = {
+                name: userData.name,
+                phone: userData.phone,
+                course: userData.course,
+                marks: score
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                statusElem.className = 'text-xs font-semibold py-1 px-3 bg-emerald-100 text-emerald-800 rounded-full inline-block';
+                statusElem.innerText = '✓ সফলভাবে সংরক্ষিত হয়েছে!';
+            })
+            .catch(err => {
+                console.error(err);
+                statusElem.className = 'text-xs font-semibold py-1 px-3 bg-rose-100 text-rose-800 rounded-full inline-block';
+                statusElem.innerText = 'নেটওয়ার্ক সমস্যা! ডাটা সেভ হতে ব্যর্থ।';
+            });
+        }
+
+        function fetchMeritList() {
+            const loading = document.getElementById('meritLoading');
+            const container = document.getElementById('meritContainer');
+
+            loading.classList.remove('hidden');
+            container.classList.add('hidden');
+
+            fetch(SCRIPT_URL)
+                .then(res => res.json())
+                .then(response => {
+                    loading.classList.add('hidden');
+                    container.classList.remove('hidden');
+
+                    if (response.result === 'success' && response.data.length > 0) {
+                        let html = '';
+                        response.data.forEach((item, index) => {
+                            let rankBadge = `<span class="w-6 h-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-xs">${index + 1}</span>`;
+                            
+                            if (index === 0) rankBadge = `<span class="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xs"><i class="fa-solid fa-crown text-amber-500"></i></span>`;
+                            else if (index === 1) rankBadge = `<span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs">২</span>`;
+                            else if (index === 2) rankBadge = `<span class="w-6 h-6 rounded-full bg-amber-700/10 text-amber-800 flex items-center justify-center font-bold text-xs">৩</span>`;
+
+                            html += `
+                                <div class="p-3 flex items-center justify-between hover:bg-gray-50 transition">
+                                    <div class="flex items-center space-x-3">
+                                        ${rankBadge}
+                                        <div>
+                                            <p class="font-semibold text-sm text-gray-800 leading-snug">${item.name}</p>
+                                            <p class="text-[11px] text-gray-400">${item.course}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-base font-extrabold text-pulse-600">${item.marks}</span>
+                                        <span class="text-[10px] text-gray-400 block">স্কোর</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        container.innerHTML = html;
+                    } else {
+                        container.innerHTML = `<div class="p-4 text-center text-gray-400 text-xs">এখনো কোনো পরীক্ষা সম্পন্ন হয়নি। প্রথম পরীক্ষা দিন!</div>`;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    loading.classList.add('hidden');
+                    container.classList.remove('hidden');
+                    container.innerHTML = `<div class="p-4 text-center text-rose-500 text-xs">মেরিট লিস্ট লোড করতে সমস্যা হয়েছে। রিফ্রেশ করার চেষ্টা করুন।</div>`;
+                });
+        }
+
+        // Initialize App
+        window.onload = function() {
+            fetchMeritList();
+        };
+    </script>
+</body>
+</html>
