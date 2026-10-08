@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বাংলাদেশ সংবিধান কুইজ - MCQ Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 min-h-screen text-slate-800 flex flex-col justify-between">
+
+    <header class="bg-emerald-700 text-white shadow-md py-4 px-6">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                <span>🇧🇩</span> বাংলাদেশ সংবিধান বিশেষ কুইজ
+            </h1>
+            <div id="timer-container" class="hidden bg-emerald-800 px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2 shadow-inner">
+                <span>⏱️ সময় বাকি:</span>
+                <span id="time-display" class="text-amber-300 font-mono text-base">15:00</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl w-full mx-auto p-4 sm:p-6 my-auto">
+        
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center transition-all duration-300">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm">
+                📖
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-emerald-900 mb-3">গণপ্রজাতন্ত্রী বাংলাদেশের সংবিধান কুইজ</h2>
+            <p class="text-slate-600 mb-6 max-w-lg mx-auto leading-relaxed">
+                আপনার সংবিধান বিষয়ক জ্ঞান যাচাই করুন। এই কুইজে মোট ২৫টি গুরুত্বপূর্ণ প্রশ্ন রয়েছে। উত্তর দেওয়ার জন্য আপনি সময় পাবেন মোট ১৫ মিনিট।
+            </p>
+            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6 text-sm text-emerald-800 flex flex-col sm:flex-row justify-around gap-2 font-medium">
+                <div>📌 মোট প্রশ্ন: ২৫টি</div>
+                <div>⏳ নির্ধারিত সময়: ১৫ মিনিট</div>
+                <div>🎯 পাস মার্ক: ৪০%</div>
+            </div>
+            <button onclick="startQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform active:scale-95 text-lg">
+                কুইজ শুরু করুন 🚀
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden bg-white rounded-2xl shadow-xl p-6 sm:p-8">
+            <!-- Progress Bar -->
+            <div class="mb-6">
+                <div class="flex justify-between text-sm font-semibold text-slate-500 mb-2">
+                    <span id="question-tracker">প্রশ্ন ১ / ২৫</span>
+                    <span id="score-tracker">স্কোর: ০</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-600 h-full transition-all duration-300" style="width: 4%"></div>
+                </div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="mb-6">
+                <h3 id="question-text" class="text-lg sm:text-xl font-bold text-slate-800 mb-4 leading-snug"></h3>
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Explanation Box -->
+            <div id="explanation-box" class="hidden mb-6 p-4 rounded-xl text-sm font-medium border">
+                <!-- Explanation text -->
+            </div>
+
+            <!-- Next Button -->
+            <div class="flex justify-end">
+                <button id="next-btn" onclick="nextQuestion()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow transition">
+                    পরবর্তী প্রশ্ন ➡️
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm" id="result-icon">
+                🏆
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">কুইজ সম্পন্ন হয়েছে!</h2>
+            <p id="result-message" class="text-slate-600 mb-6 font-medium text-lg"></p>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-8 max-w-md mx-auto grid grid-cols-2 gap-4 text-center">
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-100">
+                    <div class="text-slate-500 text-xs font-semibold mb-1">প্রাপ্ত স্কোর</div>
+                    <div id="final-score" class="text-2xl font-bold text-emerald-600">০/২৫</div>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-100">
+                    <div class="text-slate-500 text-xs font-semibold mb-1">সঠিক উত্তর</div>
+                    <div id="correct-count" class="text-2xl font-bold text-teal-600">০</div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="restartQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl shadow transition">
+                    পুনরায় কুইজ দিন 🔄
+                </button>
+                <button onclick="reviewAnswers()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-xl shadow transition">
+                    উত্তরপত্র দেখুন 📋
+                </button>
+            </div>
+        </div>
+
+        <!-- Review Screen -->
+        <div id="review-screen" class="hidden bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-h-[80vh] overflow-y-auto">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4 sticky top-0 bg-white py-2 border-b">সঠিক উত্তরসমূহ ও ব্যাখ্যা</h2>
+            <div id="review-container" class="space-y-6">
+                <!-- Review details will populate here -->
+            </div>
+            <div class="mt-6 text-center">
+                <button onclick="restartQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl shadow">
+                    হোমে ফিরে যান 🏠
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
+        <p>বাংলাদেশ সংবিধানভিত্তিক ইন্টারঅ্যাক্টিভ কুইজ অ্যাপ | সর্বস্বত্ব সংরক্ষিত</p>
+    </footer>
+
+    <script>
+        // 25 MCQ Questions on Bangladesh Constitution
+        const quizData = [
+            {
+                question: "বাংলাদেশের সংবিধান কবে গণপরিষদে গৃহীত হয়?",
+                options: ["৪ নভেম্বর, ১৯৭২", "১৬ ডিসেম্বর, ১৯৭২", "২৩ মার্চ, ১৯৭২", "১০ জানুয়ারি, ১৯৭২"],
+                answer: 0,
+                explanation: "১৯৭২ সালের ৪ নভেম্বর গণপরিষদে বাংলাদেশের সংবিধান গৃহীত হয় এবং ১৬ ডিসেম্বর থেকে কার্যকর হয়।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধান কার্যকর হয় কবে থেকে?",
+                options: ["২৬ মার্চ, ১৯৭২", "১৬ ডিসেম্বর, ১৯৭২", "৪ নভেম্বর, ১৯৭২", "১৫ আগস্ট, ১৯৭২"],
+                answer: 1,
+                explanation: "সংবিধান কার্যকর করা হয় ১৯৭২ সালের ১৬ ডিসেম্বর বিজয় দিবসের দিন থেকে।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধানের মূল ভিত্তি বা মূলনীতি কয়টি?",
+                options: ["৩টি", "৪টি", "৫টি", "৬টি"],
+                answer: 1,
+                explanation: "সংবিধানের মূলনীতি চারটি: জাতীয়তাবাদ, সমাজতন্ত্র, গণতন্ত্র ও ধর্মনিরপেক্ষতা।"
+            },
+            {
+                question: "নিচের কোনটি বাংলাদেশের সংবিধানের মূলনীতি নয়?",
+                options: ["জাতীয়তাবাদ", "সমাজতন্ত্র", "পুঁজিবাদ", "ধর্মনিরপেক্ষতা"],
+                answer: 2,
+                explanation: "পুঁজিবাদ সংবিধানের চার মূলনীতির অন্তর্ভূক্ত নয়।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধানের মোট অনুচ্ছেদ বা ধারা কয়টি?",
+                options: ["১৫0টি", "১৫৩টি", "১৫৫টি", "১৬০টি"],
+                answer: 1,
+                explanation: "মূল সংবিধਾਨে ১৫৩টি অনুচ্ছেদ ছিল।"
+            },
+            {
+                question: "বাংলাদেশ সংবিধানের অভিভাবক ও ব্যাখ্যাকারী কে?",
+                options: ["রাষ্ট্রপতি", "প্রধানমন্ত্রী", "সুপ্রিম কোর্ট", "জাতীয় সংসদ"],
+                answer: 2,
+                explanation: "বাংলাদেশের সংবিধানের চূড়ান্ত ব্যাখ্যাকারী ও অভিভাবক হলো সুপ্রিম কোর্ট।"
+            },
+            {
+                question: "সংবিধানের কত নম্বর অনুচ্ছেদে রাষ্ট্রভাষা বাংলার কথা বলা হয়েছে?",
+                options: ["২ নং অনুচ্ছেদ", "৩ নং অনুচ্ছেদ", "৫ নং অনুচ্ছেদ", "৮ নং অনুচ্ছেদ"],
+                answer: 1,
+                explanation: "সংবিধানের ৩ নম্বর অনুচ্ছেদে প্রজাতন্ত্রের রাষ্ট্রভাষা বাংলা নিশ্চিত করা হয়েছে।"
+            },
+            {
+                question: "সংবিধান অনুযায়ী বাংলাদেশের সর্বোচ্চ আইন কোনটি?",
+                options: ["দণ্ডবিধি", "সংবিধান", "সংসদের পাসকৃত আইন", "মৌলিক অধিকার"],
+                answer: 1,
+                explanation: "সংবিধান হলো প্রজাতন্ত্রের সর্বোচ্চ আইন।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধানের খসড়া প্রণয়ন কমিটির প্রধান কে ছিলেন?",
+                options: ["বঙ্গবন্ধু শেখ মুজিবুর রহমান", "ড. কামাল হোসেন", "তাজউদ্দীন আহমদ", "এ. কে. ফজলুল হক"],
+                answer: 1,
+                explanation: "সংবিধান খসড়া কমিটির সভাপতি বা প্রধান ছিলেন ড. কামাল হোসেন।"
+            },
+            {
+                question: "সংবিধান খসড়া প্রণয়ন কমিটিতে মোট সদস্য কতজন ছিলেন?",
+                options: ["৩৪ জন", "৩৫ জন", "৩৮ জন", "৪০ জন"],
+                answer: 0,
+                explanation: "সংবিধান প্রণয়ন কমিটিতে একমাত্র নারী সদস্য রাজিয়া খাতুনসহ মোট ৩৪ জন সদস্য ছিলেন (পরে সুরঞ্জিত সেনগুপ্ত যুক্ত হন, তবে মূল কমিটিতে ৩৪ জন ছিলেন)।"
+            },
+            {
+                question: "সংবিধান খসড়া কমিটির একমাত্র নারী সদস্য কে ছিলেন?",
+                options: ["বেগম রোকেয়া", "সৈয়দা সাজেদা চৌধুরী", "রাজিয়া খাতুন", "প্রীতিলতা ওয়াদ্দেদার"],
+                answer: 2,
+                explanation: "ড. কামাল হোসেনের নেতৃত্বাধীন খসড়া কমিটির একমাত্র নারী সদস্য ছিলেন রাজিয়া খাতুন।"
+            },
+            {
+                question: "গণপরিষদে সংবিধান বিলের ওপর দীর্ঘতম বক্তব্য কে রেখেছিলেন?",
+                options: ["বঙ্গবন্ধু শেখ মুজিবুর রহমান", "সুরঞ্জিত সেনগুপ্ত", "ড. কামাল হোসেন", "তাজউদ্দীন আহমদ"],
+                answer: 0,
+                explanation: "বঙ্গবন্ধু শেখ মুজিবুর রহমান গণপরিষদে সংবিধানের ওপর ঐতিহাসিক দীর্ঘ ভাষণ ও বক্তব্য দিয়েছিলেন।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধানে কতটি ভাগ রয়েছে?",
+                options: ["৯টি", "১০টি", "১১টি", "১২টি"],
+                answer: 2,
+                explanation: "বাংলাদেশের সংবিধানে মোট ১১টি ভাগ বা অধ্যায় রয়েছে।"
+            },
+            {
+                question: "সংবিধানের কোন ভাগে মৌলিক অধিকারসমূহের কথা বলা হয়েছে?",
+                options: ["প্রথম ভাগ", "দ্বিতীয় ভাগ", "তৃতীয় ভাগ", "চতুর্থ ভাগ"],
+                answer: 2,
+                explanation: "সংবিধানের তৃতীয় ভাগে (অনুচ্ছেদ ২৭ থেকে ৪৪) নাগরিকদের মৌলিক অধিকারসমূহের নিশ্চয়তা দেওয়া হয়েছে।"
+            },
+            {
+                question: "মৌলিক অধিকার কয়টি অনুচ্ছেদে বর্ণিত রয়েছে?",
+                options: ["১৫টি", "১৭টি", "১৮টি", "২০টি"],
+                answer: 2,
+                explanation: "সংবিধানের ২৭ থেকে ৪৪ পর্যন্ত মোট ১৮টি অনুচ্ছেদে মৌলিক অধিকার আলোচিত হয়েছে।"
+            },
+            {
+                question: "বাংলাদেশ সংবিধানের কোন অনুচ্ছেদে সমতার অধিকারের কথা বলা হয়েছে?",
+                options: ["২৭ অনুচ্ছেদ", "২৮ অনুচ্ছেদ", "২৯ অনুচ্ছেদ", "সবকটি"],
+                answer: 3,
+                explanation: "সংবিধানের ২৭, ২৮ এবং ২৯ অনুচ্ছেদে আইনের চোখে সমতা ও বৈষম্যহীনতার কথা বলা হয়েছে।"
+            },
+            {
+                question: "সংবিধানের কত নম্বর অনুচ্ছেদ অনুযায়ী ভোটাধিকার দেওয়া হয়েছে?",
+                options: ["১২০ অনুচ্ছেদ", "১২২ অনুচ্ছেদ", "১২৫ অনুচ্ছেদ", "১৩০ অনুচ্ছেদ"],
+                answer: 1,
+                explanation: "সংবিধানের ১২২ নম্বর অনুচ্ছেদে ভোটার তালিকা প্রস্তুত ও ভোটাধিকার সংক্রান্ত বিধান রয়েছে।"
+            },
+            {
+                question: "সংবিধান অনুযায়ী নাগরিকের বয়স কত হলে তিনি ভোটার হতে পারেন?",
+                options: ["১৮ বছর", "২১ বছর", "২৫ বছর", "১৮ বছর (নির্দিষ্ট শর্ত সাপেক্ষে)"],
+                answer: 0,
+                explanation: "সংবিধান ও নির্বাচন আইন অনুযায়ী ১৮ বছর বয়স পূর্ণ হলে বাংলাদেশের নাগরিকরা ভোটার হতে পারেন।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধানের প্রস্তাবনায় কোন শব্দটির ওপর বিশেষ জোর দেওয়া হয়েছে?",
+                options: ["সামাজিক ন্যায়বিচার", "সমাজতন্ত্র", "পুঁজিবাদ", "আধুনিকায়ন"],
+                answer: 0,
+                explanation: "প্রস্তাবনায় গণতান্ত্রিক সমাজ ও জীবনপদ্ধতি নিশ্চিত করার লক্ষ্য হিসেবে 'সামাজিক ন্যায়বিচার'-এর ওপর জোর দেওয়া হয়েছে।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধানের প্রথম সংশোধনী কবে পাস হয়?",
+                options: ["১৯৭২ সালে", "১৯৭৩ সালে", "১৯৭৪ সালে", "১৯৭৫ সালে"],
+                answer: 1,
+                explanation: "১৯৭৩ সালে যুদ্ধাপরাধীদের বিচারের বিধান যুক্ত করতে সংবিধানের প্রথম সংশোধনী আনা হয়।"
+            },
+            {
+                question: "সংবিধানের কোন সংশোধনীর মাধ্যমে তত্ত্বাবধায়ক সরকার ব্যবস্থা বাতিল করা হয়?",
+                options: ["ত্রয়োদশ সংশোধনী", "চতুর্দশ সংশোধনী", "পঞ্চদশ সংশোধনী", "ষোড়শ সংশোধনী"],
+                answer: 2,
+                explanation: "২০১১ সালের ২০১১ সালের জুনে পাসকৃত পঞ্চদশ সংশোধনীর মাধ্যমে তত্ত্বাবধায়ক সরকার ব্যবস্থা বাতিল করা হয়।"
+            },
+            {
+                question: "রাষ্ট্রপতি কত বছরের জন্য নির্বাচিত হন?",
+                options: ["৩ বছর", "৪ বছর", "৫ বছর", "স্থায়ী"],
+                answer: 2,
+                explanation: "সংবিধান অনুযায়ী বাংলাদেশের রাষ্ট্রপতির মেয়াদকাল ৫ বছর।"
+            },
+            {
+                question: "জাতীয় সংসদের সদস্য হতে হলে ন্যূনতম বয়স কত হতে হবে?",
+                options: ["২১ বছর", "২৫ বছর", "৩০ বছর", "৩৫ বছর"],
+                answer: 1,
+                explanation: "সংবিধানের ৬৬ অনুচ্ছেদ অনুযায়ী সংসদ সদস্য হওয়ার ন্যূনতম বয়স ২৫ বছর।"
+            },
+            {
+                question: "বাংলাদেশের সংবিধানের হস্তলিখিত মূল কপির প্রধান ক্যালিগ্রাফার বা হস্তলিপিকার কে ছিলেন?",
+                options: ["জয়নুল আবেদিন", "আব্দুর রউফ", "কামরুল হাসান", "কাইয়ুম চৌধুরী"],
+                answer: 1,
+                explanation: "সংবিধানের মূল বাংলা কপির হস্তলিপিকার ছিলেন আব্দুর রউফ।"
+            },
+            {
+                question: "সংবিধানের ইংরেজি অনুবাদের তত্ত্বাবধানে কে ছিলেন?",
+                options: ["ড. কামাল হোসেন", "এ কে ব্রডহাউস", "অধ্যাপক আনিসুজ্জামান", "সৈয়দ আলী আহসান"],
+                answer: 1,
+                explanation: "সংবিধানের ইংরেজি রূপ ও অনুবাদের দায়িত্বে ছিলেন প্রখ্যাত আইনবিদ ও বিশেষজ্ঞরা।"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+        let timerInterval = null;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+
+        function startQuiz() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            document.getElementById('timer-container').classList.remove('hidden');
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            timeLeft = 15 * 60;
+
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            const timeDisplay = document.getElementById('time-display');
+
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishQuiz();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                timeDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const currentQ = quizData[currentQuestionIndex];
+            document.getElementById('question-tracker').innerText = `প্রশ্ন ${currentQuestionIndex + 1} / ${quizData.length}`;
+            document.getElementById('score-tracker').innerText = `স্কোর: ${score}`;
+            document.getElementById('question-text').innerText = currentQ.question;
+            
+            // Progress bar
+            let progressPercent = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQ.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 font-medium transition flex items-center justify-between group";
+                btn.innerHTML = `<span>${option}</span> <span class="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs text-slate-400 group-hover:border-emerald-500 group-hover:text-emerald-600">${String.fromCharCode(65 + index)}</span>`;
+                btn.onclick = () => selectOption(index);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function selectOption(selectedIndex) {
+            const currentQ = quizData[currentQuestionIndex];
+            userAnswers[currentQuestionIndex] = selectedIndex;
+
+            const optionsContainer = document.getElementById('options-container');
+            const buttons = optionsContainer.getElementsByTagName('button');
+
+            // Disable all buttons after choice
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                if (i === currentQ.answer) {
+                    buttons[i].classList.remove('bg-slate-50', 'border-slate-200');
+                    buttons[i].classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                } else if (i === selectedIndex) {
+                    buttons[i].classList.remove('bg-slate-50', 'border-slate-200');
+                    buttons[i].classList.add('bg-rose-100', 'border-rose-400', 'text-rose-900');
+                }
+            }
+
+            if (selectedIndex === currentQ.answer) {
+                score++;
+                document.getElementById('score-tracker').innerText = `স্কোর: ${score}`;
+            }
+
+            // Show explanation
+            const expBox = document.getElementById('explanation-box');
+            expBox.innerHTML = `<strong>ব্যাখ্যা:</strong> ${currentQ.explanation}`;
+            expBox.className = `mb-6 p-4 rounded-xl text-sm font-medium border ${selectedIndex === currentQ.answer ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}`;
+            expBox.classList.remove('hidden');
+
+            // Show Next Button
+            document.getElementById('next-btn').classList.remove('hidden');
+            if (currentQuestionIndex === quizData.length - 1) {
+                document.getElementById('next-btn').innerText = 'ফলাফল দেখুন 📊';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('timer-container').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+            document.getElementById('correct-count').innerText = score;
+
+            let percentage = (score / quizData.length) * 100;
+            let msg = "";
+            let icon = "🏆";
+
+            if (percentage >= 80) {
+                msg = "অভিনন্দন! আপনার সংবিধান বিষয়ে অসাধারণ দখল রয়েছে। 🌟";
+                icon = "🎖️";
+            } else if (percentage >= 50) {
+                msg = "ভালো করেছেন! সংবিধান সম্পর্কে আপনার ধারণা বেশ সন্তোষজনক। 👍";
+                icon = "🏅";
+            } else {
+                msg = "চেষ্টা চালিয়ে যান! সংবিধান সম্পর্কে আরও পড়াশোনা করার সুযোগ রয়েছে। 📚";
+                icon = "💡";
+            }
+
+            document.getElementById('result-message').innerText = msg;
+            document.getElementById('result-icon').innerText = icon;
+        }
+
+        function restartQuiz() {
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('review-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+        }
+
+        function reviewAnswers() {
+            document.getElementById('result-screen').classList.add('hidden');
+            const reviewScreen = document.getElementById('review-screen');
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '';
+
+            quizData.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.answer;
+
+                const div = document.createElement('div');
+                div.className = `p-4 rounded-xl border ${isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-rose-50/50 border-rose-200'}`;
+                
+                let optionsHtml = '';
+                q.options.forEach((opt, oIdx) => {
+                    let style = 'text-slate-700';
+                    if (oIdx === q.answer) style = 'text-emerald-700 font-bold';
+                    else if (oIdx === userAns && !isCorrect) style = 'text-rose-600 line-through';
+                    optionsHtml += `<li class="${style}">• ${opt}</li>`;
+                });
+
+                div.innerHTML = `
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <span class="font-bold text-slate-800">প্রশ্ন ${idx + 1}: ${q.question}</span>
+                        <span class="px-2 py-0.5 rounded text-xs font-semibold ${isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                            ${isCorrect ? 'সঠিক' : 'ভুল'}
+                        </span>
+                    </div>
+                    <ul class="text-sm space-y-1 mb-3 pl-2">${optionsHtml}</ul>
+                    <p class="text-xs text-slate-600 bg-white p-2 rounded border border-slate-100"><strong>ব্যাখ্যা:</strong> ${q.explanation}</p>
+                `;
+                reviewContainer.appendChild(div);
+            });
+
+            reviewScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
