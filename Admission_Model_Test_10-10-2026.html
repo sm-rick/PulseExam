@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পালস নার্সিং মডেল টেস্ট ২০২৬</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --dark-red: #9a0007;
+            --light-red: #ffebee;
+            --accent-red: #e53935;
+            --bg-body: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-main: #1a202c;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(211, 47, 47, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+        }
+
+        /* TOP HEADER */
+        .top-header {
+            background: #ffffff;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid var(--light-red);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .top-header img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-red);
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .content-body {
+            padding: 18px;
+            flex: 1;
+        }
+
+        /* EXAM CARD BOX */
+        .exam-info-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fffafb 100%);
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--primary-red);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 22px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .exam-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--light-red);
+            color: var(--primary-red);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        .exam-card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .exam-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+            background: var(--bg-body);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .meta-item i {
+            color: var(--primary-red);
+            font-size: 14px;
+        }
+
+        .btn-action {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-action:active {
+            transform: scale(0.98);
+        }
+
+        /* PROMOTIONAL CARD */
+        .promo-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .promo-image-wrapper {
+            width: 100%;
+            max-height: 220px;
+            overflow: hidden;
+            background: #f8f8f8;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .promo-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .promo-details {
+            padding: 16px;
+        }
+
+        .promo-tag {
+            background: var(--primary-red);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .promo-headline {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--dark-red);
+            margin-bottom: 8px;
+        }
+
+        .promo-discount-banner {
+            background: var(--light-red);
+            color: var(--primary-red);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+            border: 1px dashed var(--primary-red);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 10px;
+            list-style: none;
+            margin-bottom: 16px;
+        }
+
+        .feature-grid li {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feature-grid li i {
+            color: var(--primary-red);
+            font-size: 11px;
+        }
+
+        .contact-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-call {
+            background: #2e7d32;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-wa {
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .it-support-footer {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .it-support-footer a {
+            color: #25d366;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* MODAL FORM */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: var(--shadow-lg);
+            animation: modalFadeIn 0.25s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--light-red);
+            padding-bottom: 8px;
+        }
+
+        .modal-header h3 {
+            font-size: 17px;
+            color: var(--primary-red);
+            font-weight: 700;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #fafafa;
+        }
+
+        .input-box:focus {
+            border-color: var(--primary-red);
+            background: white;
+        }
+
+        /* EXAM & TIMER SECTION */
+        #exam-section, #result-section {
+            display: none;
+        }
+
+        .timer-bar {
+            position: sticky;
+            top: 0;
+            background: var(--dark-red);
+            color: white;
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 950;
+            font-size: 15px;
+            font-weight: 700;
+            box-shadow: var(--shadow-md);
+        }
+
+        .timer-count {
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        .mcq-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mcq-question {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            border-color: var(--accent-red);
+            background: var(--light-red);
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--primary-red);
+            width: 16px;
+            height: 16px;
+        }
+
+        .option-label.selected {
+            border-color: var(--primary-red);
+            background: var(--light-red);
+            font-weight: 700;
+        }
+
+        /* RESULT CARD */
+        .result-box {
+            text-align: center;
+            background: white;
+            border-radius: 16px;
+            padding: 30px 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .score-display {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--light-red);
+            border: 4px solid var(--primary-red);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .score-val {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--primary-red);
+            line-height: 1;
+        }
+
+        .loading-spin {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+        <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="পালস নার্সিং লোগো">
+        <div>
+            <div class="brand-title">পালস নার্সিং কোচিং</div>
+            <div class="brand-subtitle">অনলাইন নার্সিং মডেল টেস্ট পোর্টাল</div>
+        </div>
+    </header>
+
+    <!-- DASHBOARD CONTENT -->
+    <div id="dashboard-section" class="content-body">
+        
+        <!-- EXAM BOX CARD -->
+        <div class="exam-info-card">
+            <span class="exam-card-badge"><i class="far fa-calendar-check"></i> ১০ অক্টোবর ২০২৬</span>
+            <h2 class="exam-card-title">নার্সিং ভর্তি মডেল টেস্ট ২০২৬</h2>
+            
+            <div class="exam-meta-grid">
+                <div class="meta-item"><i class="fas fa-question-circle"></i> ৫০টি MCQ প্রশ্ন</div>
+                <div class="meta-item"><i class="fas fa-bullseye"></i> পূর্ণমান: ৫০</div>
+                <div class="meta-item"><i class="fas fa-clock"></i> সময়: ৩০ মিনিট</div>
+                <div class="meta-item"><i class="fas fa-book"></i> মিক্সড সাবজেক্ট</div>
+            </div>
+
+            <button class="btn-action" onclick="openRegistrationModal()">
+                <i class="fas fa-pen-to-square"></i> পরীক্ষা দিন
+            </button>
+        </div>
+
+        <!-- ADVERTISEMENT CARD -->
+        <div class="promo-card">
+            <div class="promo-image-wrapper">
+                <img src="https://i.ibb.co.com/352BpBZ0/Whats-App-Image-2026-10-07-at-11-29-28-PM.jpg" alt="পালস নার্সিং মাস্টারমাইন্ড বুক">
+            </div>
+            <div class="promo-details">
+                <span class="promo-tag">ফাউন্ডেশন ব্যাচ</span>
+                <h3 class="promo-headline">পালস নার্সিং কোচিং</h3>
+                
+                <div class="promo-discount-banner">
+                    ফাউন্ডেশন ব্যাচে ২ হাজার টাকা ছাড়ে মাত্র ৩ হাজার টাকায় ভর্তি চলছে!
+                </div>
+
+                <ul class="feature-grid">
+                    <li><i class="fas fa-check-circle"></i> ডাইজেস্ট বই</li>
+                    <li><i class="fas fa-check-circle"></i> মাস্টারমাইন্ড</li>
+                    <li><i class="fas fa-check-circle"></i> প্রশ্নব্যাংক</li>
+                    <li><i class="fas fa-check-circle"></i> ওএমআর বুক</li>
+                    <li><i class="fas fa-check-circle"></i> সাজেশন বুক</li>
+                    <li><i class="fas fa-check-circle"></i> নিয়মিত ক্লাস</li>
+                    <li><i class="fas fa-check-circle"></i> নিয়মিত পরীক্ষা</li>
+                    <li><i class="fas fa-check-circle"></i> সাপ্তাহিক মডেল টেস্ট</li>
+                    <li><i class="fas fa-check-circle"></i> মাসিক মেগা টেস্ট</li>
+                    <li><i class="fas fa-check-circle"></i> ২৪/৭ মেন্টর সাপোর্ট</li>
+                </ul>
+
+                <div class="contact-row">
+                    <a href="tel:01792439561" class="btn-call"><i class="fas fa-phone-alt"></i> Call Button</a>
+                    <a href="https://wa.me/8801792439561" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+                </div>
+
+                <div class="it-support-footer">
+                    IT Support: SAJIB MANDAL RICK <br>
+                    <a href="https://wa.me/8801764890174" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp: 01764890174</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- REGISTRATION MODAL FORM -->
+    <div class="modal-overlay" id="reg-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> পরীক্ষার্থীর তথ্য পূরণ করুন</h3>
+                <button class="close-modal" onclick="closeRegistrationModal()">&times;</button>
+            </div>
+            <form id="student-form">
+                <div class="form-group">
+                    <label>শিক্ষার্থীর নাম</label>
+                    <input type="text" id="std-name" class="input-box" placeholder="আপনার পূর্ণ নাম লিখুন" required>
+                </div>
+                <div class="form-group">
+                    <label>ফোন নম্বর</label>
+                    <input type="tel" id="std-phone" class="input-box" placeholder="১১ ডিজিটের মোবাইল নম্বর" pattern="[0-9]{11}" required>
+                </div>
+                <div class="form-group">
+                    <label>কোর্স নির্বাচন করুন</label>
+                    <select id="std-course" class="input-box" required>
+                        <option value="">নির্বাচন করুন</option>
+                        <option value="বিএসসি ইন নার্সিং">বিএসসি ইন নার্সিং</option>
+                        <option value="ডিপ্লোমা ইন নার্সিং">ডিপ্লোমা ইন নার্সিং</option>
+                        <option value="ডিপ্লোমা ইন মিডওয়াইফারি">ডিপ্লোমা ইন মিডওয়াইফারি</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-action" style="margin-top: 10px;">
+                    <i class="fas fa-play"></i> প্রশ্নপত্র ওপেন করুন
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- EXAM QUESTION SECTION -->
+    <div id="exam-section">
+        <div class="timer-bar">
+            <span><i class="fas fa-stopwatch"></i> সময় বাকি:</span>
+            <div class="timer-count" id="timer">30:00</div>
+        </div>
+
+        <div class="content-body">
+            <form id="quiz-form">
+                <div id="questions-container"></div>
+                <button type="button" id="submit-btn" onclick="submitExam()" class="btn-action" style="margin-top: 20px;">
+                    <i class="fas fa-paper-plane"></i> উত্তরপত্র জমা দিন
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- RESULT SECTION -->
+    <div id="result-section" class="content-body">
+        <div class="result-box">
+            <div class="score-display">
+                <div class="score-val" id="final-score">০</div>
+                <span style="font-size: 12px; color: var(--text-muted);">৫০ এর মধ্যে</span>
+            </div>
+            <h3 id="res-name" style="font-size: 18px; margin-bottom: 4px;"></h3>
+            <p id="res-info" style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;"></p>
+            <p id="submission-status" style="font-size: 13px; font-weight: 700; color: var(--primary-red); margin-bottom: 20px;"></p>
+            
+            <button onclick="location.reload()" class="btn-action">
+                <i class="fas fa-rotate-right"></i> হোম পেজে ফিরুন
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzrgqgcHQt-hAKdRDpNJj_s_m4gvaGMKLCqRxLGoDqP6WGWabHMhTCIk-bNGHFA8OoAw/exec";
+
+    // 50 Questions List
+    const rawQuestions = [
+        { q: "কাজী নজরুল ইসলাম বাংলা সাহিত্যের কোন যুগের কবি?", options: ["প্রাচীন যুগ", "মধ্যযুগ", "আধুনিক যুগ", "অন্ধকার যুগ"], ans: 2 },
+        { q: "Change the voice: 'Who wrote the letter?'", options: ["By whom was the letter written?", "By whom the letter was written?", "Who was written the letter?", "By whom is the letter written?"], ans: 0 },
+        { q: "পিতা ও পুত্রের বয়সের সমষ্টি ৬০ বছর। ৫ বছর পর তাদের বয়সের সমষ্টি কত হবে?", options: ["৬৫ বছর", "৭০ বছর", "৭৫ বছর", "৮০ বছর"], ans: 1 },
+        { q: "বাংলাদেশের একমাত্র প্রবাল দ্বীপ কোনটি?", options: ["সেন্টমার্টিন", "মহেশখালী", "হাতিয়া", "ভোলা"], ans: 0 },
+        { q: "মানুষের রক্তের পিএইচ (pH) মান কত?", options: ["৬.৫", "৭.৪", "৮.২", "৫.৫"], ans: 1 },
+        { q: "'গীতাঞ্জলি' কাব্যের জন্য রবীন্দ্রনাথ ঠাকুর কত সালে নোবেল পুরস্কার পান?", options: ["১৯১১", "১৯১৩", "১৯১৫", "১৯২১"], ans: 1 },
+        { q: "What is the synonym of 'Competent'?", options: ["Incapable", "Capable", "Weak", "Clumsy"], ans: 1 },
+        { q: "একটি ত্রিভুজের তিন কোণের সমষ্টি কত?", options: ["৯০°", "১৮০°", "৩৬০°", "২৭০°"], ans: 1 },
+        { q: "মানবদেহে হাড়ের সংখ্যা কয়টি?", options: ["২০৬ টি", "২০৮ টি", "৩০০ টি", "২৫০ টি"], ans: 0 },
+        { q: "মুজিবনগর সরকার কত তারিখে গঠিত হয়?", options: ["২৬ মার্চ ১৯৭১", "১০ এপ্রিল ১৯৭১", "১৭ এপ্রিল ১৯৭১", "১৬ ডিসেম্বর ১৯৭১"], ans: 1 },
+        { q: "'অপমান' শব্দের 'অপ' উপসর্গটি কি অর্থে ব্যবহৃত হয়েছে?", options: ["সাদৃশ্য", "বিপরীত", "নিকৃষ্ট", "স্বভাব"], ans: 1 },
+        { q: "Choose the correct spelling:", options: ["Lieutenent", "Lieutenant", "Leutenant", "Lientenant"], ans: 1 },
+        { q: "২৫০ এর ১০% কত?", options: ["২০", "২৫", "৩০", "৩৫"], ans: 1 },
+        { q: "ভিটামিন সি-এর অভাবে কোন রোগ হয়?", options: ["রিকেটস", "রাতকানা", "স্কার্ভি", "বেরিবেরি"], ans: 2 },
+        { q: "বাংলাদেশের জাতীয় পতাকার অনুপাত কত?", options: ["৫:৩", "১০:৬", "৪:৩", "১০:৬ অথবা ৫:৩"], ans: 3 },
+        { q: "'মহেশ' ছোটগল্পের লেখক কে?", options: ["রবীন্দ্রনাথ ঠাকুর", "শরৎচন্দ্র চট্টোপাধ্যায়", "কাজী নজরুল ইসলাম", "বঙ্কিমচন্দ্র"], ans: 1 },
+        { q: "Fill in the blank: He is proficient ___ English.", options: ["at", "in", "with", "on"], ans: 1 },
+        { q: "১ থেকে ১০ পর্যন্ত মৌলিক সংখ্যা কয়টি?", options: ["৩ টি", "৪ টি", "৫ টি", "৬ টি"], ans: 1 },
+        { q: "সালোকসংশ্লেষণ প্রক্রিয়ায় উদ্ভিদ কোন গ্যাস গ্রহণ করে?", options: ["অক্সিজেন", "কার্বন ডাই অক্সাইড", "নাইট্রোজেন", "মিথেন"], ans: 1 },
+        { q: "সুন্দরবনকে 'ওয়ার্ল্ড হেরিটেজ' ঘোষণা করে কোন সংস্থা?", options: ["UNICEF", "UNESCO", "UNDP", "WHO"], ans: 1 },
+        { q: "'অগ্নিবীণা' কাব্যের প্রথম কবিতা কোনটি?", options: ["প্রলয়োল্লাস", "বিদ্রোহী", "রক্তাম্বরধারিণী", "ধূমকেতু"], ans: 0 },
+        { q: "Antonym of 'Gentle' is -", options: ["Kind", "Rude", "Soft", "Calm"], ans: 1 },
+        { q: "x + y = 5 এবং x - y = 3 হলে, x এর মান কত?", options: ["৩", "৪", "৫", "১"], ans: 1 },
+        { q: "হৃদপিণ্ডের প্রকোষ্ঠ সংখ্যা কয়টি?", options: ["২ টি", "৩ টি", "৪ টি", "৫ টি"], ans: 2 },
+        { q: "বাংলাদেশের প্রথম প্রধানমন্ত্রী কে ছিলেন?", options: ["শেখ মুজিবুর রহমান", "তাজউদ্দীন আহমদ", "সৈয়দ নজরুল ইসলাম", "এম মনসুর আলী"], ans: 1 },
+        { q: "'একাদশ বৃহস্পতি' বাগধারাটির অর্থ কী?", options: ["ভাগ্য বিপর্যয়", "সুসময়", "দুঃসময়", "অসম্ভব বস্তু"], ans: 1 },
+        { q: "What is the plural of 'Child'?", options: ["Childs", "Children", "Childrens", "Childes"], ans: 1 },
+        { q: "কোনো সংখ্যার ৫০% যদি ৩০ হয়, তবে সংখ্যাটি কত?", options: ["৫০", "৬০", "৭০", "৮০"], ans: 1 },
+        { q: "কোনটি ভাইরাসজনিত রোগ নয়?", options: ["ডেঙ্গু", "পোলিও", "টাইফয়েড", "ইনফ্লুয়েঞ্জা"], ans: 2 },
+        { q: "স্বাধীনতা যুদ্ধকালে বাংলাদেশকে কয়টি সেক্টরে ভাগ করা হয়?", options: ["৮ টি", "৯ টি", "১০ টি", "১১ টি"], ans: 3 },
+        { q: "'ক্ষুধা＋ঋত' এর সন্ধি বিচ্ছেদ কোনটি?", options: ["ক্ষুধার্ত", "ক্ষুধার্তু", "ক্ষুধার্তঃ", "ক্ষুধার্থ"], ans: 0 },
+        { q: "'Look after' means -", options: ["To search", "To take care of", "To neglect", "To look at"], ans: 1 },
+        { q: "০.২ × ০.০২ = কত?", options: ["০.৪", "০.০৪", "০.০০৪", "০.০০০৪"], ans: 2 },
+        { q: "শক্তির একক কী?", options: ["ওয়াট", "জুল", "নিউটন", "প্যাসকেল"], ans: 1 },
+        { q: "'আমার ভাইয়ের রক্তে রাঙানো একুশে ফেব্রুয়ারি' গানটির রচিয়তা কে?", options: ["আলতাফ মাহমুদ", "আব্দুল গাফফার চৌধুরী", "শামসুর রাহমান", "জহির রায়হান"], ans: 1 },
+        { q: "'সূর্য' শব্দের সমার্থক শব্দ কোনটি?", options: ["শশাঙ্ক", "অর্ক", "সুধাংশু", "পাবক"], ans: 1 },
+        { q: "She is good ___ Mathematics.", options: ["in", "at", "on", "for"], ans: 1 },
+        { q: "কোনো বৃত্তের ব্যাসার্ধ ২ গুণ বাড়ালে ক্ষেত্রফল কতগুণ বাড়বে?", options: ["২ গুণ", "৪ গুণ", "৮ গুণ", "১৬ গুণ"], ans: 1 },
+        { q: "বায়ুমণ্ডলে সবচেয়ে বেশি পাওয়া যায় কোন গ্যাস?", options: ["অক্সিজেন", "নাইট্রোজেন", "কার্বন ডাই অক্সাইড", "আর্গন"], ans: 1 },
+        { q: "বীরশ্রেষ্ঠ পদকপ্রাপ্ত সর্বমোট কতজন?", options: ["৭ জন", "৮ জন", "১০ জন", "১১ জন"], ans: 0 },
+        { q: "'শুদ্ধ বানান' কোনটি?", options: ["মুহূর্ত", "মুহুর্ত", "মুহুর্তো", "মুহূর্ত্ত"], ans: 0 },
+        { q: "A person who cures eye diseases is an -", options: ["Ophthalmologist", "Cardiologist", "Neurologist", "Dermatologist"], ans: 0 },
+        { q: "১ থেকে ২০ পর্যন্ত বিজোড় সংখ্যাগুলোর গড় কত?", options: ["৯", "১০", "১১", "১২"], ans: 1 },
+        { q: "মানবদেহের দীর্ঘতম অস্থি কোনটি?", options: ["স্টেপিস", "ফিমার", "হিউমেরাস", "টিবিয়া"], ans: 1 },
+        { q: "ইউরো (Euro) কোন দেশের মুদ্রা?", options: ["যুক্তরাজ্য", "জার্মানি", "জাপান", "চীন"], ans: 1 },
+        { q: "'সঞ্চয়' এর সঠিক সন্ধি বিচ্ছেদ কোনটি?", options: ["সম্ + চয়", "সং + চয়", "সম্ + জয়", "সং + জয়"], ans: 0 },
+        { q: "I have no ambition ___ fame.", options: ["for", "of", "to", "in"], ans: 0 },
+        { q: "বর্গক্ষেত্রের এক বাহুর দৈর্ঘ্য ৫ মিটার হলে এর ক্ষেত্রফল কত?", options: ["১০ বর্গমিটার", "২০ বর্গমিটার", "২৫ বর্গমিটার", "৩০ বর্গমিটার"], ans: 2 },
+        { q: "কিডনির কার্যকারী একক কী?", options: ["নিউরণ", "নেফ্রন", "এলভিওলাই", "অ্যাক্সন"], ans: 1 },
+        { q: "আন্তর্জাতিক মাতৃভাষা দিবস কোনটি?", options: ["১৬ ডিসেম্বর", "২৬ মার্চ", "২১ ফেব্রুয়ারি", "১৫ আগস্ট"], ans: 2 }
+    ];
+
+    let questions = [];
+    let studentData = {};
+    let timerInterval;
+    let timeTakenSeconds = 0;
+
+    function toBengaliNumerals(num) {
+        const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return num.toString().replace(/\d/g, d => bnDigits[d]);
+    }
+
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
+    function openRegistrationModal() {
+        document.getElementById('reg-modal').style.display = 'flex';
+    }
+
+    function closeRegistrationModal() {
+        document.getElementById('reg-modal').style.display = 'none';
+    }
+
+    document.getElementById('student-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        studentData.name = document.getElementById('std-name').value.trim();
+        studentData.phone = document.getElementById('std-phone').value.trim();
+        studentData.course = document.getElementById('std-course').value;
+
+        closeRegistrationModal();
+        document.getElementById('dashboard-section').style.display = 'none';
+        document.getElementById('exam-section').style.display = 'block';
+
+        initExam();
+    });
+
+    function initExam() {
+        questions = shuffle([...rawQuestions]);
+        const container = document.getElementById('questions-container');
+        container.innerHTML = '';
+
+        questions.forEach((qObj, qIndex) => {
+            const qCard = document.createElement('div');
+            qCard.className = 'mcq-card';
+            
+            let optionsHTML = '';
+            qObj.options.forEach((opt, oIndex) => {
+                optionsHTML += `
+                    <label class="option-label" onclick="selectOption(this)">
+                        <input type="radio" name="q${qIndex}" value="${oIndex}">
+                        ${opt}
+                    </label>
+                `;
+            });
+
+            qCard.innerHTML = `
+                <div class="mcq-question">${toBengaliNumerals(qIndex + 1)}. ${qObj.q}</div>
+                <div class="options-list">${optionsHTML}</div>
+            `;
+            container.appendChild(qCard);
+        });
+
+        startTimer(30 * 60); // 30 Minutes
+    }
+
+    function selectOption(elem) {
+        const parent = elem.closest('.options-list');
+        parent.querySelectorAll('.option-label').forEach(el => el.classList.remove('selected'));
+        elem.classList.add('selected');
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        const timerDisplay = document.getElementById('timer');
+        
+        timerInterval = setInterval(() => {
+            timeTakenSeconds++;
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            timerDisplay.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                alert("সময় শেষ! উত্তরপত্র স্বয়ংক্রিয়ভাবে জমা হচ্ছে।");
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function submitExam() {
+        clearInterval(timerInterval);
+        
+        const submitBtn = document.getElementById('submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="loading-spin"></span> প্রসেসিং হচ্ছে...`;
+
+        let score = 0;
+        questions.forEach((qObj, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            if (selected && parseInt(selected.value) === qObj.ans) {
+                score++;
+            }
+        });
+
+        const timeTakenMinutes = (timeTakenSeconds / 60).toFixed(1);
+
+        document.getElementById('exam-section').style.display = 'none';
+        document.getElementById('result-section').style.display = 'block';
+        
+        document.getElementById('final-score').textContent = toBengaliNumerals(score);
+        document.getElementById('res-name').textContent = studentData.name;
+        document.getElementById('res-info').textContent = `মোবাইল: ${studentData.phone} | কোর্স: ${studentData.course}`;
+        document.getElementById('submission-status').textContent = "গুগল শিটে ডাটা সংরক্ষণ করা হচ্ছে...";
+
+        const payload = {
+            name: studentData.name,
+            roll: studentData.phone,
+            course: studentData.course,
+            score: score,
+            timeTaken: timeTakenMinutes
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            document.getElementById('submission-status').style.color = "#2e7d32";
+            document.getElementById('submission-status').textContent = "✓ আপনার নম্বর গুগল শিটে সফলভাবে সংরক্ষিত হয়েছে!";
+        }).catch(err => {
+            document.getElementById('submission-status').style.color = "#d32f2f";
+            document.getElementById('submission-status').textContent = "ফলাফল দেখানো হয়েছে (নেটওয়ার্ক ত্রুটির কারণে শিটে জমা দেওয়া যায়নি)।";
+        });
+    }
+</script>
+
+</body>
+</html>
