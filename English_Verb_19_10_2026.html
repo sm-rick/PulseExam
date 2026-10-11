@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডেইলি টেস্ট - Verb | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulseRed: '#dc2626',
+                        pulseDarkRed: '#b91c1c',
+                        pulseLightRed: '#fef2f2'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased">
+
+    <!-- Mobile Wrapper Container -->
+    <div class="max-w-md mx-auto min-h-screen bg-white shadow-xl flex flex-col relative">
+
+        <!-- STEP 1: Registration Screen -->
+        <div id="regScreen" class="flex-1 p-6 flex flex-col justify-center">
+            <div class="text-center mb-6">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-16 mx-auto mb-3">
+                <h1 class="text-xl font-bold text-pulseRed">পালস নার্সিং কোচিং</h1>
+                <p class="text-sm text-gray-500 font-medium">ফাউন্ডেশন ব্যাচ (নার্সিং ভর্তি পরীক্ষা ২০২৬-২৭)</p>
+            </div>
+
+            <div class="bg-pulseLightRed border border-red-200 rounded-xl p-4 mb-6 shadow-sm">
+                <h2 class="font-bold text-pulseDarkRed text-base mb-1">পরীক্ষার বিবরণ:</h2>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li><span class="font-semibold">তারিখ:</span> ১৯ অক্টোবর ২০২৬</li>
+                    <li><span class="font-semibold">বিষয়:</span> ইংরেজি (English)</li>
+                    <li><span class="font-semibold">টপিক:</span> Verb</li>
+                    <li><span class="font-semibold">পূর্ণমান:</span> ২৫ | <span class="font-semibold">সময়:</span> ১৫ মিনিট</li>
+                </ul>
+            </div>
+
+            <form id="regForm" class="space-y-4" onsubmit="startExam(event)">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">শিক্ষার্থীর নাম (Student Name)</label>
+                    <input type="text" id="studentName" required placeholder="আপনার সম্পূর্ণ নাম লিখুন" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">মোবাইল নম্বর (Phone Number)</label>
+                    <input type="tel" id="phoneNumber" required pattern="[0-9]{11}" placeholder="০১XXXXXXXXX" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">কোর্স নির্বাচন করুন (Course)</label>
+                    <select id="course" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm bg-white">
+                        <option value="">-- কোর্স সিলেক্ট করুন --</option>
+                        <option value="BSC">B.Sc in Nursing</option>
+                        <option value="DIPLOMA">Diploma in Nursing Science & Midwifery</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3.5 rounded-lg shadow-lg transition duration-200 mt-2">
+                    পরীক্ষায় অংশগ্রহণ করুন
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Exam Screen (Hidden initially) -->
+        <div id="examScreen" class="hidden flex-1 flex flex-col">
+            <!-- Sticky Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-200 z-30 px-4 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="h-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-pulseRed leading-tight">Verb পরীক্ষা</h3>
+                        <p class="text-[10px] text-gray-500">ফাউন্ডেশন ব্যাচ</p>
+                    </div>
+                </div>
+                <div class="bg-pulseLightRed text-pulseDarkRed px-3 py-1.5 rounded-full text-xs font-bold border border-red-200 flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="timerText">১৫:০০</span>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="p-4 space-y-6 flex-1 pb-24">
+                <!-- JavaScript দিয়ে প্রশ্নগুলো এখানে লোড হবে -->
+            </div>
+
+            <!-- Bottom Submit Floating Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-3 z-30 shadow-lg flex justify-center">
+                <button onclick="submitExam()" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3 rounded-xl shadow-md transition duration-200 text-sm">
+                    কুইজ জমা দিন (Submit)
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Result & Review Screen (Hidden initially) -->
+        <div id="resultScreen" class="hidden flex-1 p-6 flex flex-col">
+            <div class="text-center bg-pulseLightRed border border-red-200 rounded-2xl p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">পরীক্ষা সফলভাবে সম্পন্ন হয়েছে!</h2>
+                <div class="text-4xl font-extrabold text-pulseRed my-2" id="scoreDisplay">০ / ২৫</div>
+                <p class="text-xs text-gray-600" id="studentDetailsSummary"></p>
+                <div id="syncStatus" class="mt-2 text-xs font-medium text-green-600"></div>
+            </div>
+
+            <h3 class="font-bold text-gray-800 text-base mb-4 border-b pb-2">পূর্ণাঙ্গ উত্তরপত্র ও ব্যাখ্যা:</h3>
+            <div id="reviewContainer" class="space-y-6 flex-1 pb-10">
+                <!-- উত্তরপত্র এবং ব্যাখ্যা এখানে ডাইনামিক দেখাবে -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-gray-800 hover:bg-black text-white font-bold py-3 rounded-xl transition duration-200 mt-4 mb-6">
+                পুনরায় পরীক্ষা দিন / হোম পেজে যান
+            </button>
+        </div>
+
+        <!-- Submitting Loader Overlay -->
+        <div id="loader" class="hidden absolute inset-0 bg-black bg-opacity-50 z-50 flex flex-col items-center justify-center text-white">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-pulseRed border-solid mb-3"></div>
+            <p class="text-sm font-semibold">রেজাল্ট জমা হচ্ছে, দয়া করে অপেক্ষা করুন...</p>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // ২৫টি Verb সম্পর্কিত প্রশ্ন, অপশন, সঠিক উত্তর এবং ব্যাখ্যা
+        const quizData = [
+            {
+                id: 1,
+                question: "What is the primary function of a Verb in a sentence?",
+                options: ["To name a person or thing", "To express an action, state, or occurrence", "To modify a noun", "To connect two clauses"],
+                answer: 1,
+                explanation: "A verb is a doing or action word that expresses an action, state, or relation in a sentence."
+            },
+            {
+                id: 2,
+                question: "Identify the transitive verb in the following: 'She wrote a letter.'",
+                options: ["She", "wrote", "letter", "a"],
+                answer: 1,
+                explanation: "'Wrote' is a transitive verb because it takes a direct object ('a letter') to complete its meaning."
+            },
+            {
+                id: 3,
+                question: "Which of the following is an intransitive verb?",
+                options: ["Eat", "Sleep", "Bring", "Make"],
+                answer: 1,
+                explanation: "'Sleep' is an intransitive verb because it does not require a direct object to make complete sense."
+            },
+            {
+                id: 4,
+                question: "What kind of verb is 'is' in the sentence: 'He is a doctor'?",
+                options: ["Action verb", "Linking verb / Copula", "Auxiliary verb", "Transitive verb"],
+                answer: 1,
+                explanation: "Here, 'is' acts as a linking verb (or copular verb) connecting the subject to a subject complement ('a doctor')."
+            },
+            {
+                id: 5,
+                question: "Choose the auxiliary (helping) verb in: 'They have finished their work.'",
+                options: ["They", "have", "finished", "work"],
+                answer: 1,
+                explanation: "'Have' is the auxiliary verb helping the main verb 'finished' to form the present perfect tense."
+            },
+            {
+                id: 6,
+                question: "What is the past participle form of the verb 'begin'?",
+                options: ["Began", "Begun", "Begining", "Begined"],
+                answer: 1,
+                explanation: "The three forms of begin are: begin (present) - began (past) - begun (past participle)."
+            },
+            {
+                id: 7,
+                question: "Which of the following verbs is a 'modal auxiliary'?",
+                options: ["Go", "Must", "Write", "Play"],
+                answer: 1,
+                explanation: "'Must' is a modal auxiliary verb used to express necessity, obligation, or certainty."
+            },
+            {
+                id: 8,
+                question: "Identify the correct causative verb usage: 'I made him ___ the report.'",
+                options: ["to write", "write", "writing", "wrote"],
+                answer: 1,
+                explanation: "Causative verbs like 'make', 'let', and 'have' (in active sense) are followed by a bare infinitive (verb without 'to')."
+            },
+            {
+                id: 9,
+                question: "What is a gerund?",
+                options: ["A verb ending in -ing that acts as a noun", "A verb acting as an adjective", "The past form of a verb", "An adverb"],
+                answer: 0,
+                explanation: "A gerund is formed by adding '-ing' to a verb, and it functions entirely as a noun (e.g., 'Swimming is good')."
+            },
+            {
+                id: 10,
+                question: "Identify the participle in: 'The barking dog frightened the child.'",
+                options: ["Barking", "Dog", "Frightened", "Child"],
+                answer: 0,
+                explanation: "'Barking' is a present participle functioning as an adjective modifying the noun 'dog'."
+            },
+            {
+                id: 11,
+                question: "Which verb has the same form in present, past, and past participle?",
+                options: ["Break", "Cut", "Sing", "Go"],
+                answer: 1,
+                explanation: "'Cut' remains cut-cut-cut across all three standard tenses."
+            },
+            {
+                id: 12,
+                question: "Fill in the blank with the correct form: 'The news ___ true.'",
+                options: ["are", "is", "were", "have"],
+                answer: 1,
+                explanation: "'News' is treated as a singular noun in English and therefore takes a singular verb ('is')."
+            },
+            {
+                id: 13,
+                question: "What is the past form of the verb 'fly'?",
+                options: ["Flied", "Flew", "Flown", "Flow"],
+                answer: 1,
+                explanation: "The past tense of 'fly' is 'flew', while 'flown' is the past participle."
+            },
+            {
+                id: 14,
+                question: "Which of these is a regular verb?",
+                options: ["Run", "Walk", "Write", "Sing"],
+                answer: 1,
+                explanation: "'Walk' is a regular verb because its past and past participle forms are made by adding '-ed' (walked)."
+            },
+            {
+                id: 15,
+                question: "Choose the correct sentence with a finite verb:",
+                options: ["Walking in the morning is healthy.", "He wants to learn English.", "Seeing is believing.", "To swim is fun."],
+                answer: 1,
+                explanation: "'Wants' is a finite verb as it changes according to tense and subject person. (In others, infinitive/gerunds are non-finite)."
+            },
+            {
+                id: 16,
+                question: "What type of verb is 'give' when it takes both a direct and an indirect object?",
+                options: ["Intransitive verb", "Ditransitive verb", "Linking verb", "Auxiliary verb"],
+                answer: 1,
+                explanation: "A ditransitive verb takes two objects, typically an indirect object (person) and a direct object (thing), like 'give him a book'."
+            },
+            {
+                id: 17,
+                question: "Identify the correct verb to complete: 'Neither of the boys ___ present.'",
+                options: ["were", "are", "was", "have been"],
+                answer: 2,
+                explanation: "'Neither of' takes a singular verb in formal English ('was')."
+            },
+            {
+                id: 18,
+                question: "What is the infinitive form in the sentence: 'She likes to dance.'?",
+                options: ["She", "likes", "to dance", "dance"],
+                answer: 2,
+                explanation: "'To dance' is an infinitive (to + base form of verb)."
+            },
+            {
+                id: 19,
+                question: "Which sentence contains a phrasal verb?",
+                options: ["She runs fast.", "He gave up smoking.", "I read a book.", "They played football."],
+                answer: 1,
+                explanation: "'Gave up' is a phrasal verb consisting of a verb ('gave') and a preposition/adverb ('up') giving a idiomatic meaning."
+            },
+            {
+                id: 20,
+                question: "What is the past participle of 'write'?",
+                options: ["Wrote", "Written", "Writing", "Writed"],
+                answer: 1,
+                explanation: "Write (present) - Wrote (past) - Written (past participle)."
+            },
+            {
+                id: 21,
+                question: "Identify the stative verb among the following:",
+                options: ["Run", "Know", "Jump", "Write"],
+                answer: 1,
+                explanation: "'Know' is a stative verb expressing a state of mind, which is rarely used in continuous tenses."
+            },
+            {
+                id: 22,
+                question: "Choose the correct verb agreement: 'Bread and butter ___ my favorite breakfast.'",
+                options: ["are", "is", "were", "have"],
+                answer: 1,
+                explanation: "When two singular nouns joined by 'and' express a single idea or meal, they take a singular verb ('is')."
+            },
+            {
+                id: 23,
+                question: "What is the third-person singular present form of the verb 'have'?",
+                options: ["Haves", "Has", "Had", "Having"],
+                answer: 1,
+                explanation: "For third-person singular (he, she, it), the present form of 'have' is 'has'."
+            },
+            {
+                id: 24,
+                question: "Identify the non-finite verb in: 'Hearing the noise, the boy woke up.'",
+                options: ["Hearing", "woke", "up", "boy"],
+                answer: 0,
+                explanation: "'Hearing' is a participle acting as a non-finite clause opener, while 'woke' is the main finite verb."
+            },
+            {
+                id: 25,
+                question: "Which of the following is a primary auxiliary verb?",
+                options: ["Can", "Must", "Be (is/am/are)", "Should"],
+                answer: 2,
+                explanation: "The primary auxiliary verbs in English are 'be', 'do', and 'have'."
+            }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.studentName = document.getElementById('studentName').value.trim();
+            studentInfo.phoneNumber = document.getElementById('phoneNumber').value.trim();
+            studentInfo.course = document.getElementById('course').value;
+            studentInfo.quizDate = "19 Oct 2026";
+            studentInfo.topic = "English - Verb";
+
+            document.getElementById('regScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+
+            renderQuestions();
+            startTimer();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm" id="q-card-${q.id}">
+                        <p class="font-bold text-sm text-gray-900 mb-3"><span class="text-pulseRed">প্রশ্ন ${index + 1}:</span> ${q.question}</p>
+                        <div class="space-y-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-gray-200 hover:bg-red-50 cursor-pointer transition text-sm">
+                            <input type="radio" name="question_${q.id}" value="${optIndex}" onchange="userAnswers[${q.id}] = ${optIndex}" class="text-pulseRed focus:ring-pulseRed h-4 w-4">
+                            <span class="text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            // Calculate Score
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === q.answer) {
+                    score++;
+                }
+            });
+
+            studentInfo.score = score;
+
+            // UI Switch to Result Screen
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+            document.getElementById('studentDetailsSummary').innerText = 
+                `নাম: ${studentInfo.studentName} | ফোন: ${studentInfo.phoneNumber} | কোর্স: ${studentInfo.course}`;
+
+            // Render Review Section
+            renderReview();
+
+            // Send Data to Apps Script Web App URL
+            sendDataToGoogleSheet(studentInfo);
+        }
+
+        function renderReview() {
+            const container = document.getElementById('reviewContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                let userAns = userAnswers[q.id];
+                let isCorrect = (userAns === q.answer);
+                let borderClass = isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50';
+                let statusText = isCorrect ? '<span class="text-green-600 font-bold text-xs">✓ সঠিক</span>' : '<span class="text-red-600 font-bold text-xs">✗ ভুল</span>';
+
+                html += `
+                    <div class="border rounded-xl p-4 ${borderClass} shadow-sm space-y-2">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-xs text-gray-900">প্রশ্ন ${index + 1}: ${q.question}</h4>
+                            ${statusText}
+                        </div>
+                        <div class="text-xs space-y-1 mt-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    let optStyle = "";
+                    if (optIndex === q.answer) {
+                        optStyle = "font-bold text-green-700 bg-green-100 px-2 py-1 rounded";
+                    } else if (optIndex === userAns && !isCorrect) {
+                        optStyle = "font-bold text-red-700 bg-red-100 px-2 py-1 rounded line-through";
+                    } else {
+                        optStyle = "text-gray-600 px-2 py-1";
+                    }
+                    html += `<div class="${optStyle}">• ${opt}</div>`;
+                });
+
+                html += `
+                        </div>
+                        <div class="bg-white p-2.5 rounded-lg border border-gray-200 mt-2 text-xs text-gray-700">
+                            <span class="font-bold text-pulseDarkRed">ব্যাখ্যা:</span> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function sendDataToGoogleSheet(data) {
+            document.getElementById('loader').classList.remove('hidden');
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "✓ ফলাফল সফলভাবে গুগল শিটে জমা হয়েছে!";
+            })
+            .catch(error => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "⚠️ সংযোগে সমস্যা হয়েছে, তবে আপনার স্কোর সংরক্ষিত আছে।";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডেইলি টেস্ট - বাংলাদেশের জাতীয় বিষয়াবলি | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulseRed: '#dc2626',
+                        pulseDarkRed: '#b91c1c',
+                        pulseLightRed: '#fef2f2'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased">
+
+    <!-- Mobile Wrapper Container -->
+    <div class="max-w-md mx-auto min-h-screen bg-white shadow-xl flex flex-col relative">
+
+        <!-- STEP 1: Registration Screen -->
+        <div id="regScreen" class="flex-1 p-6 flex flex-col justify-center">
+            <div class="text-center mb-6">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-16 mx-auto mb-3">
+                <h1 class="text-xl font-bold text-pulseRed">পালস নার্সিং কোচিং</h1>
+                <p class="text-sm text-gray-500 font-medium">ফাউন্ডেশন ব্যাচ (নার্সিং ভর্তি পরীক্ষা ২০২৬-২৭)</p>
+            </div>
+
+            <div class="bg-pulseLightRed border border-red-200 rounded-xl p-4 mb-6 shadow-sm">
+                <h2 class="font-bold text-pulseDarkRed text-base mb-1">পরীক্ষার বিবরণ:</h2>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li><span class="font-semibold">তারিখ:</span> ১৫ অক্টোবর ২০২৬</li>
+                    <li><span class="font-semibold">বিষয়:</span> সাধারণ জ্ঞান (General Knowledge)</li>
+                    <li><span class="font-semibold">টপিক:</span> বাংলাদেশের জাতীয় বিষয়াবলি</li>
+                    <li><span class="font-semibold">পূর্ণমান:</span> ২৫ | <span class="font-semibold">সময়:</span> ১৫ মিনিট</li>
+                </ul>
+            </div>
+
+            <form id="regForm" class="space-y-4" onsubmit="startExam(event)">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">শিক্ষার্থীর নাম (Student Name)</label>
+                    <input type="text" id="studentName" required placeholder="আপনার সম্পূর্ণ নাম লিখুন" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">মোবাইল নম্বর (Phone Number)</label>
+                    <input type="tel" id="phoneNumber" required pattern="[0-9]{11}" placeholder="০১XXXXXXXXX" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">কোর্স নির্বাচন করুন (Course)</label>
+                    <select id="course" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm bg-white">
+                        <option value="">-- কোর্স সিলেক্ট করুন --</option>
+                        <option value="BSC">B.Sc in Nursing</option>
+                        <option value="DIPLOMA">Diploma in Nursing Science & Midwifery</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3.5 rounded-lg shadow-lg transition duration-200 mt-2">
+                    পরীক্ষায় অংশগ্রহণ করুন
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Exam Screen (Hidden initially) -->
+        <div id="examScreen" class="hidden flex-1 flex flex-col">
+            <!-- Sticky Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-200 z-30 px-4 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="h-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-pulseRed leading-tight">জাতীয় বিষয়াবলি</h3>
+                        <p class="text-[10px] text-gray-500">ফাউন্ডেশন ব্যাচ</p>
+                    </div>
+                </div>
+                <div class="bg-pulseLightRed text-pulseDarkRed px-3 py-1.5 rounded-full text-xs font-bold border border-red-200 flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="timerText">১৫:০০</span>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="p-4 space-y-6 flex-1 pb-24">
+                <!-- JavaScript দিয়ে প্রশ্নগুলো এখানে লোড হবে -->
+            </div>
+
+            <!-- Bottom Submit Floating Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-3 z-30 shadow-lg flex justify-center">
+                <button onclick="submitExam()" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3 rounded-xl shadow-md transition duration-200 text-sm">
+                    কুইজ জমা দিন (Submit)
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Result & Review Screen (Hidden initially) -->
+        <div id="resultScreen" class="hidden flex-1 p-6 flex flex-col">
+            <div class="text-center bg-pulseLightRed border border-red-200 rounded-2xl p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">পরীক্ষা সফলভাবে সম্পন্ন হয়েছে!</h2>
+                <div class="text-4xl font-extrabold text-pulseRed my-2" id="scoreDisplay">০ / ২৫</div>
+                <p class="text-xs text-gray-600" id="studentDetailsSummary"></p>
+                <div id="syncStatus" class="mt-2 text-xs font-medium text-green-600"></div>
+            </div>
+
+            <h3 class="font-bold text-gray-800 text-base mb-4 border-b pb-2">পূর্ণাঙ্গ উত্তরপত্র ও ব্যাখ্যা:</h3>
+            <div id="reviewContainer" class="space-y-6 flex-1 pb-10">
+                <!-- উত্তরপত্র এবং ব্যাখ্যা এখানে ডাইনামিক দেখাবে -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-gray-800 hover:bg-black text-white font-bold py-3 rounded-xl transition duration-200 mt-4 mb-6">
+                পুনরায় পরীক্ষা দিন / হোম পেজে যান
+            </button>
+        </div>
+
+        <!-- Submitting Loader Overlay -->
+        <div id="loader" class="hidden absolute inset-0 bg-black bg-opacity-50 z-50 flex flex-col items-center justify-center text-white">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-pulseRed border-solid mb-3"></div>
+            <p class="text-sm font-semibold">রেজাল্ট জমা হচ্ছে, দয়া করে অপেক্ষা করুন...</p>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // ২৫টি বাংলাদেশের জাতীয় বিষয়াবলি সম্পর্কিত প্রশ্ন, অপশন, সঠিক উত্তর এবং ব্যাখ্যা
+        const quizData = [
+            {
+                id: 1,
+                question: "বাংলাদেশের জাতীয় পতাকা আনুষ্ঠানিকভাবে কবে উত্তোলিত হয়?",
+                options: ["২৩ মার্চ ১৯৭১", "২ মার্চ ১৯৭১", "২৬ মার্চ ১৯৭১", "১৬ ডিসেম্বর ১৯৭১"],
+                answer: 1,
+                explanation: "১৯৭১ সালের ২ মার্চ ঢাকা বিশ্ববিদ্যালয়ের বটতলায় প্রথম বাংলাদেশের জাতীয় পতাকা উত্তোলন করেছিলেন আ স ম আবদুর রব।"
+            },
+            {
+                id: 2,
+                question: "বাংলাদেশের জাতীয় সঙ্গীতের রচয়িতা কে?",
+                options: ["কাজী নজরুল ইসলাম", "রবীন্দ্রনাথ ঠাকুর", "দ্বিজেন্দ্রলাল রায়", "ফররুখ আহমদ"],
+                answer: 1,
+                explanation: "বাংলাদেশের জাতীয় সঙ্গীত 'আমার সোনার বাংলা' গানটির রচয়িতা বিশ্বকবি রবীন্দ্রনাথ ঠাকুর।"
+            },
+            {
+                id: 3,
+                question: "বাংলাদেশের জাতীয় প্রতীকে কয়টি তারকা চিহ্ন রয়েছে?",
+                options: ["৩টি", "৪টি", "৫টি", "৬টি"],
+                answer: 1,
+                explanation: "বাংলাদেশের জাতীয় প্রতীকের উভয় পাশে ধানের শীষবেষ্টিত পাটপাতার উপরে ৪টি তারকা রয়েছে (যা সংবিধানের মূল ৪টি নীতি নির্দেশ করে)।"
+            },
+            {
+                id: 4,
+                question: "বাংলাদেশের জাতীয় ফুলের নাম কী?",
+                options: ["শাপলা", "গোলাপ", "পদ্ম", "টগর"],
+                answer: 0,
+                explanation: "বাংলাদেশের জাতীয় ফুল হলো সাদা শাপলা (Nymphaea nouchali)।"
+            },
+            {
+                id: 5,
+                question: "বাংলাদেশের জাতীয় ফলের নাম কী?",
+                options: ["আম", "কাঁঠাল", "লিচু", "কলা"],
+                answer: 1,
+                explanation: "বাংলাদেশের জাতীয় ফল হলো কাঁঠাল (Jackfruit)।"
+            },
+            {
+                id: 6,
+                question: "বাংলাদেশের জাতীয় পশুর নাম কী?",
+                options: ["হাতি", "রয়েল বেঙ্গল টাইগার", "চিত্রা হরিণ", "বানর"],
+                answer: 1,
+                explanation: "বাংলাদেশের জাতীয় পশু হলো সুন্দরবনের বিখ্যাত রয়েল বেঙ্গল টাইগার।"
+            },
+            {
+                id: 7,
+                question: "বাংলাদেশের জাতীয় মাছের নাম কী?",
+                options: ["রুই", "কাতলা", "ইলিশ", "পাবদা"],
+                answer: 2,
+                explanation: "বাংলাদেশের জাতীয় মাছ হলো সামুদ্রিক ও অববাহিকার মাছ 'ইলিশ' (Tenualosa ilisha)।"
+            },
+            {
+                id: 8,
+                question: "বাংলাদেশের জাতীয় পাখির নাম কী?",
+                options: ["ঘুঘু", "দোয়েল", "কোয়েল", "শালিক"],
+                answer: 1,
+                explanation: "বাংলাদেশের জাতীয় পাখি হলো গ্রামীণ পরিবেশের সুপরিচিত পাখি 'দোয়েল' (Oriental magpie-robin)।"
+            },
+            {
+                id: 9,
+                question: "বাংলাদেশের জাতীয় খেলা কোনটি?",
+                options: ["ক্রিকেট", "ফুটবল", "কাবাডি (হাডুডু)", "হকি"],
+                answer: 2,
+                explanation: "বাংলাদেশের জাতীয় খেলা হলো হাডুডু বা কাবাডি।"
+            },
+            {
+                id: 10,
+                question: "জাতীয় স্মৃতিসৌধের স্থপতি কে?",
+                options: ["মঈনুল হোসেন", "সৈয়দ মাইনুল হোসেন", "নিতুন কুণ্ডু", "مصطفى زماان"],
+                answer: 1,
+                explanation: "সাভারে অবস্থিত জাতীয় স্মৃতিসৌধের নকশা ও স্থপতি হলেন সৈয়দ মাইনুল হোসেন।"
+            },
+            {
+                id: 11,
+                question: "বাংলাদেশের জাতীয় সংসদের মূল স্থপতি কে?",
+                options: ["লুই আই কান", "পল রুডলফ", "ম্যাজর জেনারেল মজিদ", "রিচার্ড নয়েট্রা"],
+                answer: 0,
+                explanation: "শেরেবাংলা নগরে অবস্থিত বাংলাদেশের জাতীয় সংসদ ভবনের মূল স্থপতি আমেরিকার বিশ্বখ্যাত স্থপতি লুই আই কান।"
+            },
+            {
+                id: 12,
+                question: "বাংলাদেশের জাতীয় সংগীতের কত চরণ প্রথম গাওয়া হয়?",
+                options: ["১০ চরণ", "১৫ চরণ", "২০ চরণ", "পূর্ণাঙ্গ গান"],
+                answer: 0,
+                explanation: "রাষ্ট্রীয় অনুষ্ঠানে বাংলাদেশের জাতীয় সংগীতের প্রথম ১০ চরণ পরিবেশন করা হয়।"
+            },
+            {
+                id: 13,
+                question: "বাংলাদেশের জাতীয় পতাকা প্রথম কবে জাতীয় পতাকা দিবসের মর্যাদা পায় বা সরকারিভাবে গৃহীত হয়?",
+                options: ["১৭ জানুয়ারি ১৯৭২", "২৬ মার্চ ১৯৭২", "১৬ ডিসেম্বর ১৯৭১", "২১ ফেব্রুয়ারি ১৯৭২"],
+                answer: 0,
+                explanation: "১৯৭২ সালের ১৭ জানুয়ারি মন্ত্রীপরিষদের বৈঠকে বর্তমান সবুজ ভূমির ওপর লাল বৃত্তযুক্ত পতাকাটি কিছু সংশোধনের পর জাতীয় পতাকা হিসেবে আনুষ্ঠানিকভাবে গৃহীত হয়।"
+            },
+            {
+                id: 14,
+                question: "বাংলাদেশের সংবিধান কবে কার্যকর হয়?",
+                options: ["১৬ ডিসেম্বর ১৯৭২", "৪ নভেম্বর ১৯৭২", "১০ জানুয়ারি ১৯৭২", "২৬ মার্চ ১৯৭২"],
+                answer: 0,
+                explanation: "বাংলাদেশের সংবিধান গণপরিষদে পাস হয় ১৯৭২ সালের ৪ নভেম্বর এবং কার্যকর হয় একই বছরের ১৬ ডিসেম্বর থেকে।"
+            },
+            {
+                id: 15,
+                question: "বাংলাদেশের জাতীয় কবির নাম কী?",
+                options: ["রবীন্দ্রনাথ ঠাকুর", "জসীমউদ্দীন", "কাজী নজরুল ইসলাম", "শামসুর রাহমান"],
+                answer: 2,
+                explanation: "বিদ্রোহী কবি কাজী নজরুল ইসলাম বাংলাদেশের জাতীয় কবি।"
+            },
+            {
+                id: 16,
+                question: "বাংলাদেশের মানচিত্র প্রথম কে খোদাই বা অঙ্কন করেছিলেন?",
+                options: ["কামরুল হাসান", "শিব নারায়ণ দাস", "পটুয়া কামরুল হাসান", "এ কে এম হায়দার"],
+                answer: 1,
+                explanation: "১৯৭১ সালের ১৯৭১ সালের ২ মার্চ ঢাকা বিশ্ববিদ্যালয়ের ইকবাল হলের (বর্তমান সার্জেন্ট জহুরুল হক হল) ছাত্র সংসদের ভিপি শিব নারায়ণ দাস প্রথম পতাকার মধ্যে মানচিত্র খোদাই করেন।"
+            },
+            {
+                id: 17,
+                question: "বাংলাদেশের সর্বোচ্চ বেসামরিক রাষ্ট্রীয় পুরস্কার কোনটি?",
+                options: ["একুশে পদক", "স্বাধীনতা পুরস্কার", "বাংলা একাডেমি সাহিত্য পুরস্কার", "শহীদ বুদ্ধিজীবী পদক"],
+                answer: 1,
+                explanation: "স্বাধীনতা পুরস্কার হলো বাংলাদেশ সরকারের দেওয়া সর্বোচ্চ বেসামরিক রাষ্ট্রীয় পুরস্কার।"
+            },
+            {
+                id: 18,
+                question: "বাংলাদেশের জাতীয় প্রতীক প্রথম কবে পাস বা ব্যবহার শুরু হয়?",
+                options: ["১৯৭১ সালে", "১৯৭২ সালে", "১৯৭৫ সালে", "১৯৭৩ সালে"],
+                answer: 1,
+                explanation: "বাংলাদেশ সরকারের মনোগ্রাম বা জাতীয় প্রতীক ১৯৭২ সালে প্রবর্তিত হয়।"
+            },
+            {
+                id: 19,
+                question: "বাংলাদেশের জাতীয় বৃক্ষের নাম কী?",
+                options: ["বট গাছ", "আম গাছ", "শেওড়া গাছ", "মেহগনি"],
+                answer: 0,
+                explanation: "বাংলাদেশের জাতীয় বৃক্ষ বা গাছ হলো বট গাছ (Banyan tree)।"
+            },
+            {
+                id: 20,
+                question: "বাংলাদেশের জাতীয় সংসদ ভবনের উচ্চতা কত?",
+                options: ["১৫৫ ফুট", "১২০ ফুট", "১৫০ ফুট", "১৭৫ ফুট"],
+                answer: 0,
+                explanation: "জাতীয় সংসদ ভবনের উচ্চতা প্রায় ১৫৫ ফুট।"
+            },
+            {
+                id: 21,
+                question: "জাতীয় স্মৃতিসৌধের ফলক কয়টি?",
+                options: ["৫টি", "৬টি", "৭টি", "৮টি"],
+                answer: 2,
+                explanation: "জাতীয় স্মৃতিসৌধের মিনারটি ৭টি ত্রিভুজাকৃতি দেয়াল বা স্তম্ভ নিয়ে গঠিত, যা বাংলাদেশের স্বাধীনতা আন্দোলনের ৭টি ঐতিহাসিক পর্যায় নির্দেশ করে।"
+            },
+            {
+                id: 22,
+                question: "বাংলাদেশের জাতীয় পতাকার দৈর্ঘ্য ও প্রস্থের অনুপাত কত?",
+                options: ["৩:২", "৫:৩", "১০:৬", "ক ও গ উভয়ই সঠিক"],
+                answer: 3,
+                explanation: "জাতীয় পতাকার দৈর্ঘ্য ও প্রস্থের অনুপাত ১০:৬ বা কাটাকাটি করলে ৫:৩ (অথবা ৩:২ লঘিষ্ঠ রূপ হিসেবে প্রচলিত, তবে স্ট্যান্ডার্ড অনুপাত ৫:৩ / ১০:৬)।"
+            },
+            {
+                id: 23,
+                question: "বাংলাদেশের জাতীয় কবি কাজী নজরুল ইসলামের মাজার কোথায় অবস্থিত?",
+                options: ["ঢাকা বিশ্ববিদ্যালয় কেন্দ্রীয় মসজিদ প্রাঙ্গণ", "সোহরাওয়ার্দী উদ্যান", "বনানী কবরস্থান", "আগারগাঁও"],
+                answer: 0,
+                explanation: "জাতীয় কবি কাজী নজরুল ইসলামকে ঢাকা বিশ্ববিদ্যালয় কেন্দ্রীয় মসজিদের পাশে সমাহিত করা হয়।"
+            },
+            {
+                id: 24,
+                question: "বাংলাদেশের জাতীয় ফল কাঁঠাল উৎপাদনের জন্য কোন জেলা বিখ্যাত?",
+                options: ["গাজীপুর", "ময়মনসিংহ", "নরসিংদী", "সবগুলোই"],
+                answer: 3,
+                explanation: "বাংলাদেশের ময়মনসিংহ, গাজীপুর ও নরসিংদী অঞ্চলে প্রচুর পরিমাণে কাঁঠাল উৎপাদিত হয়।"
+            },
+            {
+                id: 25,
+                question: "বাংলাদেশের প্রথম অস্থায়ী সরকার কবে শপথ গ্রহণ করে?",
+                options: ["২৬ মার্চ ১৯৭১", "১৭ এপ্রিল ১৯৭১", "১০ এপ্রিল ১৯৭১", "১৬ ডিসেম্বর ১৯৭১"],
+                answer: 1,
+                explanation: "১৯৭১ সালের ১৭ এপ্রিল মেহেরপুর জেলার বৈদ্যনাথতলার (বর্তমান মুজিবনগর) আমবাগানে বাংলাদেশের প্রথম অস্থায়ী সরকার শপথ গ্রহণ করে।"
+            }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.studentName = document.getElementById('studentName').value.trim();
+            studentInfo.phoneNumber = document.getElementById('phoneNumber').value.trim();
+            studentInfo.course = document.getElementById('course').value;
+            studentInfo.quizDate = "15 Oct 2026";
+            studentInfo.topic = "General Knowledge - বাংলাদেশের জাতীয় বিষয়াবলি";
+
+            document.getElementById('regScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+
+            renderQuestions();
+            startTimer();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm" id="q-card-${q.id}">
+                        <p class="font-bold text-sm text-gray-900 mb-3"><span class="text-pulseRed">প্রশ্ন ${index + 1}:</span> ${q.question}</p>
+                        <div class="space-y-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-gray-200 hover:bg-red-50 cursor-pointer transition text-sm">
+                            <input type="radio" name="question_${q.id}" value="${optIndex}" onchange="userAnswers[${q.id}] = ${optIndex}" class="text-pulseRed focus:ring-pulseRed h-4 w-4">
+                            <span class="text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            // Calculate Score
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === q.answer) {
+                    score++;
+                }
+            });
+
+            studentInfo.score = score;
+
+            // UI Switch to Result Screen
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+            document.getElementById('studentDetailsSummary').innerText = 
+                `নাম: ${studentInfo.studentName} | ফোন: ${studentInfo.phoneNumber} | কোর্স: ${studentInfo.course}`;
+
+            // Render Review Section
+            renderReview();
+
+            // Send Data to Apps Script Web App URL
+            sendDataToGoogleSheet(studentInfo);
+        }
+
+        function renderReview() {
+            const container = document.getElementById('reviewContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                let userAns = userAnswers[q.id];
+                let isCorrect = (userAns === q.answer);
+                let borderClass = isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50';
+                let statusText = isCorrect ? '<span class="text-green-600 font-bold text-xs">✓ সঠিক</span>' : '<span class="text-red-600 font-bold text-xs">✗ ভুল</span>';
+
+                html += `
+                    <div class="border rounded-xl p-4 ${borderClass} shadow-sm space-y-2">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-xs text-gray-900">প্রশ্ন ${index + 1}: ${q.question}</h4>
+                            ${statusText}
+                        </div>
+                        <div class="text-xs space-y-1 mt-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    let optStyle = "";
+                    if (optIndex === q.answer) {
+                        optStyle = "font-bold text-green-700 bg-green-100 px-2 py-1 rounded";
+                    } else if (optIndex === userAns && !isCorrect) {
+                        optStyle = "font-bold text-red-700 bg-red-100 px-2 py-1 rounded line-through";
+                    } else {
+                        optStyle = "text-gray-600 px-2 py-1";
+                    }
+                    html += `<div class="${optStyle}">• ${opt}</div>`;
+                });
+
+                html += `
+                        </div>
+                        <div class="bg-white p-2.5 rounded-lg border border-gray-200 mt-2 text-xs text-gray-700">
+                            <span class="font-bold text-pulseDarkRed">ব্যাখ্যা:</span> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function sendDataToGoogleSheet(data) {
+            document.getElementById('loader').classList.remove('hidden');
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "✓ ফলাফল সফলভাবে গুগল শিটে জমা হয়েছে!";
+            })
+            .catch(error => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "⚠️ সংযোগে সমস্যা হয়েছে, তবে আপনার স্কোর সংরক্ষিত আছে।";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

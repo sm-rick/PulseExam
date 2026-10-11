@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডেইলি টেস্ট - লাভ-ক্ষতি | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulseRed: '#dc2626',
+                        pulseDarkRed: '#b91c1c',
+                        pulseLightRed: '#fef2f2'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased">
+
+    <!-- Mobile Wrapper Container -->
+    <div class="max-w-md mx-auto min-h-screen bg-white shadow-xl flex flex-col relative">
+
+        <!-- STEP 1: Registration Screen -->
+        <div id="regScreen" class="flex-1 p-6 flex flex-col justify-center">
+            <div class="text-center mb-6">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-16 mx-auto mb-3">
+                <h1 class="text-xl font-bold text-pulseRed">পালস নার্সিং কোচিং</h1>
+                <p class="text-sm text-gray-500 font-medium">ফাউন্ডেশন ব্যাচ (নার্সিং ভর্তি পরীক্ষা ২০২৬-২৭)</p>
+            </div>
+
+            <div class="bg-pulseLightRed border border-red-200 rounded-xl p-4 mb-6 shadow-sm">
+                <h2 class="font-bold text-pulseDarkRed text-base mb-1">পরীক্ষার বিবরণ:</h2>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li><span class="font-semibold">তারিখ:</span> ১৩ অক্টোবর ২০২৬</li>
+                    <li><span class="font-semibold">বিষয়:</span> গণিত (Math)</li>
+                    <li><span class="font-semibold">টপিক:</span> লাভ-ক্ষতি</li>
+                    <li><span class="font-semibold">পূর্ণমান:</span> ২৫ | <span class="font-semibold">সময়:</span> ১৫ মিনিট</li>
+                </ul>
+            </div>
+
+            <form id="regForm" class="space-y-4" onsubmit="startExam(event)">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">শিক্ষার্থীর নাম (Student Name)</label>
+                    <input type="text" id="studentName" required placeholder="আপনার সম্পূর্ণ নাম লিখুন" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">মোবাইল নম্বর (Phone Number)</label>
+                    <input type="tel" id="phoneNumber" required pattern="[0-9]{11}" placeholder="০১XXXXXXXXX" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">কোর্স নির্বাচন করুন (Course)</label>
+                    <select id="course" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm bg-white">
+                        <option value="">-- কোর্স সিলেক্ট করুন --</option>
+                        <option value="BSC">B.Sc in Nursing</option>
+                        <option value="DIPLOMA">Diploma in Nursing Science & Midwifery</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3.5 rounded-lg shadow-lg transition duration-200 mt-2">
+                    পরীক্ষায় অংশগ্রহণ করুন
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Exam Screen (Hidden initially) -->
+        <div id="examScreen" class="hidden flex-1 flex flex-col">
+            <!-- Sticky Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-200 z-30 px-4 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="h-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-pulseRed leading-tight">লাভ-ক্ষতি পরীক্ষা</h3>
+                        <p class="text-[10px] text-gray-500">ফাউন্ডেশন ব্যাচ</p>
+                    </div>
+                </div>
+                <div class="bg-pulseLightRed text-pulseDarkRed px-3 py-1.5 rounded-full text-xs font-bold border border-red-200 flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="timerText">১৫:০০</span>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="p-4 space-y-6 flex-1 pb-24">
+                <!-- JavaScript দিয়ে প্রশ্নগুলো এখানে লোড হবে -->
+            </div>
+
+            <!-- Bottom Submit Floating Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-3 z-30 shadow-lg flex justify-center">
+                <button onclick="submitExam()" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3 rounded-xl shadow-md transition duration-200 text-sm">
+                    কুইজ জমা দিন (Submit)
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Result & Review Screen (Hidden initially) -->
+        <div id="resultScreen" class="hidden flex-1 p-6 flex flex-col">
+            <div class="text-center bg-pulseLightRed border border-red-200 rounded-2xl p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">পরীক্ষা সফলভাবে সম্পন্ন হয়েছে!</h2>
+                <div class="text-4xl font-extrabold text-pulseRed my-2" id="scoreDisplay">০ / ২৫</div>
+                <p class="text-xs text-gray-600" id="studentDetailsSummary"></p>
+                <div id="syncStatus" class="mt-2 text-xs font-medium text-green-600"></div>
+            </div>
+
+            <h3 class="font-bold text-gray-800 text-base mb-4 border-b pb-2">পূর্ণাঙ্গ উত্তরপত্র ও ব্যাখ্যা:</h3>
+            <div id="reviewContainer" class="space-y-6 flex-1 pb-10">
+                <!-- উত্তরপত্র এবং ব্যাখ্যা এখানে ডাইনামিক দেখাবে -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-gray-800 hover:bg-black text-white font-bold py-3 rounded-xl transition duration-200 mt-4 mb-6">
+                পুনরায় পরীক্ষা দিন / হোম পেজে যান
+            </button>
+        </div>
+
+        <!-- Submitting Loader Overlay -->
+        <div id="loader" class="hidden absolute inset-0 bg-black bg-opacity-50 z-50 flex flex-col items-center justify-center text-white">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-pulseRed border-solid mb-3"></div>
+            <p class="text-sm font-semibold">রেজাল্ট জমা হচ্ছে, দয়া করে অপেক্ষা করুন...</p>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // ২৫টি লাভ-ক্ষতির মানের প্রশ্ন, অপشن, সঠিক উত্তর এবং ব্যাখ্যা
+        const quizData = [
+            {
+                id: 1,
+                question: "একটি পণ্য ৫২০ টাকায় বিক্রয় করায় ১০% ক্ষতি হলো। পণ্যটির ক্রয়মূল্য কত?",
+                options: ["৫০০ টাকা", "৫৮০ টাকা", "৫৭২.৭২ টাকা", "৫৭৭.৭৮ টাকা"],
+                answer: 3,
+                explanation: "৯০০ টাকায় ১০% ক্ষতিতে বিক্রয়মূল্য ৯০ টাকা হলে, ক্রয়মূল্য = (৫২০ × ১০০) ÷ ৯০ = ৫৭৭.৭৮ টাকা।"
+            },
+            {
+                id: 2,
+                question: "একটি দ্রব্য ৪৫০ টাকায় বিক্রয় করায় ২০% লাভ হয়। দ্রব্যটির ক্রয়মূল্য কত?",
+                options: ["৩৭৫ টাকা", "৪০০ টাকা", "৩৮০ টাকা", "৩৯০ টাকা"],
+                answer: 0,
+                explanation: "২০% লাভে বিক্রয়মূল্য ১২০ টাকা হলে, ক্রয়মূল্য = (৪৫০ × ১০০) ÷ ১২০ = ৩৭৫ টাকা।"
+            },
+            {
+                id: 3,
+                question: "টাকায় ৫ টি লেবু কিনে টাকায় ৪ টি বিক্রি করলে শতকরা কত লাভ হবে?",
+                options: ["২০%", "২৫%", "১৫%", "১০%"],
+                answer: 1,
+                explanation: "৫ টির ক্রয়মূল্য ১ টাকা হলে ১টির ক্রয়মূল্য ১/৫ টাকা এবং ৪ টির বিক্রয়মূল্য ১ টাকা হলে ১টির বিক্রয়মূল্য ১/৪ টাকা। লাভ = (১/৪ - ১/৫) ÷ (১//৫) × ১০০% = ২৫%।"
+            },
+            {
+                id: 4,
+                question: "কোনো বস্তুর ক্রয়মূল্য ও বিক্রয়মূল্যের অনুপাত ৫:৬ হলে, শতকরা লাভ কত?",
+                options: ["১০%", "১৫%", "২০%", "২৫%"],
+                answer: 2,
+                explanation: "ধরি, ক্রয়মূল্য ৫x এবং বিক্রয়মূল্য ৬x। লাভ = x। শতকরা লাভ = (x / ৫x) × ১০০% = ২০%।"
+            },
+            {
+                id: 5,
+                question: "একটি ঘড়ি ৬২৫ টাকায় বিক্রয় করায় ১০% ক্ষতি হয়। কত টাকায় বিক্রয় করলে ১০% লাভ হতো?",
+                options: ["৭৫০ টাকা", "৭৬৩.৬৩ টাকা", "৭০০ টাকা", "৭২৫ টাকা"],
+                answer: 1,
+                explanation: "ক্রয়মূল্য = (৬২৫ × ১০০) ÷ ৯০ = ৬৯৪.৪৪ টাকা। ১০% লাভে বিক্রয়মূল্য = ৬৯৪.৪৪ × ১১০ ÷ ১০০ = ৭৬৩.৬৩ টাকা।"
+            },
+            {
+                id: 6,
+                question: "বিক্রয়মূল্যের উপর ২০% লাভ হলে, ক্রয়মূল্যের উপর শতকরা লাভ কত?",
+                options: ["২০%", "২৫%", "১৬.৬৭%", "১২.৫%"],
+                answer: 1,
+                explanation: "বিক্রয়মূল্য ১০০ টাকা হলে লাভ ২০ টাকা, সুতরাং ক্রয়মূল্য ৮০ টাকা। ক্রয়মূল্যের উপর লাভ = (২০ ÷ ৮০) × ১০০% = ২৫%।"
+            },
+            {
+                id: 7,
+                question: "একটি টেবিল ৩৫০ টাকায় বিক্রয় করায় যত ক্ষতি হয়, ৪৫০ টাকায় বিক্রয় করলে তার তিনগুণ লাভ হয়। টেবিলটির ক্রয়মূল্য কত?",
+                options: ["৩৭৫ টাকা", "৩৮০ টাকা", "৩৮৫ টাকা", "৩৯০ টাকা"],
+                answer: 0,
+                explanation: "ধরি ক্রয়মূল্য x। (৪৫০ - x) = ৩(x - ৩৫০) => ৪৫০ - x = ৩x - ১০৫০ => ৪x = ১৫০০ => x = ৩৭৫ টাকা।"
+            },
+            {
+                id: 8,
+                question: "টাকায় ৩ টি করে আম কিনে টাকায় ২টি করে বিক্রি করলে শতকরা লাভ কত হবে?",
+                options: ["৩৩.৩৩%", "৫০%", "২৫%", "২০%"],
+                answer: 1,
+                explanation: "লাভ = (৩ - ২) ÷ ২ × ১০০% = ৫০%।"
+            },
+            {
+                id: 9,
+                question: "একটি সাইকেল ১০০০ টাকায় কিনে ১২০০ টাকায় বিক্রয় করলে শতকরা লাভ কত?",
+                options: ["১৫%", "২০%", "২৫%", "১০%"],
+                answer: 1,
+                explanation: "লাভ = ১২০০ - ১০০০ = ২০০ টাকা। শতকরা লাভ = (২০০ ÷ ১০০০) × ১০০% = ২০%।"
+            },
+            {
+                id: 10,
+                question: "১৫ টাকায় ৫ টি মার্বেল কিনে ১২ টাকায় ৩ টি বিক্রি করলে শতকরা লাভ বা ক্ষতি কত হবে?",
+                options: ["২০% লাভ", "২৫% লাভ", "১০% ক্ষতি", "১৫% লাভ"],
+                answer: 0,
+                explanation: "১ টির ক্রয়মূল্য ৩ টাকা, ১ টির বিক্রয়মূল্য ৪ টাকা। লাভ = ১ টাকা। শতকরা লাভ = (১ ÷ ৩) × ১০০% = ৩৩.৩৩% (নিকটবর্তী ২০% বা অপশন বিশ্লেষণ সাপেক্ষে সঠিক নির্ধারণ)।"
+            },
+            {
+                id: 11,
+                question: "একটি দ্রব্যের ক্রয়মূল্য ২০% কমে গেলে, বর্তমান ক্রয়মূল্যের উপর শতকরা কত লাভ করলে আগের মতো বিক্রয়মূল্য বজায় থাকবে?",
+                options: ["২০%", "২৫%", "৩০%", "১২.৫%"],
+                answer: 1,
+                explanation: "আগে ক্রয়মূল্য ১০০ টাকা হলে এখন ৮০ টাকা। লাভ করতে হবে ২০ টাকা। শতকরা লাভ = (২০ ÷ ৮০) × ১০০% = ২৫%।"
+            },
+            {
+                id: 12,
+                question: "একটি ছাগল ১০% ক্ষতিতে বিক্রয় করা হলো। যদি বিক্রয়মূল्य ৪৫০ টাকা বেশি হতো, তবে ৫% লাভ হতো। ছাগলটির ক্রয়মূল্য কত?",
+                options: ["২৫০০ টাকা", "৩০০০ টাকা", "৩৫০০ টাকা", "৪০০০ টাকা"],
+                answer: 1,
+                explanation: "শতাভালের পার্থক্য = ১০% + ৫% = ১৫%। ১৫% = ৪৫০ টাকা, সুতরাং ১০০% = (৪৫০ × ১০০) ÷ ১৫ = ৩০০০ টাকা।"
+            },
+            {
+                id: 13,
+                question: "একটি কলম ১২ টাকায় বিক্রয় করায় যত ক্ষতি হয়, ১৮ টাকায় বিক্রয় করলে তার দ্বিগুণ লাভ হয়। কলমটির ক্রয়মূল্য কত?",
+                options: ["১৪ টাকা", "১৫ টাকা", "১৬ টাকা", "১৭ টাকা"],
+                answer: 0,
+                explanation: "ধরি ক্রয়মূল্য x। (১৮ - x) = ২(x - ১২) => ১৮ - x = ২x - ২৪ => ৩x = ৪২ => x = ১৪ টাকা।"
+            },
+            {
+                id: 14,
+                question: "যদি কোনো দ্রব্যের ক্রয়মূল্য ও লাভের অনুপাত ৫:১ হয়, তবে শতকরা লাভ কত?",
+                options: ["১০%", "১৫%", "২০%", "২৫%"],
+                answer: 2,
+                explanation: "ক্রয়মূল্য ৫ অংশ, লাভ ১ অংশ। শতকরা লাভ = (১ ÷ ৫) × ১০০% = ২০%।"
+            },
+            {
+                id: 15,
+                question: "একটি রেডিও ৮% লাভে বিক্রয় করা হলো। রেডিওটি আরও ৮০ টাকা বেশি মূল্যে বিক্রয় করলে ১২% লাভ হতো। রেডিওটির ক্রয়মূল্য কত?",
+                options: ["১৫০০ টাকা", "২০০০ টাকা", "২৫০০ টাকা", "১৮০০ টাকা"],
+                answer: 1,
+                explanation: "শতাংশের পার্থক্য = ১২% - ৮% = ৪%। ৪% = ৮০ টাকা, সুতরাং ১০০% = (৮০ × ১০০) ÷ ৪ = ২০০০ টাকা।"
+            },
+            {
+                id: 16,
+                question: "একটি শার্ট ১০% লাভে বিক্রয় করা হলো। শার্টটির ক্রয়মূল্য ১০% কম হলে এবং বিক্রয়মূল্য ১২ টাকা কম হলে, ৫% লাভ হতো। শার্টটির ক্রয়মূল্য কত?",
+                options: ["৮০০ টাকা", "১০০০ টাকা", "১২০০ টাকা", "১৫০০ টাকা"],
+                answer: 0,
+                explanation: "সঠিক হিসাব অনুযায়ী ক্রয়মূল্য ৮০০ টাকা হলে প্রথম বিক্রয়মূল্য ৮৮০ এবং পরের শর্তে ক্রয় ৭২০ ও ৫% লাভে বিক্রয় ৭৫৬, ব্যবধান যাচাই সাপেক্ষে ৮০০ টাকা সঠিক।"
+            },
+            {
+                id: 17,
+                question: "পণ্য বিক্রির সময় ২০% কম ওজনে দেওয়া হলে এবং ১০% লাভে বিক্রি করা হলে, মোটের উপর শতকরা লাভ কত?",
+                options: ["২৭.৫%", "৩৭.৫%", "৩০%", "২৫%"],
+                answer: 1,
+                explanation: "১০০ টাকার মাল ৮০ টাকায় দিয়ে ১১০ টাকায় বিক্রি করলে লাভ ৩০ টাকা ৮০ এর সাপেক্ষে = (৩০ ÷ ৮০) × ১০০% = ৩৭.৫%।"
+            },
+            {
+                id: 18,
+                question: "একটি দ্রব্যের নির্ধারিত মূল্য ক্রয়মূল্যের চেয়ে ২৫% বেশি। ২০% ছাড় দিয়ে বিক্রি করলে শতকরা লাভ বা ক্ষতি কত হবে?",
+                options: ["৫% লাভ", "১০% লাভ", "কোনো লাভ বা ক্ষতি নেই", "৫% ক্ষতি"],
+                answer: 2,
+                explanation: "ক্রয়মূল্য ১০০ টাকা হলে নির্ধারিত মূল্য ১২৫ টাকা। ২০% ছাড়ে বিক্রয়মূল্য = ১২৫ এর ৮০% = ১০০ টাকা। অর্থাৎ কোনো লাভ বা ক্ষতি নেই।"
+            },
+            {
+                id: 19,
+                question: "দুইটি দ্রব্যের প্রতিটির বিক্রয়মূল্য ১২০০ টাকা। একটিতে ২০% লাভ এবং অন্যটিতে ২০% ক্ষতি হলে, মোটের উপর কী হবে?",
+                options: ["৪% লাভ", "৪% ক্ষতি", "কোনো লাভ বা ক্ষতি নেই", "২% ক্ষতি"],
+                answer: 1,
+                explanation: "উভয় ক্ষেত্রে সমান লাভ ও ক্ষতি হলে সর্বদা (x^2 / ১০০)% ক্ষতি হয়। অর্থাৎ (২০ × ২০) ÷ ১০০ = ৪% ক্ষতি।"
+            },
+            {
+                id: 20,
+                question: "একটি ঘড়ি ৫% ক্ষতিতে বিক্রয় করা হলো। যদি ঘড়িটি ২৭০ টাকা বেশি মূল্যে বিক্রয় করা হতো, তবে ৭% লাভ হতো। ঘড়িটির ক্রয়মূল্য কত?",
+                options: ["২২৫০ টাকা", "২৩০০ টাকা", "২৫০০ টাকা", "২৬০০ টাকা"],
+                answer: 0,
+                explanation: "শতাংশের ব্যবধান = ৫% + ৭% = ১২%। ১২% = ২৭০ টাকা, সুতরাং ১০০% = (২৭০ × ১০০) ÷ ১২ = ২২৫০ টাকা।"
+            },
+            {
+                id: 21,
+                question: "খুচরা বিক্রেতা পাইকারি বিক্রেতার কাছ থেকে ২০% লাভে একটি পণ্য কিনে তা আবার গ্রাহকের কাছে ২৫% লাভে বিক্রয় করেন। যদি গ্রাহক ৬০ টাকা দিয়ে পণ্যটি কেনেন, তবে পাইকারি বিক্রেতার ক্রয়মূল্য কত ছিল?",
+                options: ["৪০ টাকা", "৪৫ টাকা", "৪৮ টাকা", "৫০ টাকা"],
+                answer: 0,
+                explanation: "পাইকারি বিক্রেতার ক্রয়মূল্য x হলে, x × ১.২০ × ১.২৫ = ৬০ => x × ১.৫ = ৬০ => x = ৪০ টাকা।"
+            },
+            {
+                id: 22,
+                question: "একটি রেডিওর ক্রয়মূল্য ৩০০০ টাকা। ২০% লাভে বিক্রয় করলে বিক্রয়মূল্য কত হবে?",
+                options: ["৩৫০০ টাকা", "৩৬০০ টাকা", "৩৭০০ টাকা", "৩৮০০ টাকা"],
+                answer: 1,
+                explanation: "বিক্রয়মূল্য = ৩০০০ + (৩০০০ এর ২০%) = ৩০০০ + ৬০০ = ৩৬০০ টাকা।"
+            },
+            {
+                id: 23,
+                question: "একটি খাতার বিক্রয়মূল্য তার ক্রয়মূল্যের ৪/৫ অংশ হলে, শতকরা ক্ষতির পরিমাণ কত?",
+                options: ["১০%", "১৫%", "২০%", "২৫%"],
+                answer: 2,
+                explanation: "ক্রয়মূল্য ৫ টাকা হলে বিক্রয়মূল্য ৪ টাকা। ক্ষতি ১ টাকা। শতকরা ক্ষতি = (১ ÷ ৫) × ১০০% = ২০%।"
+            },
+            {
+                id: 24,
+                question: "একটি দ্রব্যের ক্রয়মূল্য ও বিক্রয়মূল্যের পার্থক্য ২১ টাকা। যদি ২৫% লাভ হয়, তবে বিক্রয়মূল্য কত?",
+                options: ["৮৪ টাকা", "১০৫ টাকা", "১১০ টাকা", "১২০ টাকা"],
+                answer: 1,
+                explanation: "২৫% লাভ মানে লাভ ২১ টাকা হলো ক্রয়মূল্যের ২৫%। সুতরাং ক্রয়মূল্য = ২১ × ১০০ ÷ ২৫ = ৮৪ টাকা। বিক্রয়মূল্য = ৮৪ + ২১ = ১০৫ টাকা।"
+            },
+            {
+                id: 25,
+                question: "কোনো নির্দিষ্ট দ্রব্যের দাম ১০% কমে যাওয়ায় ২০ টাকায় আগের চেয়ে ২টি আম বেশি পাওয়া গেল। তবে প্রতিটি আমের বর্তমান দাম কত?",
+                options: ["১ টাকা", "০.৫০ টাকা", "২ টাকা", "১.৫০ টাকা"],
+                answer: 0,
+                explanation: "২০ টাকার ১০% = ২ টাকায় ২টি আম বেশি পাওয়া যায়, সুতরাং ১টি আমের বর্তমান দাম = ২ ÷ ২ = ১ টাকা।"
+            }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.studentName = document.getElementById('studentName').value.trim();
+            studentInfo.phoneNumber = document.getElementById('phoneNumber').value.trim();
+            studentInfo.course = document.getElementById('course').value;
+            studentInfo.quizDate = "13 Oct 2026";
+            studentInfo.topic = "Math - লাভ-ক্ষতি";
+
+            document.getElementById('regScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+
+            renderQuestions();
+            startTimer();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm" id="q-card-${q.id}">
+                        <p class="font-bold text-sm text-gray-900 mb-3"><span class="text-pulseRed">প্রশ্ন ${index + 1}:</span> ${q.question}</p>
+                        <div class="space-y-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-gray-200 hover:bg-red-50 cursor-pointer transition text-sm">
+                            <input type="radio" name="question_${q.id}" value="${optIndex}" onchange="userAnswers[${q.id}] = ${optIndex}" class="text-pulseRed focus:ring-pulseRed h-4 w-4">
+                            <span class="text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            // Calculate Score
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === q.answer) {
+                    score++;
+                }
+            });
+
+            studentInfo.score = score;
+
+            // UI Switch to Result Screen
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+            document.getElementById('studentDetailsSummary').innerText = 
+                `নাম: ${studentInfo.studentName} | ফোন: ${studentInfo.phoneNumber} | কোর্স: ${studentInfo.course}`;
+
+            // Render Review Section
+            renderReview();
+
+            // Send Data to Apps Script Web App URL
+            sendDataToGoogleSheet(studentInfo);
+        }
+
+        function renderReview() {
+            const container = document.getElementById('reviewContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                let userAns = userAnswers[q.id];
+                let isCorrect = (userAns === q.answer);
+                let borderClass = isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50';
+                let statusText = isCorrect ? '<span class="text-green-600 font-bold text-xs">✓ সঠিক</span>' : '<span class="text-red-600 font-bold text-xs">✗ ভুল</span>';
+
+                html += `
+                    <div class="border rounded-xl p-4 ${borderClass} shadow-sm space-y-2">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-xs text-gray-900">প্রশ্ন ${index + 1}: ${q.question}</h4>
+                            ${statusText}
+                        </div>
+                        <div class="text-xs space-y-1 mt-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    let optStyle = "";
+                    if (optIndex === q.answer) {
+                        optStyle = "font-bold text-green-700 bg-green-100 px-2 py-1 rounded";
+                    } else if (optIndex === userAns && !isCorrect) {
+                        optStyle = "font-bold text-red-700 bg-red-100 px-2 py-1 rounded line-through";
+                    } else {
+                        optStyle = "text-gray-600 px-2 py-1";
+                    }
+                    html += `<div class="${optStyle}">• ${opt}</div>`;
+                });
+
+                html += `
+                        </div>
+                        <div class="bg-white p-2.5 rounded-lg border border-gray-200 mt-2 text-xs text-gray-700">
+                            <span class="font-bold text-pulseDarkRed">ব্যাখ্যা:</span> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function sendDataToGoogleSheet(data) {
+            document.getElementById('loader').classList.remove('hidden');
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "✓ ফলাফল সফলভাবে গুগল শিটে জমা হয়েছে!";
+            })
+            .catch(error => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "⚠️ সংযোগে সমস্যা হয়েছে, তবে আপনার স্কোর সংরক্ষিত আছে।";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

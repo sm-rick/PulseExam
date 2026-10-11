@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডেইলি টেস্ট - বচন | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulseRed: '#dc2626',
+                        pulseDarkRed: '#b91c1c',
+                        pulseLightRed: '#fef2f2'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased">
+
+    <!-- Mobile Wrapper Container -->
+    <div class="max-w-md mx-auto min-h-screen bg-white shadow-xl flex flex-col relative">
+
+        <!-- STEP 1: Registration Screen -->
+        <div id="regScreen" class="flex-1 p-6 flex flex-col justify-center">
+            <div class="text-center mb-6">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-16 mx-auto mb-3">
+                <h1 class="text-xl font-bold text-pulseRed">পালস নার্সিং কোচিং</h1>
+                <p class="text-sm text-gray-500 font-medium">ফাউন্ডেশন ব্যাচ (নার্সিং ভর্তি পরীক্ষা ২০২৬-২৭)</p>
+            </div>
+
+            <div class="bg-pulseLightRed border border-red-200 rounded-xl p-4 mb-6 shadow-sm">
+                <h2 class="font-bold text-pulseDarkRed text-base mb-1">পরীক্ষার বিবরণ:</h2>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li><span class="font-semibold">তারিখ:</span> ১৮ অক্টোবর ২০২৬</li>
+                    <li><span class="font-semibold">বিষয়:</span> বাংলা (Bangla)</li>
+                    <li><span class="font-semibold">টপিক:</span> বচন</li>
+                    <li><span class="font-semibold">পূর্ণমান:</span> ২৫ | <span class="font-semibold">সময়:</span> ১৫ মিনিট</li>
+                </ul>
+            </div>
+
+            <form id="regForm" class="space-y-4" onsubmit="startExam(event)">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">শিক্ষার্থীর নাম (Student Name)</label>
+                    <input type="text" id="studentName" required placeholder="আপনার সম্পূর্ণ নাম লিখুন" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">মোবাইল নম্বর (Phone Number)</label>
+                    <input type="tel" id="phoneNumber" required pattern="[0-9]{11}" placeholder="০১XXXXXXXXX" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">কোর্স নির্বাচন করুন (Course)</label>
+                    <select id="course" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm bg-white">
+                        <option value="">-- কোর্স সিলেক্ট করুন --</option>
+                        <option value="BSC">B.Sc in Nursing</option>
+                        <option value="DIPLOMA">Diploma in Nursing Science & Midwifery</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3.5 rounded-lg shadow-lg transition duration-200 mt-2">
+                    পরীক্ষায় অংশগ্রহণ করুন
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Exam Screen (Hidden initially) -->
+        <div id="examScreen" class="hidden flex-1 flex flex-col">
+            <!-- Sticky Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-200 z-30 px-4 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="h-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-pulseRed leading-tight">বচন পরীক্ষা</h3>
+                        <p class="text-[10px] text-gray-500">ফাউন্ডেশন ব্যাচ</p>
+                    </div>
+                </div>
+                <div class="bg-pulseLightRed text-pulseDarkRed px-3 py-1.5 rounded-full text-xs font-bold border border-red-200 flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="timerText">১৫:০০</span>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="p-4 space-y-6 flex-1 pb-24">
+                <!-- JavaScript দিয়ে প্রশ্নগুলো এখানে লোড হবে -->
+            </div>
+
+            <!-- Bottom Submit Floating Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-3 z-30 shadow-lg flex justify-center">
+                <button onclick="submitExam()" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3 rounded-xl shadow-md transition duration-200 text-sm">
+                    কুইজ জমা দিন (Submit)
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Result & Result Screen (Hidden initially) -->
+        <div id="resultScreen" class="hidden flex-1 p-6 flex flex-col">
+            <div class="text-center bg-pulseLightRed border border-red-200 rounded-2xl p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">পরীক্ষা সফলভাবে সম্পন্ন হয়েছে!</h2>
+                <div class="text-4xl font-extrabold text-pulseRed my-2" id="scoreDisplay">০ / ২৫</div>
+                <p class="text-xs text-gray-600" id="studentDetailsSummary"></p>
+                <div id="syncStatus" class="mt-2 text-xs font-medium text-green-600"></div>
+            </div>
+
+            <h3 class="font-bold text-gray-800 text-base mb-4 border-b pb-2">পূর্ণাঙ্গ উত্তরপত্র ও ব্যাখ্যা:</h3>
+            <div id="reviewContainer" class="space-y-6 flex-1 pb-10">
+                <!-- উত্তরপত্র এবং ব্যাখ্যা এখানে ডাইনামিক দেখাবে -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-gray-800 hover:bg-black text-white font-bold py-3 rounded-xl transition duration-200 mt-4 mb-6">
+                পুনরায় পরীক্ষা দিন / হোম পেজে যান
+            </button>
+        </div>
+
+        <!-- Submitting Loader Overlay -->
+        <div id="loader" class="hidden absolute inset-0 bg-black bg-opacity-50 z-50 flex flex-col items-center justify-center text-white">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-pulseRed border-solid mb-3"></div>
+            <p class="text-sm font-semibold">রেজাল্ট জমা হচ্ছে, দয়া করে অপেক্ষা করুন...</p>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // ২৫টি বচন সম্পর্কিত প্রশ্ন, অপশন, সঠিক উত্তর এবং ব্যাখ্যা
+        const quizData = [
+            {
+                id: 1,
+                question: "ব্যাকরণে 'বচন' শব্দের অর্থ কী?",
+                options: ["সংখ্যার ধারণা", "বাক্যের গঠন", "বিশেষ্য পদ", "সর্বনাম পদ"],
+                answer: 0,
+                explanation: "ব্যাকরণে বচন শব্দের অর্থ হলো 'সংখ্যার ধারণা', যার মাধ্যমে কোনো কিছুর এক বা একাধিক সংখ্যা বোঝায়।"
+            },
+            {
+                id: 2,
+                question: "বাংলা ব্যাকরণে বচন কয় প্রকার ও কী কী?",
+                options: ["২ প্রকার (একবচন, বহুবচন)", "৩ প্রকার (এক, দ্বি, বহুবচন)", "৪ প্রকার", "কোনোটিই নয়"],
+                answer: 0,
+                explanation: "বাংলা ব্যাকরণে বচন দুই প্রকার: ১. একবচন এবং ২. বহুবচন।"
+            },
+            {
+                id: 3,
+                question: "নিচের কোনটি কেবল একবচন বোঝাতে ব্যবহৃত হয়?",
+                options: ["মণ্ডল", "পাল", "শাখা", "সবগুলোই"],
+                answer: 3,
+                explanation: "মণ্ডল, পাল, শাখা, দল, শ্রেণি ইত্যাদি বিশেষ্যবাচক শব্দ সমষ্টিবাচক হিসেবে বহুবচনে ব্যবহৃত হলেও কিছু নির্দিষ্ট অর্থে একবচনেও পদের সাথে বসে।"
+            },
+            {
+                id: 4,
+                question: "প্রাণীবাচক ও অপ্রাণীবাচক উভয় ক্ষেত্রে নিচের কোনটি বহুবচনে ব্যবহৃত হয়?",
+                options: ["গুলো", "মরা", "বৃন্দ", "কুল"],
+                answer: 0,
+                explanation: "'-গুলো' বা '-গুলি' বিভক্তি বা প্রত্যয়টি প্রাণী ও অপ্রাণীবাচক উভয় বিশেষ্যের বহুবচনে ব্যবহৃত হয়।"
+            },
+            {
+                id: 5,
+                question: "শুধুমাত্র অপ্রাণীবাচক শব্দে বহুবচন বোঝাতে কোনটি ব্যবহৃত হয়?",
+                options: ["কুল", "বর্গ", "দাম", "সবগুলোই"],
+                answer: 3,
+                explanation: "কুল (পশু-পক্ষীকুল নয়, যেমন মেঘকুল), দাম (পুঞ্জ বা সমষ্টি, যেমন মেঘদাম), বর্গ ইত্যাদি অপ্রাণীবাচক বহুবচনে ব্যবহৃত হয়।"
+            },
+            {
+                id: 6,
+                question: "‘শিক্ষকবৃন্দ’ শব্দটিতে কোন বহুবচন বোধক শব্দ যুক্ত হয়েছে?",
+                options: ["বৃন্দ", "মণ্ডল", "বর্গ", "গণ"],
+                answer: 0,
+                explanation: "সম্মানিত বা বিশেষ প্রাণীবাচক বিশেষ্যের সাথে 'বৃন্দ' যুক্ত হয়ে বহুবচন হয় (যেমন: শিক্ষকবৃন্দ, ভক্তবৃন্দ)।"
+            },
+            {
+                id: 7,
+                question: "‘পাখিগুলো আকাশে উড়ছে’—এখানে 'গুলো' কী হিসেবে ব্যবহৃত হয়েছে?",
+                options: ["একবচন নির্দেশক", "বহুবচন নির্দেশক", "বিশেষণ", "অব্যয়"],
+                answer: 1,
+                explanation: "এখানে 'গুলো' প্রত্যয়টি পাখির বহুবচন বা একাধিক সংখ্যা নির্দেশ করেছে।"
+            },
+            {
+                id: 8,
+                question: "‘মশা উড়ছে’—বাক্যের 'মশা' কোন বচন?",
+                options: ["একবচন", "বহুবচন", "দ্বিবচন", "কোনোটিই নয়"],
+                answer: 0,
+                explanation: "সাধারণত একবচনান্ত শব্দ দিয়ে জাতি বা শ্রেণি বোঝালে তা ব্যাকরণগতভাবে একবচন হিসেবে গণ্য হয়।"
+            },
+            {
+                id: 9,
+                question: "নিচের কোনটি বহুবচন গঠনে ব্যবহৃত হয় না?",
+                options: ["মালা", "গণ", "গোছা", "খানা"],
+                answer: 3,
+                explanation: "‘খানা’ বা ‘খানি’ কেবল নির্দিষ্টতা বা একবচন বোঝাতে ব্যবহৃত হয় (যেমন: একটি খাতা, বইটি)। এটি বহুবচন নয়।"
+            },
+            {
+                id: 10,
+                question: "‘টাকাটা দাও’—এখানে 'টা' কী নির্দেশ করছে?",
+                options: ["বহুবচন", "নির্দিষ্টতা", "অনির্দিষ্টতা", "পরিমাণ"],
+                answer: 1,
+                explanation: "বিশেষ্যের পরে 'টা', 'টি', 'খানি', 'খানা' যুক্ত হয়ে নির্দিষ্টতা বা একবচন প্রকাশ করে।"
+            },
+            {
+                id: 11,
+                question: "বিশেষ্য পদের সাথে 'সব', 'সকল', 'সবাই' যুক্ত হলে কী বোঝায়?",
+                options: ["একবচন", "বহুবচন", "দ্বিবচন", "নির্দিষ্টতা"],
+                answer: 1,
+                explanation: "সব, সকল, সমস্ত, সব ক'টি ইত্যাদি শব্দ বিশেষ্যের পূর্বে বসে বহুবচন নির্দেশ করে।"
+            },
+            {
+                id: 12,
+                question: "‘পিপীলিকা সারিবদ্ধভাবে চলছে’—এখানে 'পিপীলিকা' কোন বচনের রূপ?",
+                options: ["একবচন (সমষ্টিবাচক অর্থে)", "বহুবচন", "দ্বিবচন", "কোনোটিই নয়"],
+                answer: 0,
+                explanation: "একবচন পদ হলেও অনেক সময় সমষ্টি বা শ্রেণি বোঝাতে একবচন ব্যবহৃত হয়।"
+            },
+            {
+                id: 13,
+                question: "‘মোকামে মালের দাম চড়া’—এখানে 'মাল' কোন বচনে ব্যবহৃত হয়েছে?",
+                options: ["একবচন", "বহুবচন", "উভয় বচন", "অনির্দিষ্ট বচন"],
+                answer: 1,
+                explanation: "এখানে 'মাল' শব্দটি সমষ্টিগত বা বহুবচন অর্থে ব্যবহৃত হয়েছে।"
+            },
+            {
+                id: 14,
+                question: "‘পন্ডিতেরা সব জানেন না’—বাক্যে বহুবচন রূপটি কীভাবে সাধিত হয়েছে?",
+                options: ["বিশেষ্য ও সর্বনামের যোগে", "প্রত্যয় যোগে", "শব্দ দ্বিত্ব বা বিশেষ শব্দের যোগে", "বিভক্তি যোগে"],
+                answer: 2,
+                explanation: "এখানে 'সব' শব্দ যোগে বহুবচন সাধিত হয়েছে।"
+            },
+            {
+                id: 15,
+                question: "অপ্রাণীবাচক শব্দের বহুবচনে নিচের কোনটি ব্যবহার করা চলে না?",
+                options: ["গ্রাম", "পুঞ্জ", "বর্গ", "বৃন্দ"],
+                answer: 3,
+                explanation: "'বৃন্দ' কেবল সম্মানিত বা প্রাণীবাচক শব্দের বহুবচনে বসে (যেমন: শিক্ষকবৃন্দ), অপ্রাণীতে বসে না।"
+            },
+            {
+                id: 16,
+                question: "কোনটি কেবল অপ্রাণীবাবক বা জড়বস্তুর বহুবচনে ব্যবহৃত হয়?",
+                options: ["দাম", "কুল", "বর্গ", "সবকটি"],
+                answer: 3,
+                explanation: "দাম (যেমন মেঘদাম), কুল (তারাকুল), এবং বর্গ—এগুলো অপ্রাণীবাবক বা নির্দিষ্ট জড়/ভাবগত বহুবচনে বসে।"
+            },
+            {
+                id: 17,
+                question: "‘সব মানুষ মরণশীল’—এখানে 'মানুষ' শব্দটি কোন বচন?",
+                options: ["একবচন (জাতি অর্থে)", "বহুবচন", "দ্বিবচন", "অনির্দিষ্ট"],
+                answer: 0,
+                explanation: "একবচন শব্দ দিয়ে যখন পুরো জাতি বা সম্প্রদায় বোঝায়, তখন তা ব্যাকরণে একবচনের অন্তর্ভুক্ত।"
+            },
+            {
+                id: 18,
+                question: "বাংলা ভাষায় পদের সাথে ‘মালা’ শব্দ যোগ করে কী বোঝানো হয়?",
+                options: ["একবচন", "বহুবচন", "বিশেষণ", "অব্যয় পদ"],
+                answer: 1,
+                explanation: "শব্দ বা পদের সাথে 'মালা' (যেমন: পর্বতমালা, কুসুমমালা) যুক্ত হয়ে অপ্রাণিবাচক বহুবচন বোঝায়।"
+            },
+            {
+                id: 19,
+                question: "‘জনতা’ শব্দটি কোন জাতীয় বিশেষ্য এবং এর বচন কী?",
+                options: ["সমষ্টিবাচক বিশেষ্য ও একবচন রূপ", "বহুবচন বিশেষ্য", "জাতিবাচক বিশেষ্য", "ভাববাচক বিশেষ্য"],
+                answer: 0,
+                explanation: "‘জনতা’ নিজেই একটি সমষ্টিবাচক বিশেষ্য, যা দেখতে একবচন হলেও সমষ্টি বা বহুলতা প্রকাশ করে।"
+            },
+            {
+                id: 20,
+                question: "নিচের কোন জোড়াটি অপ্রাণিবাচক বহুবচন নির্দেশক?",
+                options: ["দল, পাল", "দাম, নিচয়", "বৃন্দ, বর্গ", "গণ, মণ্ডলী"],
+                answer: 1,
+                explanation: "‘দাম’ (যেমন: কমলদাম) ও ‘নিচয়’ (যেমন: কুসুমনিচয়) অপ্রাণিবাচক বহুবচন নির্দেশক।"
+            },
+            {
+                id: 21,
+                question: "‘পক্ষীগণ আকাশে ওড়ে’—এখানে 'গণ' প্রত্যয়টি কোন অর্থে ব্যবহৃত হয়েছে?",
+                options: ["সম্মানিত ব্যক্তি", "প্রাণীবাচক বহুবচন", "অপ্রাণীবাচক বহুবচন", "নির্দিষ্টতা"],
+                answer: 1,
+                explanation: "এখানে 'পক্ষী' প্রাণীবাচক হওয়ায় তার সাথে 'গণ' যুক্ত হয়ে বহুবচন গঠিত হয়েছে।"
+            },
+            {
+                id: 22,
+                question: "বিশেষ্য পদের দ্বিত্ব ব্যবহার করে (যেমন: ঘরে ঘরে প্রদীপ জ্বেলেছে) কী প্রকাশ করা হয়?",
+                options: ["নির্দিষ্টতা", "সবার ক্ষেত্রে বা বহুবচন", "একবচন", "অনির্দিষ্টতা"],
+                answer: 1,
+                explanation: "শব্দের দ্বিত্ব বা দুবার ব্যবহার করে সর্বত্র বা বহুবচন (প্রত্যেক ঘরে) বোঝানো হয়।"
+            },
+            {
+                id: 23,
+                question: "‘বইগুলো কোথায় রেখেছ?’—বাক্যের 'বইগুলো' পদটিতে কোন বিভক্তি/প্রত্যয় রয়েছে?",
+                options: ["টা", "খানা", "গুলো", "টি"],
+                answer: 2,
+                explanation: "এখানে বহুবচন নির্দেশক প্রত্যয় হিসেবে 'গুলো' যুক্ত হয়েছে।"
+            },
+            {
+                id: 24,
+                question: "বাংলা ব্যাকরণে সংস্কৃত নিয়মে সাধিত বহুবচন কোনটি?",
+                options: ["মণ্ডল", "বর্গ", "কুল", "সবগুলোই"],
+                answer: 3,
+                explanation: "বর্গ, মণ্ডলী, কুল, বৃন্দ, গণ—এগুলো মূলত সংস্কৃত তৎসম শব্দ থেকে বাংলা ভাষায় বহুবচন হিসেবে ব্যবহৃত হয়ে আসছে।"
+            },
+            {
+                id: 25,
+                question: "‘কুসুমদাম’ কথাটিতে ‘দাম’ কী অর্থে ব্যবহৃত হয়েছে?",
+                options: ["মূল্য অর্থে", "পুষ্পের সমষ্টি বা বহুবচন অর্থে", "একবচন অর্থে", "বিশেষণ অর্থে"],
+                answer: 1,
+                explanation: "এখানে ‘দাম’ শব্দটি কুসুম বা ফুলের পুঞ্জ বা সমষ্টি (বহুবচন) বোঝাতে ব্যবহৃত হয়েছে।"
+            }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.studentName = document.getElementById('studentName').value.trim();
+            studentInfo.phoneNumber = document.getElementById('phoneNumber').value.trim();
+            studentInfo.course = document.getElementById('course').value;
+            studentInfo.quizDate = "18 Oct 2026";
+            studentInfo.topic = "Bangla - বচন";
+
+            document.getElementById('regScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+
+            renderQuestions();
+            startTimer();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm" id="q-card-${q.id}">
+                        <p class="font-bold text-sm text-gray-900 mb-3"><span class="text-pulseRed">প্রশ্ন ${index + 1}:</span> ${q.question}</p>
+                        <div class="space-y-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-gray-200 hover:bg-red-50 cursor-pointer transition text-sm">
+                            <input type="radio" name="question_${q.id}" value="${optIndex}" onchange="userAnswers[${q.id}] = ${optIndex}" class="text-pulseRed focus:ring-pulseRed h-4 w-4">
+                            <span class="text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            // Calculate Score
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === q.answer) {
+                    score++;
+                }
+            });
+
+            studentInfo.score = score;
+
+            // UI Switch to Result Screen
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+            document.getElementById('studentDetailsSummary').innerText = 
+                `নাম: ${studentInfo.studentName} | ফোন: ${studentInfo.phoneNumber} | কোর্স: ${studentInfo.course}`;
+
+            // Render Review Section
+            renderReview();
+
+            // Send Data to Apps Script Web App URL
+            sendDataToGoogleSheet(studentInfo);
+        }
+
+        function renderReview() {
+            const container = document.getElementById('reviewContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                let userAns = userAnswers[q.id];
+                let isCorrect = (userAns === q.answer);
+                let borderClass = isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50';
+                let statusText = isCorrect ? '<span class="text-green-600 font-bold text-xs">✓ সঠিক</span>' : '<span class="text-red-600 font-bold text-xs">✗ ভুল</span>';
+
+                html += `
+                    <div class="border rounded-xl p-4 ${borderClass} shadow-sm space-y-2">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-xs text-gray-900">প্রশ্ন ${index + 1}: ${q.question}</h4>
+                            ${statusText}
+                        </div>
+                        <div class="text-xs space-y-1 mt-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    let optStyle = "";
+                    if (optIndex === q.answer) {
+                        optStyle = "font-bold text-green-700 bg-green-100 px-2 py-1 rounded";
+                    } else if (optIndex === userAns && !isCorrect) {
+                        optStyle = "font-bold text-red-700 bg-red-100 px-2 py-1 rounded line-through";
+                    } else {
+                        optStyle = "text-gray-600 px-2 py-1";
+                    }
+                    html += `<div class="${optStyle}">• ${opt}</div>`;
+                });
+
+                html += `
+                        </div>
+                        <div class="bg-white p-2.5 rounded-lg border border-gray-200 mt-2 text-xs text-gray-700">
+                            <span class="font-bold text-pulseDarkRed">ব্যাখ্যা:</span> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function sendDataToGoogleSheet(data) {
+            document.getElementById('loader').classList.remove('hidden');
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "✓ ফলাফল সফলভাবে গুগল শিটে জমা হয়েছে!";
+            })
+            .catch(error => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "⚠️ সংযোগে সমস্যা হয়েছে, তবে আপনার স্কোর সংরক্ষিত আছে।";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

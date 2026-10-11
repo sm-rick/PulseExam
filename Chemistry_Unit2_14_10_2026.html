@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডেইলি টেস্ট - পদার্থের অবস্থা ও গঠন | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulseRed: '#dc2626',
+                        pulseDarkRed: '#b91c1c',
+                        pulseLightRed: '#fef2f2'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased">
+
+    <!-- Mobile Wrapper Container -->
+    <div class="max-w-md mx-auto min-h-screen bg-white shadow-xl flex flex-col relative">
+
+        <!-- STEP 1: Registration Screen -->
+        <div id="regScreen" class="flex-1 p-6 flex flex-col justify-center">
+            <div class="text-center mb-6">
+                <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-16 mx-auto mb-3">
+                <h1 class="text-xl font-bold text-pulseRed">পালস নার্সিং কোচিং</h1>
+                <p class="text-sm text-gray-500 font-medium">ফাউন্ডেশন ব্যাচ (নার্সিং ভর্তি পরীক্ষা ২০২৬-২৭)</p>
+            </div>
+
+            <div class="bg-pulseLightRed border border-red-200 rounded-xl p-4 mb-6 shadow-sm">
+                <h2 class="font-bold text-pulseDarkRed text-base mb-1">পরীক্ষার বিবরণ:</h2>
+                <ul class="text-sm text-gray-700 space-y-1">
+                    <li><span class="font-semibold">তারিখ:</span> ১৪ অক্টোবর ২০২৬</li>
+                    <li><span class="font-semibold">বিষয়:</span> রসায়ন (Chemistry)</li>
+                    <li><span class="font-semibold">টপিক:</span> পদার্থের অবস্থা ও গঠন</li>
+                    <li><span class="font-semibold">পূর্ণমান:</span> ২৫ | <span class="font-semibold">সময়:</span> ১৫ মিনিট</li>
+                </ul>
+            </div>
+
+            <form id="regForm" class="space-y-4" onsubmit="startExam(event)">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">শিক্ষার্থীর নাম (Student Name)</label>
+                    <input type="text" id="studentName" required placeholder="আপনার সম্পূর্ণ নাম লিখুন" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">মোবাইল নম্বর (Phone Number)</label>
+                    <input type="tel" id="phoneNumber" required pattern="[0-9]{11}" placeholder="০১XXXXXXXXX" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">কোর্স নির্বাচন করুন (Course)</label>
+                    <select id="course" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pulseRed focus:outline-none text-sm bg-white">
+                        <option value="">-- কোর্স সিলেক্ট করুন --</option>
+                        <option value="BSC">B.Sc in Nursing</option>
+                        <option value="DIPLOMA">Diploma in Nursing Science & Midwifery</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3.5 rounded-lg shadow-lg transition duration-200 mt-2">
+                    পরীক্ষায় অংশগ্রহণ করুন
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Exam Screen (Hidden initially) -->
+        <div id="examScreen" class="hidden flex-1 flex flex-col">
+            <!-- Sticky Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-200 z-30 px-4 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="h-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-pulseRed leading-tight">পদার্থের অবস্থা ও গঠন</h3>
+                        <p class="text-[10px] text-gray-500">ফাউন্ডেশন ব্যাচ</p>
+                    </div>
+                </div>
+                <div class="bg-pulseLightRed text-pulseDarkRed px-3 py-1.5 rounded-full text-xs font-bold border border-red-200 flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="timerText">১৫:০০</span>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="p-4 space-y-6 flex-1 pb-24">
+                <!-- JavaScript দিয়ে প্রশ্নগুলো এখানে লোড হবে -->
+            </div>
+
+            <!-- Bottom Submit Floating Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-3 z-30 shadow-lg flex justify-center">
+                <button onclick="submitExam()" class="w-full bg-pulseRed hover:bg-pulseDarkRed text-white font-bold py-3 rounded-xl shadow-md transition duration-200 text-sm">
+                    কুইজ জমা দিন (Submit)
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Result & Review Screen (Hidden initially) -->
+        <div id="resultScreen" class="hidden flex-1 p-6 flex flex-col">
+            <div class="text-center bg-pulseLightRed border border-red-200 rounded-2xl p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">পরীক্ষা সফলভাবে সম্পন্ন হয়েছে!</h2>
+                <div class="text-4xl font-extrabold text-pulseRed my-2" id="scoreDisplay">০ / ২৫</div>
+                <p class="text-xs text-gray-600" id="studentDetailsSummary"></p>
+                <div id="syncStatus" class="mt-2 text-xs font-medium text-green-600"></div>
+            </div>
+
+            <h3 class="font-bold text-gray-800 text-base mb-4 border-b pb-2">পূর্ণাঙ্গ উত্তরপত্র ও ব্যাখ্যা:</h3>
+            <div id="reviewContainer" class="space-y-6 flex-1 pb-10">
+                <!-- উত্তরপত্র এবং ব্যাখ্যা এখানে ডাইনামিক দেখাবে -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-gray-800 hover:bg-black text-white font-bold py-3 rounded-xl transition duration-200 mt-4 mb-6">
+                পুনরায় পরীক্ষা দিন / হোম পেজে যান
+            </button>
+        </div>
+
+        <!-- Submitting Loader Overlay -->
+        <div id="loader" class="hidden absolute inset-0 bg-black bg-opacity-50 z-50 flex flex-col items-center justify-center text-white">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-pulseRed border-solid mb-3"></div>
+            <p class="text-sm font-semibold">রেজাল্ট জমা হচ্ছে, দয়া করে অপেক্ষা করুন...</p>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // ২৫টি পদার্থের অবস্থা ও গঠন সম্পর্কিত প্রশ্ন, অপশন, সঠিক উত্তর এবং ব্যাখ্যা
+        const quizData = [
+            {
+                id: 1,
+                question: "নিচের কোনটি পদার্থের কঠিন অবস্থার বৈশিষ্ট্য নয়?",
+                options: ["নির্দিষ্ট আকৃতি আছে", "নির্দিষ্ট আয়তন আছে", "কণাগুলোর মধ্যে আন্তঃকণা আকর্ষণ বল কম", "সংপীড়নশীলতা অত্যন্ত কম"],
+                answer: 2,
+                explanation: "কঠিন পদার্থের কণাগুলোর মধ্যে আন্তঃকণা আকর্ষণ বল সবচেয়ে বেশি থাকে, কম নয়।"
+            },
+            {
+                id: 2,
+                question: "কোন প্রক্রিয়ায় কঠিন পদার্থ সরাসরি গ্যাসে রূপান্তর হয়?",
+                options: ["গলন", "বাষ্পীভবন", "ঊর্ধ্বপাতন", "ঘনীভবন"],
+                answer: 2,
+                explanation: "যে প্রক্রিয়ায় কঠিন পদার্থকে তাপ দিলে তরলে পরিণত না হয়ে সরাসরি বাষ্পে পরিণত হয় তাকে ঊর্ধ্বপাতন (Sublimation) বলে।"
+            },
+            {
+                id: 3,
+                question: "নিচের কোন পদার্থটিতে ঊর্ধ্বপাতন ঘটে?",
+                options: ["সোডিয়াম ক্লোরাইড", "কূপারকাস সালফেট", "কপূর", "চিনি"],
+                answer: 2,
+                explanation: "কপূর, ন্যাপথালিন, আয়োডিন, শুষ্ক বরফ ইত্যাদিতে ঊর্ধ্বপাতন ঘটে।"
+            },
+            {
+                id: 4,
+                question: "ব্যাপন হার কিসের উপর নির্ভর করে?",
+                options: ["আণবিক ভর", "রঙ", "গলনাঙ্ক", "চৌম্বকত্ব"],
+                answer: 0,
+                explanation: "গ্যাসের ব্যাপনের হার তার আণবিক ভরের বর্গমূলের ব্যস্তানুপাতিক। আণবিক ভর যত কম, ব্যাপন হার তত বেশি।"
+            },
+            {
+                id: 5,
+                question: "অ্যামোনিয়া ($NH_3$) এবং হাইড্রোজেন ক্লোরাইড ($HCl$)-এর মধ্যে কার ব্যাপন হার বেশি?",
+                options: ["অ্যামোনিয়া", "হাইড্রোজেন ক্লোরাইড", "উভয়ের সমান", "কোনোটিই নয়"],
+                answer: 0,
+                explanation: "অ্যামোনিয়ার আণবিক ভর ১৭ এবং HCl-এর আণবিক ভর ৩৬.৫। কম আণবিক ভর হওয়ায় অ্যামোনিয়ার ব্যাপন হার বেশি।"
+            },
+            {
+                id: 6,
+                question: "নির্দিষ্ট তাপমাত্রায় তরলের বাষ্পে পরিণত হওয়ার প্রক্রিয়াকে কী বলে?",
+                options: ["ফুটন", "বাষ্পীভবন", "ঊর্ধ্বপাতন", "কঠিনীভবন"],
+                answer: 1,
+                explanation: "যেকোনো তাপমাত্রায় তরলের পৃষ্ঠদেশ থেকে ধীরে ধীরে বাষ্পে পরিণত হওয়াকে বাষ্পীভবন বলে।"
+            },
+            {
+                id: 7,
+                question: "পানির স্ফুটনাঙ্ক কত?",
+                options: ["০°C", "৫০°C", "১০০°C", "১০৪°C"],
+                answer: 2,
+                explanation: "স্বাভাবিক বায়ুমণ্ডলীয় চাপে যে তাপমাত্রায় কোনো তরল ফুটতে শুরু করে তাকে স্ফুটনাঙ্ক বলে। পানির স্ফুটনাঙ্ক ১০০°C।"
+            },
+            {
+                id: 8,
+                question: "বরফ গলনের সুপ্ততাপ কত?",
+                options: ["৩৩৬ J/g", "২২৬৮ J/g", "৪.২ J/g", "৮০ J/kg"],
+                answer: 0,
+                explanation: "১ গ্রাম বরফকে ০°C তাপমাত্রার পানিতে পরিণত করতে ৩৩৬ জুল তাপের প্রয়োজন হয়, যাকে বরফ গলনের সুপ্ততাপ বলা হয়।"
+            },
+            {
+                id: 9,
+                question: "পদার্থের কণার গতিপ্রকৃতি সম্পর্কিত তত্ত্বকে কী বলে?",
+                options: ["কাইনেটিক থিওরি বা গতি তত্ত্ব", "ডাল্টনের পরমাণু মডেল", "রাদারফোর্ডের পরমাণু মডেল", "বোর মডেল"],
+                answer: 0,
+                explanation: "পদার্থের কণাগুলোর গতিশীলতা এবং আন্তঃকণা আকর্ষণ বলের ওপর ভিত্তি করে কাইনেটিক থিওরি বা কণার গতি তত্ত্ব দেওয়া হয়েছে।"
+            },
+            {
+                id: 10,
+                question: "নিচের কোনটি মৌলিক পদার্থ নয়?",
+                options: ["হাইড্রোজেন", "পানি", "অক্সিজেন", "লোহা"],
+                answer: 1,
+                explanation: "পানি একটি যৌগিক পদার্থ, যা হাইড্রোজেন ও অক্সিজেন সমন্বয়ে গঠিত।"
+            },
+            {
+                id: 11,
+                question: "কোন পদার্থের ব্যাপন হার সবচেয়ে বেশি?",
+                options: ["কঠিন", "তরল", "ব্যায়বীয় বা গ্যাসীয়", "সবগুলোর সমান"],
+                answer: 2,
+                explanation: "গ্যাসীয় পদার্থের কণাগুলোর গতিশক্তি সবচেয়ে বেশি থাকায় এদের ব্যাপন হারও সবচেয়ে বেশি হয়।"
+            },
+            {
+                id: 12,
+                question: "তরল পদার্থের নির্দিষ্ট কী থাকে না?",
+                options: ["ভর", "আয়তন", "নির্দিষ্ট আকৃতি", "আকর্ষণ বল"],
+                answer: 2,
+                explanation: "তরল পদার্থের নির্দিষ্ট আয়তন ও ভর থাকলেও নির্দিষ্ট কোনো আকৃতি থাকে না, পাত্রের আকার ধারণ করে।"
+            },
+            {
+                id: 13,
+                question: "তাপ প্রয়োগ করলে কঠিন পদার্থের কণাগুলোর কী ঘটে?",
+                options: ["গতিশক্তি হ্রাস পায়", "গতিশক্তি বৃদ্ধি পায়", "আকর্ষণ বল বৃদ্ধি পায়", "আকার ছোট হয়"],
+                answer: 1,
+                explanation: "তাপ প্রয়োগ করলে কণাগুলোর কম্পন ও গতিশক্তি বৃদ্ধি পায় এবং আন্তঃকণা দূরত্ব বৃদ্ধি পায়।"
+            },
+            {
+                id: 14,
+                question: "সুগার কণা বা পটাশিয়াম পারম্যাঙ্গানেটের পানিতে ছড়িয়ে পড়া কোন প্রক্রিয়ার উদাহরণ?",
+                options: ["অভিস্রবণ", "ব্যাপন", "ঊর্ধ্বপাতন", "পরিস্রাবণ"],
+                answer: 1,
+                explanation: "বেশি ঘনত্বের স্থান থেকে কম ঘনত্বের দিকে পদার্থের স্বতঃস্ফূর্ত ও সমানভাবে ছড়িয়ে পড়ার প্রক্রিয়া হলো ব্যাপন।"
+            },
+            {
+                id: 15,
+                question: "বায়ুমণ্ডলে গন্ধ দ্রুত ছড়িয়ে পড়ার কারণ কী?",
+                options: ["তরলীকরণ", "ব্যাপন", "অভিস্রবণ", "ঘনীভবন"],
+                answer: 1,
+                explanation: "গ্যাসের ব্যাপন গুণের কারণে সুগন্ধি বা যেকোনো গ্যাসের কণা বায়ুতে দ্রুত ছড়িয়ে পড়ে।"
+            },
+            {
+                id: 16,
+                question: "গলনাঙ্ক কাকে বলে?",
+                options: ["যে তাপমাত্রায় কঠিন পদার্থ তরলে পরিণত হয়", "যে তাপমাত্রায় তরল গ্যাসে পরিণত হয়", "যে তাপমাত্রায় গ্যাস কঠিনে পরিণত হয়", "যে তাপমাত্রায় তরল জমে বরফ হয়"],
+                answer: 0,
+                explanation: "নির্দিষ্ট চাপে যে তাপমাত্রায় কোনো কঠিন পদার্থ তরলে পরিণত হতে শুরু করে, তাকে ঐ পদার্থের গলনাঙ্ক বলে।"
+            },
+            {
+                id: 17,
+                question: "নিচের কোনটির আণবিক ভর সবচেয়ে কম হওয়ায় ব্যাপন হার বেশি হবে?",
+                options: ["$CO_2$", "$SO_2$", "$CH_4$", "$Cl_2$"],
+                answer: 2,
+                explanation: "মিথেন ($CH_4$) এর আণবিক ভর ১৬, যা অন্যদের তুলনায় কম। তাই এর ব্যাপন হার বেশি।"
+            },
+            {
+                id: 18,
+                question: "জলীয় বাষ্প থেকে তরল পানিতে পরিণত হওয়ার প্রক্রিয়াকে কী বলে?",
+                options: ["বাষ্পীভবন", "ঘনীভবন", "ফুটন", "গলন"],
+                answer: 1,
+                explanation: "গ্যাস বা বাষ্প ঠাণ্ডা হয়ে তরলে পরিণত হওয়ার প্রক্রিয়াকে ঘনীভবন (Condensation) বলে।"
+            },
+            {
+                id: 19,
+                question: "পদার্থের চতুর্থ অবস্থাকে কী বলা হয়?",
+                options: ["প্লাজমা", "বোস-আইনস্টাইন কনডেনসেট", "গ্যাস", "তরল"],
+                answer: 0,
+                explanation: "অত্যধিক উচ্চ তাপমাত্রায় আয়নিত গ্যাসীয় অবস্থাকে পদার্থের চতুর্থ অবস্থা বা প্লাজমা বলা হয়।"
+            },
+            {
+                id: 20,
+                question: "কোন পদার্থের আন্তঃকণা ফাঁকা স্থান সবচেয়ে কম?",
+                options: ["লোহা", "পানি", "বাতাস", "অক্সিজেন গ্যাস"],
+                answer: 0,
+                explanation: "কঠিন পদার্থ হিসেবে লোহা অত্যন্ত ঘন এবং এর কণাগুলোর মধ্যকার ফাঁকা স্থান সর্বনিম্ন।"
+            },
+            {
+                id: 21,
+                question: "গ্রীষ্মকালে ঘাম দ্রুত শুকায় কোন প্রক্রিয়ায়?",
+                options: ["বাষ্পীভবন", "ঘনীভবন", "অভিস্রবণ", "ঊর্ধ্বপাতন"],
+                answer: 0,
+                explanation: "উষ্ণ পরিবেশে ত্বকের ঘাম বাষ্পীভবন প্রক্রিয়ায় দ্রুত বায়ুতে মিশে যায়।"
+            },
+            {
+                id: 22,
+                question: "নির্দিষ্ট চাপে বিশুদ্ধ পানির স্ফুটনাঙ্ক সবসময় কেমন থাকে?",
+                options: ["পরিবর্তনশীল", "নির্দিষ্ট ও স্থির", "শূন্য", "ঋণাত্মক"],
+                answer: 1,
+                explanation: "নির্দিষ্ট বায়ুমণ্ডলীয় চাপে যেকোনো বিশুদ্ধ তরলের স্ফুটনাঙ্ক নির্দিষ্ট ও স্থির থাকে।"
+            },
+            {
+                id: 23,
+                question: "শীতকালে কুয়াশা পড়ার কারণ কোনটি?",
+                options: ["বাষ্পীভবন", "ঘনীভবন", "গলন", "ব্যাপন"],
+                answer: 1,
+                explanation: "বায়ুমণ্ডলের জলীয় বাষ্প ঠাণ্ডা হয়ে ঘনীভূত হয়ে ক্ষুদ্র পানির কণায় পরিণত হলে কুয়াশা সৃষ্টি হয়।"
+            },
+            {
+                id: 24,
+                question: "নিচের কোনটি বিশুদ্ধ পদার্থের উদাহরণ?",
+                options: ["লবণ পানি", "বাতাস", "আঁচন সোডিয়াম ক্লোরাইড", "দুধ"],
+                answer: 2,
+                explanation: "বিশুদ্ধ সোডিয়াম ক্লোরাইড ($NaCl$) একটি নির্দিষ্ট রাসায়নিক উপাদান বা বিশুদ্ধ পদার্থ।"
+            },
+            {
+                id: 25,
+                question: "গ্যাসীয় পদার্থের ক্ষেত্রে নিচের কোনটি সঠিক নয়?",
+                options: ["নির্দিষ্ট আয়তন আছে", "নির্দিষ্ট আকৃতি নেই", "সংপীড়নশীলতা খুব বেশি", "কণার গতিশক্তি বেশি"],
+                answer: 0,
+                explanation: "গ্যাসীয় পদার্থের নির্দিষ্ট কোনো আয়তন বা আকৃতি নেই, এটি যে পাত্রে রাখা হয় সেটির পুরো আয়তন দখল করে।"
+            }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.studentName = document.getElementById('studentName').value.trim();
+            studentInfo.phoneNumber = document.getElementById('phoneNumber').value.trim();
+            studentInfo.course = document.getElementById('course').value;
+            studentInfo.quizDate = "14 Oct 2026";
+            studentInfo.topic = "Chemistry - পদার্থের অবস্থা ও গঠন";
+
+            document.getElementById('regScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+
+            renderQuestions();
+            startTimer();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm" id="q-card-${q.id}">
+                        <p class="font-bold text-sm text-gray-900 mb-3"><span class="text-pulseRed">প্রশ্ন ${index + 1}:</span> ${q.question}</p>
+                        <div class="space-y-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center space-x-3 p-2.5 rounded-lg border border-gray-200 hover:bg-red-50 cursor-pointer transition text-sm">
+                            <input type="radio" name="question_${q.id}" value="${optIndex}" onchange="userAnswers[${q.id}] = ${optIndex}" class="text-pulseRed focus:ring-pulseRed h-4 w-4">
+                            <span class="text-gray-700">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            // Calculate Score
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === q.answer) {
+                    score++;
+                }
+            });
+
+            studentInfo.score = score;
+
+            // UI Switch to Result Screen
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+            document.getElementById('studentDetailsSummary').innerText = 
+                `নাম: ${studentInfo.studentName} | ফোন: ${studentInfo.phoneNumber} | কোর্স: ${studentInfo.course}`;
+
+            // Render Review Section
+            renderReview();
+
+            // Send Data to Apps Script Web App URL
+            sendDataToGoogleSheet(studentInfo);
+        }
+
+        function renderReview() {
+            const container = document.getElementById('reviewContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                let userAns = userAnswers[q.id];
+                let isCorrect = (userAns === q.answer);
+                let borderClass = isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50';
+                let statusText = isCorrect ? '<span class="text-green-600 font-bold text-xs">✓ সঠিক</span>' : '<span class="text-red-600 font-bold text-xs">✗ ভুল</span>';
+
+                html += `
+                    <div class="border rounded-xl p-4 ${borderClass} shadow-sm space-y-2">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-xs text-gray-900">প্রশ্ন ${index + 1}: ${q.question}</h4>
+                            ${statusText}
+                        </div>
+                        <div class="text-xs space-y-1 mt-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    let optStyle = "";
+                    if (optIndex === q.answer) {
+                        optStyle = "font-bold text-green-700 bg-green-100 px-2 py-1 rounded";
+                    } else if (optIndex === userAns && !isCorrect) {
+                        optStyle = "font-bold text-red-700 bg-red-100 px-2 py-1 rounded line-through";
+                    } else {
+                        optStyle = "text-gray-600 px-2 py-1";
+                    }
+                    html += `<div class="${optStyle}">• ${opt}</div>`;
+                });
+
+                html += `
+                        </div>
+                        <div class="bg-white p-2.5 rounded-lg border border-gray-200 mt-2 text-xs text-gray-700">
+                            <span class="font-bold text-pulseDarkRed">ব্যাখ্যা:</span> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function sendDataToGoogleSheet(data) {
+            document.getElementById('loader').classList.remove('hidden');
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "✓ ফলাফল সফলভাবে গুগল শিটে জমা হয়েছে!";
+            })
+            .catch(error => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerText = "⚠️ সংযোগে সমস্যা হয়েছে, তবে আপনার স্কোর সংরক্ষিত আছে।";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

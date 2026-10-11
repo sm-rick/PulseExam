@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ডেইলি টেস্ট - প্রাচীন বাংলা ও উপমহাদেশের ইতিহাস | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Hind Siliguri for Bengali typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulse: {
+                            50: '#fef2f2',
+                            100: '#ffe1e1',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar for mobile smooth feeling */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f87171;
+            border-radius: 4px;
+        }
+        .option-radio:checked + label {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+            color: #991b1b;
+            font-weight: 600;
+        }
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased selection:bg-pulse-100 selection:text-pulse-800">
+
+    <!-- App Main Header -->
+    <header class="bg-gradient-to-r from-pulse-800 via-pulse-700 to-pulse-600 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1 rounded-full shadow-inner flex items-center justify-center w-11 h-11 border border-pulse-200">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="w-9 h-9 object-contain" onerror="this.src='https://placehold.co/100x100/dc2626/ffffff?text=PULSE'">
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-tight text-white">পালস নার্সিং কোচিং</h1>
+                    <p class="text-xs text-pulse-100 font-medium">ফাউন্ডেশন ব্যাচ (২০২৬-২৭)</p>
+                </div>
+            </div>
+            
+            <!-- Live Timer Badge (Hidden in Start and Result screens) -->
+            <div id="timerContainer" class="hidden flex-col items-end">
+                <div class="bg-pulse-900/80 backdrop-blur-sm border border-pulse-400/30 px-3 py-1 rounded-full text-right shadow-inner flex items-center gap-1.5">
+                    <i class="fa-regular fa-clock text-pulse-200 text-xs animate-spin-slow"></i>
+                    <span id="timerText" class="font-mono font-bold text-sm tracking-wider text-yellow-300">15:00</span>
+                </div>
+                <span class="text-[10px] text-pulse-100 mt-0.5">অবশিষ্ট সময়</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto w-full flex-grow p-4 space-y-4">
+
+        <!-- ======================================================== -->
+        <!-- STEP 1: REGISTRATION SCREEN -->
+        <!-- ======================================================== -->
+        <div id="stepRegistration" class="space-y-4">
+            <!-- Banner Card -->
+            <div class="bg-gradient-to-br from-white to-pulse-50 rounded-2xl p-5 border border-pulse-100 shadow-sm text-center relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-pulse-500/10 rounded-full blur-xl pointer-events-none"></div>
+                
+                <span class="inline-block bg-pulse-100 text-pulse-800 text-xs font-bold px-3 py-1 rounded-full mb-2">
+                    <i class="fa-solid fa-fire mr-1 text-pulse-600"></i> ডেইলি টেস্ট - ডেলি কুইজ
+                </span>
+                
+                <h2 class="text-xl font-bold text-slate-900 mb-1">সাধারণ জ্ঞান: প্রাচীন বাংলা ও উপমহাদেশের ইতিহাস</h2>
+                <p class="text-xs text-slate-600">নার্সিং ভর্তি পরীক্ষা ২০২৬-২৭ প্রস্তুতি</p>
+
+                <!-- Exam Meta Badges -->
+                <div class="grid grid-cols-2 gap-2.5 mt-4 text-left text-xs">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">তারিখ</span>
+                            <span class="font-semibold text-slate-700">22 Oct 2026</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">মোট প্রশ্ন</span>
+                            <span class="font-semibold text-slate-700">২৫ টি MCQ</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">সময়</span>
+                            <span class="font-semibold text-slate-700">১৫ মিনিট</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">পূর্ণমান</span>
+                            <span class="font-semibold text-slate-700">২৫ মার্কস</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Form Card -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-4">
+                <h3 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-2 flex items-center">
+                    <i class="fa-solid fa-user-pen text-pulse-600 mr-2"></i> পরীক্ষার্থীর তথ্য প্রদান করুন
+                </h3>
+
+                <form id="regForm" onsubmit="event.preventDefault(); startExam();" class="space-y-3.5">
+                    <div>
+                        <label for="studentName" class="block text-xs font-semibold text-slate-700 mb-1">শিক্ষার্থীর নাম <span class="text-pulse-600">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <input type="text" id="studentName" required placeholder="আপনার পূর্ণ নাম লিখুন" 
+                                class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pulse-500 focus:bg-white transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="phoneNumber" class="block text-xs font-semibold text-slate-700 mb-1">ফোন নম্বর <span class="text-pulse-600">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <input type="tel" id="phoneNumber" pattern="01[3-9][0-9]{8}" maxlength="11" required placeholder="01XXXXXXXXX" 
+                                class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pulse-500 focus:bg-white transition-all">
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-1">১১ ডিজিটের সঠিক ফোন নম্বর দিন</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">আপনার কোর্স সিলেক্ট করুন <span class="text-pulse-600">*</span></label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <input type="radio" name="course" id="courseBsc" value="BSC in Nursing" class="peer hidden" checked>
+                                <label for="courseBsc" class="flex items-center justify-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 cursor-pointer peer-checked:border-pulse-600 peer-checked:bg-pulse-50 peer-checked:text-pulse-700 transition-all">
+                                    <i class="fa-solid fa-graduation-cap mr-1.5 text-pulse-600"></i> B.Sc in Nursing
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="course" id="courseDiploma" value="Diploma in Nursing" class="peer hidden">
+                                <label for="courseDiploma" class="flex items-center justify-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 cursor-pointer peer-checked:border-pulse-600 peer-checked:bg-pulse-50 peer-checked:text-pulse-700 transition-all">
+                                    <i class="fa-solid fa-user-nurse mr-1.5 text-pulse-600"></i> Diploma Nursing
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full mt-2 py-3 bg-gradient-to-r from-pulse-600 to-pulse-700 hover:from-pulse-700 hover:to-pulse-800 text-white font-bold rounded-xl shadow-lg shadow-pulse-600/30 transition-all transform active:scale-95 flex items-center justify-center text-sm">
+                        <span>পরীক্ষা শুরু করুন</span>
+                        <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Rules Card -->
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs text-amber-900 space-y-1.5">
+                <div class="font-bold text-amber-800 flex items-center mb-1">
+                    <i class="fa-solid fa-triangle-exclamation mr-1.5 text-amber-600"></i> পরীক্ষার কিছু নিয়মাবলি:
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-amber-800/90 text-[11px]">
+                    <li>মোট সময় ১৫ মিনিট। সময় শেষ হলে অটোমেটিক সাবমিট হয়ে যাবে।</li>
+                    <li>প্রতিটি সঠিক উত্তরের জন্য ১ নম্বর বরাদ্দ।</li>
+                    <li>পরীক্ষা শেষে অবিলম্বে উত্তরপত্র ও ব্যাখ্যা দেখতে পাবেন।</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- STEP 2: EXAM SCREEN -->
+        <!-- ======================================================== -->
+        <div id="stepExam" class="hidden space-y-4 pb-20">
+            <!-- Student Header Badge -->
+            <div class="bg-white p-3 rounded-xl shadow-2xs border border-slate-200 flex justify-between items-center text-xs">
+                <div>
+                    <span class="text-slate-400 block text-[10px]">পরীক্ষার্থী:</span>
+                    <span id="displayCandidateName" class="font-bold text-slate-800"></span>
+                </div>
+                <div class="text-right">
+                    <span class="text-slate-400 block text-[10px]">কোর্স:</span>
+                    <span id="displayCandidateCourse" class="font-bold text-pulse-700"></span>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="space-y-4">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Sticky Bottom Submit Bar -->
+            <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 p-3 shadow-lg z-30">
+                <div class="max-w-md mx-auto flex items-center justify-between gap-3">
+                    <div class="text-xs">
+                        <span class="text-slate-500 block text-[10px]">উত্তর প্রদান করা হয়েছে</span>
+                        <span class="font-bold text-slate-800"><span id="answeredCount" class="text-pulse-600 text-sm">0</span> / 25</span>
+                    </div>
+                    <button onclick="confirmSubmit()" class="px-6 py-2.5 bg-pulse-600 hover:bg-pulse-700 text-white font-bold rounded-xl shadow-md transition-all active:scale-95 text-xs flex items-center">
+                        <i class="fa-solid fa-paper-plane mr-1.5"></i> উত্তরপত্র জমা দিন
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- STEP 3: RESULT & EXPLANATION SCREEN -->
+        <!-- ======================================================== -->
+        <div id="stepResult" class="hidden space-y-4 pb-12">
+            <!-- Score Overview Card -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 text-center relative overflow-hidden">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-pulse-50 text-pulse-600 rounded-full mb-2 border-2 border-pulse-100">
+                    <i class="fa-solid fa-trophy text-2xl"></i>
+                </div>
+                
+                <h2 class="text-lg font-bold text-slate-800">পরীক্ষার ফলাফল</h2>
+                <p class="text-xs text-slate-500 mb-3" id="resultCandidateInfo"></p>
+
+                <!-- Score Big Badge -->
+                <div class="bg-gradient-to-br from-pulse-600 to-pulse-800 text-white p-4 rounded-2xl shadow-inner my-3">
+                    <span class="text-xs text-pulse-200 uppercase tracking-widest block font-medium">প্রাপ্ত নম্বর</span>
+                    <div class="text-3xl font-extrabold my-0.5">
+                        <span id="scoreObtained">0</span> <span class="text-lg font-normal text-pulse-200">/ ২৫</span>
+                    </div>
+                    <p id="percentageText" class="text-xs text-pulse-100 font-medium"></p>
+                </div>
+
+                <!-- Apps Script Sync Status -->
+                <div id="syncStatus" class="my-2 p-2 rounded-lg text-xs flex items-center justify-center gap-1.5 bg-slate-100 text-slate-600">
+                    <i class="fa-solid fa-spinner animate-spin"></i>
+                    <span>সার্ভারে ফলাফল যুক্ত করা হচ্ছে...</span>
+                </div>
+
+                <!-- Detailed Breakdown Badges -->
+                <div class="grid grid-cols-3 gap-2 mt-3 text-center text-xs">
+                    <div class="bg-emerald-50 border border-emerald-100 p-2 rounded-xl">
+                        <span class="block text-emerald-600 font-bold text-base" id="correctCount">0</span>
+                        <span class="text-[10px] text-emerald-700">সঠিক উত্তর</span>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-100 p-2 rounded-xl">
+                        <span class="block text-rose-600 font-bold text-base" id="wrongCount">0</span>
+                        <span class="text-[10px] text-rose-700">ভুল উত্তর</span>
+                    </div>
+                    <div class="bg-slate-100 border border-slate-200 p-2 rounded-xl">
+                        <span class="block text-slate-600 font-bold text-base" id="unansweredCount">0</span>
+                        <span class="text-[10px] text-slate-500">উত্তরহীন</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Header -->
+            <div class="flex items-center justify-between px-1">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center">
+                    <i class="fa-solid fa-file-signature text-pulse-600 mr-2"></i> প্রশ্নপত্র ও নির্ভুল সমাধান
+                </h3>
+                <span class="text-[11px] text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full">ব্যাখ্যা সহ</span>
+            </div>
+
+            <!-- Review Container -->
+            <div id="reviewContainer" class="space-y-4">
+                <!-- Dynamically generated solution cards -->
+            </div>
+
+            <!-- Reload Button -->
+            <button onclick="location.reload()" class="w-full py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-md text-xs flex items-center justify-center transition-all">
+                <i class="fa-solid fa-rotate-right mr-2"></i> পুনরায় পরীক্ষা দিন
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Submit Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 transform transition-all scale-95">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-pulse-100 text-pulse-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 text-base">উত্তরপত্র জমা নিশ্চিত করুন</h3>
+                <p class="text-xs text-slate-500 mt-1">আপনি কি নিশ্চিত যে আপনার উত্তরগুলো জমা দিতে চান?</p>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
+                <div class="flex justify-between">
+                    <span class="text-slate-500">মোট প্রশ্ন:</span>
+                    <span class="font-semibold text-slate-700">২৫ টি</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">উত্তর প্রদান করা হয়েছে:</span>
+                    <span class="font-bold text-pulse-600" id="modalAnsweredText">0 টি</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5 pt-1">
+                <button onclick="closeConfirmModal()" class="py-2.5 border border-slate-300 rounded-xl text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-all">
+                    ফিরে যান
+                </button>
+                <button onclick="processFinalSubmit()" class="py-2.5 bg-pulse-600 hover:bg-pulse-700 text-white font-semibold rounded-xl text-xs shadow-md transition-all">
+                    হ্যাঁ, জমা দিন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-200 bg-white">
+        © 2026 পালস নার্সিং কোচিং | সর্বস্বত্ব সংরক্ষিত
+    </footer>
+
+    <script>
+        // Google Apps Script Master Endpoint
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // Candidate state
+        let candidateData = {
+            name: "",
+            phone: "",
+            course: ""
+        };
+
+        // 25 High quality General Knowledge Questions (Ancient Bengal & Indian Subcontinent) tailored for Nursing Admission
+        const quizQuestions = [
+            {
+                id: 1,
+                question: "প্রাচীন বাংলার প্রথম স্বাধীন ও সার্বভৌম নরপতি কে ছিলেন?",
+                options: ["গোপাল", "শশাঙ্ক", "ধর্মপাল", "লক্ষ্মণসেন"],
+                correct: 1,
+                explanation: "রাজা শশাঙ্ক ৭ম শতকে গৌড় রাজ্য প্রতিষ্ঠা করেন এবং তিনি ছিলেন প্রাচীন বাংলার প্রথম স্বাধীন ও সার্বভৌম স্বাধীন নৃপতি।"
+            },
+            {
+                id: 2,
+                question: "মহাস্তানগড় প্রাচীনকালে কী নামে পরিচিত ছিল?",
+                options: ["কর্ণসুবর্ণ", "পুণ্ড্রনগর", "সমতট", "হরিকেল"],
+                correct: 1,
+                explanation: "বগুড়া জেলায় অবস্থিত মহাস্থানগড় প্রাচীন আমলে 'পুণ্ড্রনগর' নামে পরিচিত ছিল। এটি বাংলার প্রাচীনতম নগর সভ্যতা।"
+            },
+            {
+                id: 3,
+                question: "বাংলায় প্রথম দীর্ঘস্থায়ী রাজবংশ কোনটি?",
+                options: ["সেন বংশ", "গুপ্ত বংশ", "পাল বংশ", "মৌর্য বংশ"],
+                correct: 2,
+                explanation: "পাল বংশ প্রায় ৪০০ বছর (৭৫০-১১৬১ খ্রিষ্টাব্দ) বাংলা শাসন করেছিল। এটি ছিল বাংলার দীর্ঘতম রাজবংশ।"
+            },
+            {
+                id: 4,
+                question: "পাল বংশের প্রতিষ্ঠাতা কে ছিলেন?",
+                options: ["ধর্মপাল", "দেবপাল", "গোপাল", "মহীপাল"],
+                correct: 2,
+                explanation: "অরাজক অবস্থা (মাৎস্যন্যায) অবসান ঘটিয়ে ৭৫০ খ্রিষ্টাব্দে প্রজাদের সমর্থনে গোপাল পাল বংশের প্রতিষ্ঠা করেন।"
+            },
+            {
+                id: 5,
+                question: "সিন্ধু সভ্যতা কোন যুগের সভ্যতা ছিল?",
+                options: ["লৌহ যুগ", "তাম্র-ব্রোঞ্জ যুগ", "প্রস্তর যুগ", "আধুনিক যুগ"],
+                correct: 1,
+                explanation: "সিন্ধু সভ্যতা (হরপ্পা ও মহেঞ্জোদারো) তাম্র ও ব্রোঞ্জ যুগের নগর কেন্দ্রিক প্রাচীন সভ্যতা।"
+            },
+            {
+                id: 6,
+                question: "প্রাচীন বাংলার কোন অঞ্চলটি চট্টগ্রাম ও সিলেট এলাকা নিয়ে গঠিত ছিল?",
+                options: ["বরেন্দ্র", "হরিকেল", "রাঢ়", "বঙ্গ"],
+                correct: 1,
+                explanation: "প্রাচীন জনপদ 'হরিকেল' আধুনিক চট্টগ্রাম, পার্বত্য চট্টগ্রাম ও সিলেট অঞ্চল নিয়ে বিস্তৃত ছিল।"
+            },
+            {
+                id: 7,
+                question: "চীনে জন্ম নেওয়া চীনা পরিব্রাজক হিউয়েন সাং কার রাজত্বকালে ভারতে এসেছিলেন?",
+                options: ["চন্দ্রগুপ্ত মৌর্য", "হর্ষবর্ধন", "সমুদ্রগুপ্ত", "কনিষ্ক"],
+                correct: 1,
+                explanation: "চীনা বৌদ্ধ ভিক্ষু ও পরিব্রাজক হিউয়েন সাং সম্রাট হর্ষবর্ধনের রাজত্বকালে (৭ম শতকে) ভারতে এসেছিলেন।"
+            },
+            {
+                id: 8,
+                question: "প্রাচীন বাংলার 'মাৎস্যন্যায' বলতে কোন সময়কালকে বোঝায়?",
+                options: [
+                    "৬ষ্ঠ থেকে ৭ম শতক",
+                    "৭ম থেকে ৮ম শতক (শশাঙ্কের মৃত্যুর পর)",
+                    "৯ম থেকে ১০ম শতক",
+                    "১১শ থেকে ১২শ শতক"
+                ],
+                correct: 1,
+                explanation: "রাজা শশাঙ্কের মৃত্যুর পর ১০০ বছর (৭ম-৮ম শতক) বাংলায় কোনো যোগ্য শাসক ছিল না। তীব্র অরাজকতা ও বিশৃঙ্খলাকে 'মাৎস্যন্যায' বলা হয়।"
+            },
+            {
+                id: 9,
+                question: "পাহাড়পুরের সোমপুর মহাবিহার কে নির্মাণ করেন?",
+                options: ["গোপাল", "রাজা ধর্মপাল", "দেবপাল", "লক্ষ্মণসেন"],
+                correct: 1,
+                explanation: "নওগাঁর পাহাড়পুরে অবস্থিত বিশ্বখ্যাত সোমপুর মহাবিহার পাল বংশের শ্রেষ্ঠ রাজা ধর্মপাল নির্মাণ করেন।"
+            },
+            {
+                id: 10,
+                question: "ভারতের প্রাচীনতম সাহিত্য কোনটি?",
+                options: ["রামায়ণ", "মহাভারত", "ঋগ্বেদ", "উপনিষদ"],
+                correct: 2,
+                explanation: "চারটি বেদের মধ্যে 'ঋগ্বেদ' হলো ভারতীয় উপমহাদেশের প্রাচীনতম লিখিত সাহিত্য ও ধর্মীয় গ্রন্থ।"
+            },
+            {
+                id: 11,
+                question: "মৌর্য রাজবংশের প্রতিষ্ঠাতা কে ছিলেন?",
+                options: ["অশোক", "চন্দ্রগুপ্ত মৌর্য", "বিন্দুসার", "বম্বিসার"],
+                correct: 1,
+                explanation: "আলেকজান্ডারের ভারত আক্রমণের পর কৌটিল্য/চাণক্যের সাহায্যে চন্দ্রগুপ্ত মৌর্য নন্দ বংশকে পরাজিত করে মৌর্য সাম্রাজ্য প্রতিষ্ঠা করেন।"
+            },
+            {
+                id: 12,
+                question: "সম্রাট অশোক কোন যুদ্ধের পর বৌদ্ধধর্ম গ্রহণ করেছিলেন?",
+                options: ["পলাশীর যুদ্ধ", "কলিঙ্গ যুদ্ধ", "পানিপথের যুদ্ধ", "তরাইনের যুদ্ধ"],
+                correct: 1,
+                explanation: "২৬১ খ্রিষ্টপূর্বাব্দে ভয়াবহ 'কলিঙ্গ যুদ্ধের' রক্তপাত দেখে ব্যথিত হয়ে সম্রাট অশোক হিংসা ত্যাগ করে বৌদ্ধধর্ম গ্রহণ করেন।"
+            },
+            {
+                id: 13,
+                question: "প্রাচীন বাংলার শেষ হিন্দু রাজা কে ছিলেন?",
+                options: ["বল্লাল সেন", "লক্ষ্মণ সেন", "হেমন্ত সেন", "বিজয় সেন"],
+                correct: 1,
+                explanation: "১২০৪ খ্রিষ্টাব্দে ইখতিয়ার উদ্দিন মুহম্মদ বখতিয়ার খলজীর আক্রমণে পরাজিত হওয়া লক্ষ্মণ সেন ছিলেন বাংলার শেষ হিন্দু রাজা।"
+            },
+            {
+                id: 14,
+                question: "‘কৌলিন্য প্রথা’ বাংলায় কে প্রবর্তন করেন?",
+                options: ["বিজয় সেন", "বল্লাল সেন", "লক্ষ্মণ সেন", "শশাঙ্ক"],
+                correct: 1,
+                explanation: "সেন বংশের বিখ্যাত রাজা বল্লাল সেন হিন্দু সমাজে আভিজাত্য ও শৃঙ্খলা আনার জন্য 'কৌলিন্য প্রথা' চালু করেন।"
+            },
+            {
+                id: 15,
+                question: "চীনা ভ্রমণকারী 'ফাহিয়েন' কার সময়ে ভারতে আসেন?",
+                options: ["দ্বিতীয় চন্দ্রগুপ্ত (বিক্রমাদিত্য)", "সমুদ্রগুপ্ত", "হর্ষবর্ধন", "কনিষ্ক"],
+                correct: 0,
+                explanation: "গুপ্ত বংশের শাসক দ্বিতীয় চন্দ্রগুপ্ত (বিক্রমাদিত্য)-এর রাজত্বকালে চীনা পর্যটক ফাহিয়েন ভারতে আগমন করেন।"
+            },
+            {
+                id: 16,
+                question: "প্রাচীন 'সমতট' বলতে প্রধানত কোন অঞ্চলকে বোঝানো হতো?",
+                options: ["কুমিল্লা ও নোয়াখালী", "বরিশাল ও পটুয়াখালী", "রাজশাহী ও পাবনা", "খুলনা ও যশোর"],
+                correct: 0,
+                explanation: "মেঘনা নদীর পূর্ব তীরবর্তী নিম্নভূমি অর্থাৎ বর্তমান কুমিল্লা ও নোয়াখালী অঞ্চল প্রাচীন সমতট জনপদের অন্তর্ভুক্ত ছিল।"
+            },
+            {
+                id: 17,
+                question: "প্রাচীন ভারতীয় উপমহাদেশের শ্রেষ্ঠ 'গুপ্ত বংশের নেপোলিয়ন' কাকে বলা হয়?",
+                options: ["প্রথম চন্দ্রগুপ্ত", "সমুদ্রগুপ্ত", "স্কন্দগুপ্ত", "কুমারগুপ্ত"],
+                correct: 1,
+                explanation: "ঐতিহাসিক ভি. এ. স্মিথ সমুদ্রগুপ্তের সামরিক বিজয় ও সাম্রাজ্য বিস্তারের কারণে তাকে 'ভারতের নেপোলিয়ন' বলে আখ্যায়িত করেন।"
+            },
+            {
+                id: 18,
+                question: "সেন রাজবংশের আসল আদি নিবাস কোথায় ছিল?",
+                options: ["উত্তর ভারত", "কর্ণাটক (দক্ষিণ ভারত)", "নেপাল", "আসাম"],
+                correct: 1,
+                explanation: "সেনগণ মূলত দাক্ষিণাত্যের (দক্ষিণ ভারতের) কর্ণাটক থেকে বাংলায় এসে বসবাস শুরু করেন এবং পরবর্তীতে শাসন প্রতিষ্ঠা করেন।"
+            },
+            {
+                id: 19,
+                question: "চর্যাপদ প্রাচীন বাংলার কোন রাজবংশের আমলে রচিত হয়েছিল বলে ধারণা করা হয়?",
+                options: ["মৌর্য বংশ", "গুপ্ত বংশ", "পাল বংশ", "সেন বংশ"],
+                correct: 2,
+                explanation: "বাংলা ভাষার প্রাচীনতম লিখিত রূপ চর্যাপদ মূলত ৮ম-১২শ শতকে পাল রাজাদের আমলের বৌদ্ধ সিদ্ধাচার্যদের দ্বারা রচিত।"
+            },
+            {
+                id: 20,
+                question: "প্রাচীন বাংলার গঙ্গা ও ভাগীরথী নদীর মধ্যবর্তী অঞ্চলকে কী বলা হতো?",
+                options: ["গৌড়", "রাঢ়", "সমতট", "বরেন্দ্র"],
+                correct: 1,
+                explanation: "ভাগীরথী নদীর পশ্চিম তীরের আধুনিক বর্ধমান, বীরভূম ও মেদিনীপুর অঞ্চল প্রাচীন 'রাঢ়' জনপদ নামে পরিচিত ছিল।"
+            },
+            {
+                id: 21,
+                question: "কণিষ্ক কোন রাজবংশের সর্বশ্রেষ্ঠ রাজা ছিলেন?",
+                options: ["মৌর্য বংশ", "গুপ্ত বংশ", "কুশাণ বংশ", "পल्लব বংশ"],
+                correct: 2,
+                explanation: "সম্রাট কণিষ্ক ছিলেন কুশাণ বংশের সবচেয়ে শক্তিশালী ও বিখ্যাত শাসক।"
+            },
+            {
+                id: 22,
+                question: "বখতিয়ার খলজী কত খ্রিষ্টাব্দে বাংলা (নদিয়া) জয় করেন?",
+                options: ["১২০০ খ্রিষ্টাব্দে", "১২০৪ খ্রিষ্টাব্দে", "১২০৬ খ্রিষ্টাব্দে", "১২১০ খ্রিষ্টাব্দে"],
+                correct: 1,
+                explanation: "১২০৪ খ্রিষ্টাব্দে তুর্কি সেনাপতি ইখতিয়ার উদ্দিন মুহম্মদ বখতিয়ার খলজী মাত্র ১৮ জন অশ্বারোহী নিয়ে রাজা লক্ষ্মণ সেনকে পরাজিত করে বাংলা জয় করেন।"
+            },
+            {
+                id: 23,
+                question: "শশাঙ্কের রাজধানী কোথায় ছিল?",
+                options: ["পুণ্ড্রনগর", "কর্ণসুবর্ণ", "বিক্রমপুর", "গৌড়"],
+                correct: 1,
+                explanation: "স্বাধীন গৌড় রাজ্যের প্রতিষ্ঠাতা রাজা শশাঙ্কের রাজধানী ছিল 'কর্ণসুবর্ণ' (বর্তমান পশ্চিমবঙ্গের মুর্শিদাবাদ জেলায়)।"
+            },
+            {
+                id: 24,
+                question: "প্রাচীন ভারতের 'তক্ষশীলা' বিশ্ববিদ্যালয় বর্তমানে কোন দেশে অবস্থিত?",
+                options: ["ভারত", "পাকিস্তান", "নেপাল", "আফগানিস্তান"],
+                correct: 1,
+                explanation: "প্রাচীন ভারতের বিখ্যাত তক্ষশীলা বিশ্ববিদ্যালয়টি বর্তমানে পাকিস্তানের রাওয়ালপিন্ডি জেলায় অবস্থিত।"
+            },
+            {
+                id: 25,
+                question: "কৈবর্ত বিদ্রোহ কার রাজত্বকালে সংঘটিত হয়েছিল?",
+                options: ["দ্বিতীয় মহীপাল", "রামপাল", "ধর্মপাল", "দেবপাল"],
+                correct: 0,
+                explanation: "পাল রাজা দ্বিতীয় মহীপালের দুঃশাসনের বিরুদ্ধে দিব্য বা দিব্যকের নেতৃত্বে বিখ্যাত 'কৈবর্ত বিদ্রোহ' বা জেলে বিদ্রোহ সংঘটিত হয়েছিল।"
+            }
+        ];
+
+        // User selected responses dictionary { questionId: optionIndex }
+        let userAnswers = {};
+        let timerInterval = null;
+        let totalSeconds = 15 * 60; // 15 minutes = 900 seconds
+
+        function startExam() {
+            const nameInput = document.getElementById("studentName").value.trim();
+            const phoneInput = document.getElementById("phoneNumber").value.trim();
+            const selectedCourse = document.querySelector('input[name="course"]:checked').value;
+
+            if (!nameInput || !phoneInput) {
+                alert("অনুগ্রহ করে আপনার নাম ও মোবাইল নম্বর সঠিকভাব লিখুন।");
+                return;
+            }
+
+            candidateData.name = nameInput;
+            candidateData.phone = phoneInput;
+            candidateData.course = selectedCourse;
+
+            // UI updates
+            document.getElementById("stepRegistration").classList.add("hidden");
+            document.getElementById("stepExam").classList.remove("hidden");
+            document.getElementById("timerContainer").classList.remove("hidden");
+            document.getElementById("timerContainer").classList.add("flex");
+
+            document.getElementById("displayCandidateName").innerText = candidateData.name;
+            document.getElementById("displayCandidateCourse").innerText = candidateData.course;
+
+            renderExamQuestions();
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderExamQuestions() {
+            const container = document.getElementById("questionsContainer");
+            container.innerHTML = "";
+
+            quizQuestions.forEach((q, index) => {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-2xl p-4 shadow-2xs border border-slate-200 space-y-3 transition-all";
+                card.id = `qCard_${q.id}`;
+
+                let optionsHtml = "";
+                q.options.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <div class="relative">
+                            <input type="radio" name="q_${q.id}" id="q_${q.id}_opt_${optIdx}" value="${optIdx}" 
+                                class="option-radio hidden" onchange="registerAnswer(${q.id}, ${optIdx})">
+                            <label for="q_${q.id}_opt_${optIdx}" 
+                                class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-100 text-xs text-slate-700 cursor-pointer transition-all">
+                                <span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center mr-2.5 text-[10px] font-bold text-slate-500 shrink-0 bg-white">
+                                    ${String.fromCharCode(65 + optIdx)}
+                                </span>
+                                <span class="leading-relaxed">${escapeHtml(opt)}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <span class="bg-pulse-100 text-pulse-800 font-bold text-[11px] px-2.5 py-0.5 rounded-full shrink-0">
+                            প্রশ্ন ${index + 1} / ২৫
+                        </span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm leading-snug">${escapeHtml(q.question)}</p>
+                    <div class="space-y-2 pt-1">
+                        ${optionsHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function registerAnswer(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById("answeredCount").innerText = answeredCount;
+        }
+
+        function startTimer() {
+            const timerText = document.getElementById("timerText");
+
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerText.innerText = "00:00";
+                    alert("আপনার ১৫ মিনিট সময় শেষ হয়ে গেছে! উত্তরপত্র স্বয়ংক্রিয়ভাবে জমা নেওয়া হচ্ছে।");
+                    processFinalSubmit();
+                    return;
+                }
+
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                timerText.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+                // Warning indicator when time < 2 minutes
+                if (totalSeconds <= 120) {
+                    timerText.classList.remove("text-yellow-300");
+                    timerText.classList.add("text-rose-400", "animate-pulse");
+                }
+            }, 1000);
+        }
+
+        function confirmSubmit() {
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById("modalAnsweredText").innerText = `${answeredCount} টি`;
+            document.getElementById("confirmModal").classList.remove("hidden");
+        }
+
+        function closeConfirmModal() {
+            document.getElementById("confirmModal").classList.add("hidden");
+        }
+
+        function processFinalSubmit() {
+            clearInterval(timerInterval);
+            closeConfirmModal();
+
+            // Calculate Score
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCount = 0;
+
+            quizQuestions.forEach(q => {
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
+                } else {
+                    unansweredCount++;
+                }
+            });
+
+            const score = correctCount;
+            const percentage = Math.round((score / 25) * 100);
+
+            // Update UI with Score
+            document.getElementById("stepExam").classList.add("hidden");
+            document.getElementById("timerContainer").classList.add("hidden");
+            document.getElementById("stepResult").classList.remove("hidden");
+
+            document.getElementById("scoreObtained").innerText = score;
+            document.getElementById("correctCount").innerText = correctCount;
+            document.getElementById("wrongCount").innerText = wrongCount;
+            document.getElementById("unansweredCount").innerText = unansweredCount;
+            document.getElementById("percentageText").innerText = `মেধা মূল্যায়ন: ${percentage}% নম্বর প্রাপ্ত`;
+            document.getElementById("resultCandidateInfo").innerText = `${candidateData.name} | ${candidateData.phone} | ${candidateData.course}`;
+
+            // Render Detailed Question Review
+            renderReviewQuestions();
+
+            // Submit Data to Google Apps Script
+            sendDataToGoogleSheet(score);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function sendDataToGoogleSheet(finalScore) {
+            const syncStatus = document.getElementById("syncStatus");
+
+            const payload = {
+                quizDate: "22 Oct 2026",
+                topic: "General Knowledge - প্রাচীন বাংলা ও উপমহাদেশের ইতিহাস",
+                studentName: candidateData.name,
+                phoneNumber: candidateData.phone,
+                course: candidateData.course,
+                score: finalScore
+            };
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors", // Crucial for Google Apps Script Web App
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                syncStatus.className = "my-2 p-2 rounded-lg text-xs flex items-center justify-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200";
+                syncStatus.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> <span>ফলাফল সফলভাবে ডাটাবেজে সংরক্ষণ করা হয়েছে!</span>`;
+            })
+            .catch(err => {
+                console.error("Apps Script Error:", err);
+                syncStatus.className = "my-2 p-2 rounded-lg text-xs flex items-center justify-center gap-1.5 bg-amber-50 text-amber-700 border border-amber-200";
+                syncStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600"></i> <span>ডাটাবেজ কানেকশন সমস্যা, তবে ফলাফল নিচে প্রদর্শিত রয়েছে।</span>`;
+            });
+        }
+
+        function renderReviewQuestions() {
+            const container = document.getElementById("reviewContainer");
+            container.innerHTML = "";
+
+            quizQuestions.forEach((q, index) => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correct;
+                const isUnanswered = userChoice === undefined;
+
+                let cardStatusClass = "border-slate-200 bg-white";
+                let badgeHtml = "";
+
+                if (isUnanswered) {
+                    badgeHtml = `<span class="bg-slate-100 text-slate-600 font-medium text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-minus mr-1"></i>উত্তর দেওয়া হয়নি</span>`;
+                } else if (isCorrect) {
+                    cardStatusClass = "border-emerald-200 bg-emerald-50/20";
+                    badgeHtml = `<span class="bg-emerald-100 text-emerald-800 font-bold text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-check mr-1 text-emerald-600"></i>সঠিক উত্তর</span>`;
+                } else {
+                    cardStatusClass = "border-rose-200 bg-rose-50/20";
+                    badgeHtml = `<span class="bg-rose-100 text-rose-800 font-bold text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-xmark mr-1 text-rose-600"></i>ভুল উত্তর</span>`;
+                }
+
+                let optionsHtml = "";
+                q.options.forEach((opt, optIdx) => {
+                    let optClass = "border-slate-200 bg-slate-50 text-slate-700";
+                    let iconHtml = `<span class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center mr-2 text-[9px] font-bold text-slate-400 bg-white">${String.fromCharCode(65 + optIdx)}</span>`;
+
+                    if (optIdx === q.correct) {
+                        optClass = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                        iconHtml = `<i class="fa-solid fa-circle-check text-emerald-600 mr-2 text-sm"></i>`;
+                    } else if (userChoice === optIdx && !isCorrect) {
+                        optClass = "border-rose-400 bg-rose-50 text-rose-900 line-through opacity-80";
+                        iconHtml = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-2 text-sm"></i>`;
+                    }
+
+                    optionsHtml += `
+                        <div class="flex items-center p-2.5 rounded-xl border ${optClass} text-xs">
+                            ${iconHtml}
+                            <span>${escapeHtml(opt)}</span>
+                        </div>
+                    `;
+                });
+
+                const card = document.createElement("div");
+                card.className = `rounded-2xl p-4 border ${cardStatusClass} shadow-2xs space-y-3`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-500">প্রশ্ন ${index + 1}</span>
+                        ${badgeHtml}
+                    </div>
+                    <p class="font-semibold text-slate-800 text-xs leading-relaxed">${escapeHtml(q.question)}</p>
+                    <div class="space-y-1.5 pt-1">
+                        ${optionsHtml}
+                    </div>
+                    
+                    <!-- Bengali Explanation Box -->
+                    <div class="bg-amber-50/80 border border-amber-200/80 p-3 rounded-xl text-xs text-amber-900 space-y-1 mt-2">
+                        <div class="font-bold text-amber-800 flex items-center text-[11px]">
+                            <i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i> ব্যাখ্যা (Explanation):
+                        </div>
+                        <p class="text-[11px] leading-relaxed text-amber-950/90">${escapeHtml(q.explanation)}</p>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Helper function to escape HTML special characters
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

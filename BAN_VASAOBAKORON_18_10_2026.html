@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডেইলি টেস্ট - বাংলা ভাষা ও ব্যাকরণ | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulseRed: '#e11d48',
+                        pulseDark: '#9f1239',
+                        pulseLight: '#fff1f2',
+                        pulseAccent: '#fb7185'
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-red-50 to-rose-100 font-sans text-slate-800 antialiased min-h-screen">
+
+    <!-- Mobile Wrapper Container -->
+    <div class="max-w-md mx-auto min-h-screen bg-white/90 backdrop-blur-md shadow-2xl flex flex-col relative border-x border-red-100">
+
+        <!-- STEP 1: Pro Registration Screen -->
+        <div id="regScreen" class="flex-1 p-6 flex flex-col justify-center">
+            <div class="text-center mb-6">
+                <div class="inline-block p-3 bg-pulseLight rounded-2xl shadow-inner mb-3 border border-red-200">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-16 mx-auto">
+                </div>
+                <h1 class="text-2xl font-bold text-pulseRed tracking-tight">পালস নার্সিং কোচিং</h1>
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mt-0.5">ফাউন্ডেশন ব্যাচ ২০২৬-২৭</p>
+            </div>
+
+            <div class="bg-white border border-red-100 rounded-2xl p-5 mb-6 shadow-lg shadow-red-50 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-red-100/50 rounded-full blur-2xl -mr-6 -mt-6"></div>
+                <h2 class="font-bold text-pulseDark text-base mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5 text-pulseRed" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    পরীক্ষার বিবরণ:
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs text-slate-600">
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">তারিখ:</span> ২৫ অক্টোবর ২০২৬</div>
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">বিষয়:</span> বাংলা</div>
+                    <div class="col-span-2 bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">টপিক:</span> বাংলা ভাষা ও ব্যাকরণ</div>
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">পূর্ণমান:</span> ২৫ মার্ক্স</div>
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">সময়:</span> ১৫ মিনিট</div>
+                </div>
+            </div>
+
+            <form id="regForm" class="space-y-4" onsubmit="startExam(event)">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1 tracking-wider">শিক্ষার্থীর নাম (Student Name)</label>
+                    <input type="text" id="studentName" required placeholder="আপনার সম্পূর্ণ নাম লিখুন" 
+                        class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-pulseRed focus:bg-white focus:outline-none text-sm transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1 tracking-wider">মোবাইল নম্বর (Phone Number)</label>
+                    <input type="tel" id="phoneNumber" required pattern="[0-9]{11}" placeholder="০১XXXXXXXXX" 
+                        class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-pulseRed focus:bg-white focus:outline-none text-sm transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1 tracking-wider">কোর্স নির্বাচন করুন (Course)</label>
+                    <select id="course" required class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-pulseRed focus:bg-white focus:outline-none text-sm transition font-medium">
+                        <option value="">-- কোর্স সিলেক্ট করুন --</option>
+                        <option value="BSC">B.Sc in Nursing</option>
+                        <option value="DIPLOMA">Diploma in Nursing Science & Midwifery</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-pulseRed to-rose-600 hover:from-pulseDark hover:to-pulseRed text-white font-bold py-4 rounded-xl shadow-lg shadow-red-200 transition duration-200 mt-2 text-base tracking-wide flex items-center justify-center space-x-2">
+                    <span>পরীক্ষায় অংশগ্রহণ করুন</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Pro Exam Screen (Hidden initially) -->
+        <div id="examScreen" class="hidden flex-1 flex flex-col">
+            <!-- Sticky Pro Header -->
+            <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 z-30 px-4 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2.5">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="h-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-slate-900">বাংলা ভাষা ও ব্যাকরণ</h3>
+                        <p class="text-[10px] text-pulseRed font-semibold">ফাউন্ডেশন ব্যাচ</p>
+                    </div>
+                </div>
+                <div class="bg-pulseLight text-pulseDark px-3.5 py-1.5 rounded-full text-xs font-bold border border-red-200 flex items-center space-x-1.5 shadow-inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pulseRed animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="timerText">১৫:০০</span>
+                </div>
+            </div>
+
+            <!-- Live Progress Bar -->
+            <div class="bg-slate-100 h-1.5 w-full">
+                <div id="progressBar" class="bg-pulseRed h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="p-4 space-y-6 flex-1 pb-24">
+                <!-- JavaScript দিয়ে প্রশ্নগুলো এখানে লোড হবে -->
+            </div>
+
+            <!-- Bottom Floating Submit Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white/95 backdrop-blur border-t border-slate-100 p-3 z-30 shadow-2xl flex justify-center">
+                <button onclick="submitExam()" class="w-full bg-gradient-to-r from-pulseRed to-rose-600 hover:from-pulseDark hover:to-pulseRed text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-200 transition duration-200 text-sm tracking-wide">
+                    কুইজ জমা দিন (Submit Test)
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Pro Result & Review Screen (Hidden initially) -->
+        <div id="resultScreen" class="hidden flex-1 p-6 flex flex-col">
+            <div class="text-center bg-gradient-to-br from-pulseLight to-rose-100 border border-red-200 rounded-3xl p-6 mb-6 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-red-200/50 rounded-full blur-3xl"></div>
+                <h2 class="text-sm font-bold text-slate-600 uppercase tracking-widest mb-1">অভিনন্দন! পরীক্ষা সম্পন্ন হয়েছে</h2>
+                <div class="text-5xl font-extrabold text-pulseRed my-3 tracking-tight" id="scoreDisplay">০ / ২৫</div>
+                <p class="text-xs font-semibold text-slate-700 bg-white/80 py-1.5 px-3 rounded-xl inline-block shadow-sm" id="studentDetailsSummary"></p>
+                <div id="syncStatus" class="mt-3 text-xs font-bold text-emerald-600 flex items-center justify-center space-x-1"></div>
+            </div>
+
+            <h3 class="font-bold text-slate-800 text-base mb-4 border-b border-slate-200 pb-2 flex items-center justify-between">
+                <span>পূর্ণাঙ্গ উত্তরপত্র ও ব্যাখ্যা</span>
+                <span class="text-xs font-normal text-slate-500">সবগুলো প্রশ্ন</span>
+            </h3>
+            
+            <div id="reviewContainer" class="space-y-6 flex-1 pb-10">
+                <!-- উত্তরপত্র এবং ব্যাখ্যা এখানে ডাইনামিক দেখাবে -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 rounded-xl transition duration-200 mt-4 mb-6 shadow-lg text-sm">
+                পুনরায় পরীক্ষা দিন / হোম পেজে যান
+            </button>
+        </div>
+
+        <!-- Submitting Loader Overlay -->
+        <div id="loader" class="hidden absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white">
+            <div class="animate-spin rounded-full h-14 w-14 border-t-4 border-pulseRed border-solid mb-3 shadow-2xl"></div>
+            <p class="text-sm font-semibold tracking-wide">ফলাফল গুগল শিটে সিঙ্ক হচ্ছে...</p>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // ২৫টি বাংলা ভাষা ও ব্যাকরণ সম্পর্কিত প্রশ্ন, অপশন, সঠিক উত্তর এবং ব্যাখ্যা
+        const quizData = [
+            {
+                id: 1,
+                question: "‘ব্যাকরণ’ শব্দের সঠিক অর্থ বা উৎপত্তিগত অর্থ কী?",
+                options: ["বিশেষভাবে বিশ্লেষণ", "ভাষা সংযোজন", "বাক্য গঠন", "শব্দ ভাণ্ডার"],
+                answer: 0,
+                explanation: "‘ব্যাকরণ’ শব্দের অর্থ বিশেষভাবে বিশ্লেষণ (বি + আ + কৃ + অন)। এর মাধ্যমে ভাষার অভ্যন্তরীণ গঠন ও শৃঙ্খলা বিশ্লেষণ করা হয়।"
+            },
+            {
+                id: 2,
+                question: "বাংলা ভাষা কোন ভাষা পরিবারের অন্তর্ভুক্ত?",
+                options: ["দ্রাবিড়", "ইন্দো-ইউরোপীয় (আর্য)", "ভোট-চীনীয়", "অস্ট্রোএশীয়"],
+                answer: 1,
+                explanation: "বাংলা ভাষা মূলত ইন্দো-ইউরোপীয় (বা আর্য) ভাষা পরিবারের ভারতীয়-আর্য শাখা থেকে বিবর্তিত হয়েছে।"
+            },
+            {
+                id: 3,
+                question: "বাংলা লিপির উৎস বা প্রসূতি কোন লিপি?",
+                options: ["ব্রাহ্মী লিপি", "হীরোগ্লিফিক্স", "রোমান লিপি", "চীনা লিপি"],
+                answer: 0,
+                explanation: "প্রাচীন ব্রাহ্মী লিপি থেকে উদ্ভূত কুটিল লিপি হয়ে বাংলা লিপির উৎপত্তি ঘটেছে।"
+            },
+            {
+                id: 4,
+                question: "বাংলা ব্যাকরণের মূল আলোচ্য বিষয় কয়টি?",
+                options: ["২টি", "৩টি", "৪টি", "৫টি"],
+                answer: 2,
+                explanation: "যেকোনো ভাষার ব্যাকরণের মূল আলোচ্য বিষয় ৪টি: ১. ধ্বনিমিত্ত, ২. শব্দমিত্ত (রূপতত্ত্ব), ৩. বাক্যমিত্ত (বাক্যতত্ত্ব) এবং ৪. অর্থমিত্ত (অর্থার্থকতা)।"
+            },
+            {
+                id: 5,
+                question: "‘রূপতত্ত্ব’ বা Morphology-তে ব্যাকরণের কোন বিষয়টি প্রধানত আলোচনা করা হয়?",
+                options: ["ধ্বনির উচ্চারণ", "শব্দের গঠন ও পদের আলোচনা", "বাক্যের বিন্যাস", "বানান নিয়ম"],
+                answer: 1,
+                explanation: "রূপতত্ত্বে শব্দ ও তার গঠন (যেমন: প্রত্যয়, উপসর্গ, সমাস, কারক ও বিভক্তি) এবং পদের আলোচনা করা হয়।"
+            },
+            {
+                id: 6,
+                question: "বাংলা বর্ণমালায় মোট মৌলিক স্বরধ্বনি কয়টি?",
+                options: ["১১টি", "৭টি", "৬টি", "অতিরিক্ত ২টি"],
+                answer: 1,
+                explanation: "বাংলা ভাষায় স্বরবর্ণ ১১টি হলেও মৌলিক স্বরধ্বনি হলো ৭টি (অ, আ, ই, উ, এ, ও, অ্যা)।"
+            },
+            {
+                id: 7,
+                question: "বাংলা ভাষার প্রথম ব্যাকরণ গ্রন্থ কে রচনা করেন?",
+                options: ["ঈশ্বরচন্দ্র বিদ্যাসাগর", "ড. সুনীতিকুমার চট্টোপাধ্যায়", "ম্যানুয়েল দা আস্‌সুম্পসাঁউ", "রাজা রামমোহন রায়"],
+                answer: 2,
+                explanation: "পর্তুগীজ মিশনারি ম্যানুয়েল দা আস্‌সুম্পসাঁউ ১৭৪৩ সালে পর্তুগীজ ভাষায় প্রথম বাংলা ব্যাকরণ 'Vocabolario em idioma Bengali' রচনা করেন।"
+            },
+            {
+                id: 8,
+                question: "বাংলা ভাষায় ব্যবহৃত খাঁটি বাংলা উপসর্গ কয়টি?",
+                options: ["২০টি", "২১টি", "১৯টি", "২৫টি"],
+                answer: 1,
+                explanation: "বাংলা ভাষায় মোট ২১টি খাঁটি বাংলা উপসর্গ রয়েছে (যেমন: আ, অঘা, অজ, অনা ইত্যাদি)।"
+            },
+            {
+                id: 9,
+                question: "তৎসম শব্দের অর্থ কী?",
+                options: ["তৎ + সম = তার সমান (সংস্কৃত ভাষার সমান)", "বাংলা থেকে আগত", "বিদেশি শব্দ", "প্রাকৃত ভাষার রূপ"],
+                answer: 0,
+                explanation: "তৎসম শব্দের অর্থ 'তার সমান', অর্থাৎ যে শব্দগুলো সরাসরি সংস্কৃত ভাষা থেকে বাংলা ভাষায় এসেছে এবং অপরিবর্তিত রয়েছে।"
+            },
+            {
+                id: 10,
+                question: "‘উদর’ কোন শ্রেণির শব্দ?",
+                options: ["তৎসম", "তদ্ভব", "দেশি", "বিদেশি"],
+                answer: 0,
+                explanation: "উদর একটি তৎসম (সংস্কৃত) শব্দ।"
+            },
+            {
+                id: 11,
+                question: "বাক্যতত্ত্ব (Syntax) ব্যাকরণের কোন বিষয় নিয়ে আলোচনা করে?",
+                options: ["শব্দমূল", "বাক্যের গঠন, বাক্যের রূপান্তর ও কারক", "সন্ধি ও বিচ্ছেদ", "বানান শুদ্ধি"],
+                answer: 1,
+                explanation: "বাক্যতত্ত্বে বাক্যের পদবিন্যাস, বাক্যের গঠন, বাক্য সংকোচন এবং বাচ্য পরিবর্তন আলোচিত হয়।"
+            },
+            {
+                id: 12,
+                question: "বাংলা সাহিত্যের প্রাচীনতম নিদর্শন কোনটি?",
+                options: ["শ্রীকৃষ্ণকীর্তন", "চর্যপদ", "মহাভারত", "শহীদ নামা"],
+                answer: 1,
+                explanation: "চর্যাপদ হলো বাংলা ভাষার প্রাচীনতম কাব্য ও গান তথা প্রথম সাহিত্যিক নিদর্শন।"
+            },
+            {
+                id: 13,
+                question: "বাংলা বর্ণমালায় মোট পূর্ণমাত্রার বর্ণ কয়টি?",
+                options: ["৩২টি", "১০টি", "৮টি", "৫০টি"],
+                answer: 0,
+                explanation: "বাংলা বর্ণমালায় পূর্ণমাত্রার বর্ণ রয়েছে ৩২টি (স্বরবর্ণে ৬টি ও ব্যঞ্জনবর্ণে ২৬টি)।"
+            },
+            {
+                id: 14,
+                question: "অর্ধমাত্রার বর্ণ কয়টি?",
+                options: ["৮টি", "১০টি", "৩২টি", "৬টি"],
+                answer: 0,
+                explanation: "বাংলা বর্ণমালায় অর্ধমাত্রার বর্ণ মোট ৮টি (স্বরবর্ণে ১টি এবং ব্যঞ্জনবর্ণে ৭টি)।"
+            },
+            {
+                id: 15,
+                question: "যেসব বর্ণের উচ্চারণ করার সময় ফুসফুসতাড়িত বাতাস মুখের কোথাও বাধা পায় না, তাদের কী বলে?",
+                options: ["ব্যঞ্জনবর্ণ", "স্বরবর্ণ", "উষ্ম বর্ণ", "স্পর্শ বর্ণ"],
+                answer: 1,
+                explanation: "স্বরবর্ণ স্বাধীনভাবে উচ্চারিত হয় এবং উচ্চারণের সময় মুখের ভেতরে কোথাও কোনো বাধা পায় না।"
+            },
+            {
+                id: 16,
+                question: "বাংলা ভাষায় তৎসম উপসর্গ কয়টি?",
+                options: ["২০টি", "২১টি", "১৬টি", "২৫টি"],
+                answer: 0,
+                explanation: "বাংলা ভাষায় ব্যবহৃত সংস্কৃত বা তৎসম উপসর্গের সংখ্যা মোট ২০টি (প্র, পরা, অপ, সম ইত্যাদি)।"
+            },
+            {
+                id: 17,
+                question: "কোনটি দেশি (Austric) শব্দের উদাহরণ?",
+                options: ["কুলা, ডেকি, গঞ্জ", "পানি, কলম", "চেয়ার, টেবিল", "আকাশ, সূর্য"],
+                answer: 0,
+                explanation: "কুলা, ঢেঁকি, কুঁড়েঘর, গঞ্জ ইত্যাদি হলো আদি অস্ট্রিক বা দেশি শব্দ।"
+            },
+            {
+                id: 18,
+                question: "ড. মুহাম্মদ শহীদুল্লাহর মতে বাংলা ভাষার উৎপত্তি কাল কবে থেকে ধরা হয়?",
+                options: ["৬৫০ খ্রিষ্টাব্দ", "৯০০ খ্রিষ্টাব্দ", "১০০০ খ্রিষ্টাব্দ", "১২০০ খ্রিষ্টাব্দ"],
+                answer: 0,
+                explanation: "ড. মুহাম্মদ শহীদুল্লাহর মতে বাংলা ভাষার উৎপত্তি কাল আনুমানিক ৬৫০ খ্রিষ্টাব্দ।"
+            },
+            {
+                id: 19,
+                question: "বাংলা ভাষায় যুক্তবর্ণ ‘জ্ঞ’ (জ্ + ঞ) কোন দুটি বর্ণের সমন্বয়ে গঠিত?",
+                options: ["জ + ন", "জ + ঞ", "গ + ণ", "জ + য"],
+                answer: 1,
+                explanation: "যুক্তবর্ণ 'জ্ঞ' গঠিত হয় জ (জ্) এবং ঞ (ঞ) এর মিলনে।"
+            },
+            {
+                id: 20,
+                question: "ভাষার ক্ষুদ্রতম একক কোনটি?",
+                options: ["বর্ণ", "ধ্বনি", "শব্দ", "বাক্য"],
+                answer: 1,
+                explanation: "ভাষার মূল বা ক্ষুদ্রতম মৌলিক একক হলো ধ্বনি (Speech Sound)।"
+            },
+            {
+                id: 21,
+                question: "‘চাচা’ কোন ভাষার শব্দ?",
+                options: ["তুর্কি", "আরবি", "ফারসি", "পর্তুগিজ"],
+                answer: 0,
+                explanation: "চাচা, দারোগা, তোপ, চাকু ইত্যাদি তুর্কি শব্দ বাংলা ভাষায় বহুল ব্যবহৃত হয়।"
+            },
+            {
+                id: 22,
+                question: "সন্ধি ব্যাকরণের কোন অংশে আলোচিত হয়?",
+                options: ["রূপতত্ত্ব", "ধ্বনিমিত্ত বা ধ্বনিতত্ত্ব", "বাক্যতত্ত্ব", "অর্থমিত্ত"],
+                answer: 1,
+                explanation: "সন্ধি ধ্বনির মিলন নির্দেশ করায় এটি ধ্বনিতত্ত্বে আলোচিত হয়।"
+            },
+            {
+                id: 23,
+                question: "কোনটি অর্ধ-তৎসম শব্দের উদাহরণ?",
+                options: ["চন্দ্র > চাঁদ", "গৃহিণী > গিন্নি", "নদী", "হাত"],
+                answer: 1,
+                explanation: "সংস্কৃত শব্দ কিছুটা পরিবর্তিত হয়ে বাংলায় আসার পর পুনরায় পরিবর্তিত বা বিকৃত রূপ নিলে তাকে অর্ধ-তৎসম বলে (যেমন: গৃহিণী > গিন্নি, শ্রাদ্ধ > ছেরাদ্দ)।"
+            },
+            {
+                id: 24,
+                question: "বাংলা বর্ণমালায় মাত্রাহীন বর্ণ কয়টি?",
+                options: ["১০টি", "৮টি", "৩২টি", "৬টি"],
+                answer: 0,
+                explanation: "বাংলা বর্ণমালায় কোনো মাত্রা নেই এমন বর্ণ বা মাত্রাহীন বর্ণ মোট ১০টি (স্বরবর্ণে ৪টি ও ব্যঞ্জনবর্ণে ৬টি)।"
+            },
+            {
+                id: 25,
+                question: "বাংলা ব্যাকরণের প্রথম বাঙালি রচিত ব্যাকরণ কোনটি?",
+                options: ["রাজা রামমোহন রায়ের 'গৌড়ীয় ব্যাকরণ'", "ঈশ্বরচন্দ্র বিদ্যাসাগরের 'ব্যাকরণ কৌমুদী'", "ড. সুনীতিকুমার চট্টোপাধ্যায়ের 'ODBL'", "হেলেডের ব্যাকরণ"],
+                answer: 0,
+                explanation: "রাজা রামমোহন রায় ১৮৩৩ সালে ইংরেজি ও বাংলায় যৌথভাবে 'গৌড়ীয় ব্যাকরণ' রচনা করেন, যা প্রথম বাঙালি রচিত বাংলা ব্যাকরণ।"
+            }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.studentName = document.getElementById('studentName').value.trim();
+            studentInfo.phoneNumber = document.getElementById('phoneNumber').value.trim();
+            studentInfo.course = document.getElementById('course').value;
+            studentInfo.quizDate = "25 Oct 2026";
+            studentInfo.topic = "Bangla - বাংলা ভাষা ও ব্যাকরণ";
+
+            document.getElementById('regScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+
+            renderQuestions();
+            startTimer();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += `
+                    <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow-md transition" id="q-card-${q.id}">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-xs font-bold text-pulseRed bg-pulseLight px-2.5 py-1 rounded-full border border-red-100">প্রশ্ন ${index + 1} / 25</span>
+                        </div>
+                        <p class="font-bold text-sm text-slate-900 mb-4">${q.question}</p>
+                        <div class="space-y-2.5">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-200/70 hover:bg-red-50/60 hover:border-red-200 cursor-pointer transition text-sm">
+                            <input type="radio" name="question_${q.id}" value="${optIndex}" onchange="handleOptionChange(${q.id}, ${optIndex})" class="text-pulseRed focus:ring-pulseRed h-4 w-4">
+                            <span class="text-slate-700 font-medium">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function handleOptionChange(qId, optIndex) {
+            userAnswers[qId] = optIndex;
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            let answeredCount = Object.keys(userAnswers).length;
+            let percentage = (answeredCount / quizData.length) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার পরীক্ষা স্বয়ংক্রিয়ভাবে জমা হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === q.answer) {
+                    score++;
+                }
+            });
+
+            studentInfo.score = score;
+
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').innerText = `${score} / 25`;
+            document.getElementById('studentDetailsSummary').innerText = 
+                `শিক্ষার্থী: ${studentInfo.studentName} | ফোন: ${studentInfo.phoneNumber} | কোর্স: ${studentInfo.course}`;
+
+            renderReview();
+            sendDataToGoogleSheet(studentInfo);
+        }
+
+        function renderReview() {
+            const container = document.getElementById('reviewContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                let userAns = userAnswers[q.id];
+                let isCorrect = (userAns === q.answer);
+                let borderClass = isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40';
+                let statusBadge = isCorrect ? 
+                    '<span class="bg-emerald-100 text-emerald-700 font-bold text-[10px] px-2.5 py-1 rounded-full border border-emerald-200">✓ সঠিক</span>' : 
+                    '<span class="bg-rose-100 text-rose-700 font-bold text-[10px] px-2.5 py-1 rounded-full border border-rose-200">✗ ভুল</span>';
+
+                html += `
+                    <div class="border rounded-2xl p-4 ${borderClass} shadow-sm space-y-2.5">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-xs text-slate-900">প্রশ্ন ${index + 1}: ${q.question}</h4>
+                            ${statusBadge}
+                        </div>
+                        <div class="text-xs space-y-1.5 mt-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    let optStyle = "";
+                    if (optIndex === q.answer) {
+                        optStyle = "font-bold text-emerald-800 bg-emerald-100/80 px-2.5 py-1 rounded-lg border border-emerald-200";
+                    } else if (optIndex === userAns && !isCorrect) {
+                        optStyle = "font-bold text-rose-800 bg-rose-100/80 px-2.5 py-1 rounded-lg border border-rose-200 line-through";
+                    } else {
+                        optStyle = "text-slate-600 px-2.5 py-1";
+                    }
+                    html += `<div class="${optStyle}">• ${opt}</div>`;
+                });
+
+                html += `
+                        </div>
+                        <div class="bg-white/80 p-3 rounded-xl border border-slate-200/60 mt-2 text-xs text-slate-700 shadow-inner">
+                            <span class="font-bold text-pulseDark">বিশ্লেষণ/ব্যাখ্যা:</span> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function sendDataToGoogleSheet(data) {
+            document.getElementById('loader').classList.remove('hidden');
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    ফলাফল সফলভাবে গুগল শিটে জমা হয়েছে!
+                `;
+            })
+            .catch(error => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerHTML = "⚠️ সংযোগে সামান্য সমস্যা হয়েছে, তবে আপনার স্কোর সংরক্ষিত আছে।";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>

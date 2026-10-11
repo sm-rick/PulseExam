@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ডেইলি টেস্ট - এডভার্ব | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Hind Siliguri for Bengali typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulse: {
+                            50: '#fef2f2',
+                            100: '#ffe1e1',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar for mobile smooth feeling */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f87171;
+            border-radius: 4px;
+        }
+        .option-radio:checked + label {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+            color: #991b1b;
+            font-weight: 600;
+        }
+        .animate-pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased selection:bg-pulse-100 selection:text-pulse-800">
+
+    <!-- App Main Header -->
+    <header class="bg-gradient-to-r from-pulse-800 via-pulse-700 to-pulse-600 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1 rounded-full shadow-inner flex items-center justify-center w-11 h-11 border border-pulse-200">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="w-9 h-9 object-contain" onerror="this.src='https://placehold.co/100x100/dc2626/ffffff?text=PULSE'">
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-tight text-white">পালস নার্সিং কোচিং</h1>
+                    <p class="text-xs text-pulse-100 font-medium">ফাউন্ডেশন ব্যাচ (২০২৬-২৭)</p>
+                </div>
+            </div>
+            
+            <!-- Live Timer Badge (Hidden in Start and Result screens) -->
+            <div id="timerContainer" class="hidden flex-col items-end">
+                <div class="bg-pulse-900/80 backdrop-blur-sm border border-pulse-400/30 px-3 py-1 rounded-full text-right shadow-inner flex items-center gap-1.5">
+                    <i class="fa-regular fa-clock text-pulse-200 text-xs animate-spin-slow"></i>
+                    <span id="timerText" class="font-mono font-bold text-sm tracking-wider text-yellow-300">15:00</span>
+                </div>
+                <span class="text-[10px] text-pulse-100 mt-0.5">অবশিষ্ট সময়</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto w-full flex-grow p-4 space-y-4">
+
+        <!-- ======================================================== -->
+        <!-- STEP 1: REGISTRATION SCREEN -->
+        <!-- ======================================================== -->
+        <div id="stepRegistration" class="space-y-4">
+            <!-- Banner Card -->
+            <div class="bg-gradient-to-br from-white to-pulse-50 rounded-2xl p-5 border border-pulse-100 shadow-sm text-center relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-pulse-500/10 rounded-full blur-xl pointer-events-none"></div>
+                
+                <span class="inline-block bg-pulse-100 text-pulse-800 text-xs font-bold px-3 py-1 rounded-full mb-2">
+                    <i class="fa-solid fa-fire mr-1 text-pulse-600"></i> ডেইলি টেস্ট - ডেলি কুইজ
+                </span>
+                
+                <h2 class="text-xl font-bold text-slate-900 mb-1">ইংলিশ গ্রামার: Adverb</h2>
+                <p class="text-xs text-slate-600">নার্সিং ভর্তি পরীক্ষা ২০২৬-২৭ প্রস্তুতি</p>
+
+                <!-- Exam Meta Badges -->
+                <div class="grid grid-cols-2 gap-2.5 mt-4 text-left text-xs">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">তারিখ</span>
+                            <span class="font-semibold text-slate-700">12 Oct 2026</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">মোট প্রশ্ন</span>
+                            <span class="font-semibold text-slate-700">২৫ টি MCQ</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">সময়</span>
+                            <span class="font-semibold text-slate-700">১৫ মিনিট</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center space-x-2">
+                        <div class="w-7 h-7 rounded-lg bg-pulse-50 text-pulse-600 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-400 block leading-none">পূর্ণমান</span>
+                            <span class="font-semibold text-slate-700">২৫ মার্কস</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Form Card -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-4">
+                <h3 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-2 flex items-center">
+                    <i class="fa-solid fa-user-pen text-pulse-600 mr-2"></i> পরীক্ষার্থীর তথ্য প্রদান করুন
+                </h3>
+
+                <form id="regForm" onsubmit="event.preventDefault(); startExam();" class="space-y-3.5">
+                    <div>
+                        <label for="studentName" class="block text-xs font-semibold text-slate-700 mb-1">শিক্ষার্থীর নাম <span class="text-pulse-600">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <input type="text" id="studentName" required placeholder="আপনার পূর্ণ নাম লিখুন" 
+                                class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pulse-500 focus:bg-white transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="phoneNumber" class="block text-xs font-semibold text-slate-700 mb-1">ফোন নম্বর <span class="text-pulse-600">*</span></label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <input type="tel" id="phoneNumber" pattern="01[3-9][0-9]{8}" maxlength="11" required placeholder="01XXXXXXXXX" 
+                                class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pulse-500 focus:bg-white transition-all">
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-1">১১ ডিজিটের সঠিক ফোন নম্বর দিন</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1.5">আপনার কোর্স সিলেক্ট করুন <span class="text-pulse-600">*</span></label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <input type="radio" name="course" id="courseBsc" value="BSC in Nursing" class="peer hidden" checked>
+                                <label for="courseBsc" class="flex items-center justify-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 cursor-pointer peer-checked:border-pulse-600 peer-checked:bg-pulse-50 peer-checked:text-pulse-700 transition-all">
+                                    <i class="fa-solid fa-graduation-cap mr-1.5 text-pulse-600"></i> B.Sc in Nursing
+                                </label>
+                            </div>
+                            <div>
+                                <input type="radio" name="course" id="courseDiploma" value="Diploma in Nursing" class="peer hidden">
+                                <label for="courseDiploma" class="flex items-center justify-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 cursor-pointer peer-checked:border-pulse-600 peer-checked:bg-pulse-50 peer-checked:text-pulse-700 transition-all">
+                                    <i class="fa-solid fa-user-nurse mr-1.5 text-pulse-600"></i> Diploma Nursing
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full mt-2 py-3 bg-gradient-to-r from-pulse-600 to-pulse-700 hover:from-pulse-700 hover:to-pulse-800 text-white font-bold rounded-xl shadow-lg shadow-pulse-600/30 transition-all transform active:scale-95 flex items-center justify-center text-sm">
+                        <span>পরীক্ষা শুরু করুন</span>
+                        <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Rules Card -->
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs text-amber-900 space-y-1.5">
+                <div class="font-bold text-amber-800 flex items-center mb-1">
+                    <i class="fa-solid fa-triangle-exclamation mr-1.5 text-amber-600"></i> পরীক্ষার কিছু নিয়মাবলি:
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-amber-800/90 text-[11px]">
+                    <li>মোট সময় ১৫ মিনিট। সময় শেষ হলে অটোমেটিক সাবমিট হয়ে যাবে।</li>
+                    <li>প্রতিটি সঠিক উত্তরের জন্য ১ নম্বর বরাদ্দ।</li>
+                    <li>পরীক্ষা শেষে অবিলম্বে উত্তরপত্র ও ব্যাখ্যা দেখতে পাবেন।</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- STEP 2: EXAM SCREEN -->
+        <!-- ======================================================== -->
+        <div id="stepExam" class="hidden space-y-4 pb-20">
+            <!-- Student Header Badge -->
+            <div class="bg-white p-3 rounded-xl shadow-2xs border border-slate-200 flex justify-between items-center text-xs">
+                <div>
+                    <span class="text-slate-400 block text-[10px]">পরীক্ষার্থী:</span>
+                    <span id="displayCandidateName" class="font-bold text-slate-800"></span>
+                </div>
+                <div class="text-right">
+                    <span class="text-slate-400 block text-[10px]">কোর্স:</span>
+                    <span id="displayCandidateCourse" class="font-bold text-pulse-700"></span>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="space-y-4">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Sticky Bottom Submit Bar -->
+            <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 p-3 shadow-lg z-30">
+                <div class="max-w-md mx-auto flex items-center justify-between gap-3">
+                    <div class="text-xs">
+                        <span class="text-slate-500 block text-[10px]">উত্তর প্রদান করা হয়েছে</span>
+                        <span class="font-bold text-slate-800"><span id="answeredCount" class="text-pulse-600 text-sm">0</span> / 25</span>
+                    </div>
+                    <button onclick="confirmSubmit()" class="px-6 py-2.5 bg-pulse-600 hover:bg-pulse-700 text-white font-bold rounded-xl shadow-md transition-all active:scale-95 text-xs flex items-center">
+                        <i class="fa-solid fa-paper-plane mr-1.5"></i> উত্তরপত্র জমা দিন
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- STEP 3: RESULT & EXPLANATION SCREEN -->
+        <!-- ======================================================== -->
+        <div id="stepResult" class="hidden space-y-4 pb-12">
+            <!-- Score Overview Card -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 text-center relative overflow-hidden">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-pulse-50 text-pulse-600 rounded-full mb-2 border-2 border-pulse-100">
+                    <i class="fa-solid fa-trophy text-2xl"></i>
+                </div>
+                
+                <h2 class="text-lg font-bold text-slate-800">পরীক্ষার ফলাফল</h2>
+                <p class="text-xs text-slate-500 mb-3" id="resultCandidateInfo"></p>
+
+                <!-- Score Big Badge -->
+                <div class="bg-gradient-to-br from-pulse-600 to-pulse-800 text-white p-4 rounded-2xl shadow-inner my-3">
+                    <span class="text-xs text-pulse-200 uppercase tracking-widest block font-medium">প্রাপ্ত নম্বর</span>
+                    <div class="text-3xl font-extrabold my-0.5">
+                        <span id="scoreObtained">0</span> <span class="text-lg font-normal text-pulse-200">/ ২৫</span>
+                    </div>
+                    <p id="percentageText" class="text-xs text-pulse-100 font-medium"></p>
+                </div>
+
+                <!-- Apps Script Sync Status -->
+                <div id="syncStatus" class="my-2 p-2 rounded-lg text-xs flex items-center justify-center gap-1.5 bg-slate-100 text-slate-600">
+                    <i class="fa-solid fa-spinner animate-spin"></i>
+                    <span>সার্ভারে ফলাফল যুক্ত করা হচ্ছে...</span>
+                </div>
+
+                <!-- Detailed Breakdown Badges -->
+                <div class="grid grid-cols-3 gap-2 mt-3 text-center text-xs">
+                    <div class="bg-emerald-50 border border-emerald-100 p-2 rounded-xl">
+                        <span class="block text-emerald-600 font-bold text-base" id="correctCount">0</span>
+                        <span class="text-[10px] text-emerald-700">সঠিক উত্তর</span>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-100 p-2 rounded-xl">
+                        <span class="block text-rose-600 font-bold text-base" id="wrongCount">0</span>
+                        <span class="text-[10px] text-rose-700">ভুল উত্তর</span>
+                    </div>
+                    <div class="bg-slate-100 border border-slate-200 p-2 rounded-xl">
+                        <span class="block text-slate-600 font-bold text-base" id="unansweredCount">0</span>
+                        <span class="text-[10px] text-slate-500">উত্তরহীন</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Header -->
+            <div class="flex items-center justify-between px-1">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center">
+                    <i class="fa-solid fa-file-signature text-pulse-600 mr-2"></i> প্রশ্নপত্র ও নির্ভুল সমাধান
+                </h3>
+                <span class="text-[11px] text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full">ব্যাখ্যা সহ</span>
+            </div>
+
+            <!-- Review Container -->
+            <div id="reviewContainer" class="space-y-4">
+                <!-- Dynamically generated solution cards -->
+            </div>
+
+            <!-- Reload Button -->
+            <button onclick="location.reload()" class="w-full py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-md text-xs flex items-center justify-center transition-all">
+                <i class="fa-solid fa-rotate-right mr-2"></i> পুনরায় পরীক্ষা দিন
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Submit Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 transform transition-all scale-95">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-pulse-100 text-pulse-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <h3 class="font-bold text-slate-800 text-base">উত্তরপত্র জমা নিশ্চিত করুন</h3>
+                <p class="text-xs text-slate-500 mt-1">আপনি কি নিশ্চিত যে আপনার উত্তরগুলো জমা দিতে চান?</p>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
+                <div class="flex justify-between">
+                    <span class="text-slate-500">মোট প্রশ্ন:</span>
+                    <span class="font-semibold text-slate-700">২৫ টি</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">উত্তর প্রদান করা হয়েছে:</span>
+                    <span class="font-bold text-pulse-600" id="modalAnsweredText">0 টি</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5 pt-1">
+                <button onclick="closeConfirmModal()" class="py-2.5 border border-slate-300 rounded-xl text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-all">
+                    ফিরে যান
+                </button>
+                <button onclick="processFinalSubmit()" class="py-2.5 bg-pulse-600 hover:bg-pulse-700 text-white font-semibold rounded-xl text-xs shadow-md transition-all">
+                    হ্যাঁ, জমা দিন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-200 bg-white">
+        © 2026 পালস নার্সিং কোচিং | সর্বস্বত্ব সংরক্ষিত
+    </footer>
+
+    <script>
+        // Google Apps Script Master Endpoint
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // Candidate state
+        let candidateData = {
+            name: "",
+            phone: "",
+            course: ""
+        };
+
+        // 25 High quality Adverb Multiple Choice Questions tailored for Nursing Admission
+        const quizQuestions = [
+            {
+                id: 1,
+                question: "Which of the following is an example of an 'Adverb of Manner'?",
+                options: ["Yesterday", "Swiftly", "Everywhere", "Seldom"],
+                correct: 1,
+                explanation: "Swiftly (দ্রুততার সাথে) হলো Adverb of Manner। এটি কোনো কাজ কীভাবে বা কোন উপায়ে সম্পাদিত হয় তা নির্দেশ করে।"
+            },
+            {
+                id: 2,
+                question: "Find out the adverb in the sentence: 'She works extremely hard.'",
+                options: ["works", "extremely", "hard", "Both 'extremely' and 'hard'"],
+                correct: 3,
+                explanation: "এই বাক্যে 'hard' শব্দটি ক্রিয়া 'works' কে মডিফাই করে (Adverb of manner) এবং 'extremely' শব্দটি অন্য এডভার্ব 'hard' কে মডিফাই করে (Adverb of degree)। তাই উভয়ই এডভার্ব।"
+            },
+            {
+                id: 3,
+                question: "Choose the sentence with correct adverb position:",
+                options: [
+                    "He late arrived yesterday.",
+                    "He arrived late yesterday.",
+                    "He arrived yesterday late.",
+                    "Late he arrived yesterday."
+                ],
+                correct: 1,
+                explanation: "সাধারনত Adverb sequence অনুযায়ী MPT (Manner, Place, Time) নীতি মেনে চলে। 'late' (manner) এর পর 'yesterday' (time) বসে।"
+            },
+            {
+                id: 4,
+                question: "What type of adverb is the word 'seldom' in 'He seldom comes here'?",
+                options: ["Adverb of Time", "Adverb of Frequency", "Adverb of Manner", "Adverb of Degree"],
+                correct: 1,
+                explanation: "'Seldom' (কদাচিৎ) কাজটি কত ঘনঘন বা কতবার ঘটে তা নির্দেশ করে, তাই এটি Adverb of Frequency।"
+            },
+            {
+                id: 5,
+                question: "Which one is an Adverb?",
+                options: ["Lovely", "Friendly", "Fast", "Motherly"],
+                correct: 2,
+                explanation: "Lovely, Friendly, Motherly এগুলো Noun + ly = Adjective। কিন্তু 'Fast' শব্দটিকে Adjective এবং Adverb উভয় হিসেবেই ব্যবহার করা যায়। 'Fastly' বলে কোনো শুদ্ধ ইংরেজি শব্দ নেই।"
+            },
+            {
+                id: 6,
+                question: "Fill in the blank: 'He spoke _____ enough to be heard clearly.'",
+                options: ["loud", "loudly", "more loud", "loudness"],
+                correct: 1,
+                explanation: "Spoke (Verb) কে মডিফাই করতে Adverb 'loudly' প্রয়োজন। 'Enough' সর্বদা Adverb-এর পরে বসে।"
+            },
+            {
+                id: 7,
+                question: "Identify the Adverb in the sentence: 'The train ran fast.'",
+                options: ["The", "train", "ran", "fast"],
+                correct: 3,
+                explanation: "এখানে 'fast' শব্দটি 'ran' (verb) কে বিশেষায়িত বা মডিফাই করছে। তাই এটি একটি Adverb।"
+            },
+            {
+                id: 8,
+                question: "Choose the correct sentence involving negative adverbs:",
+                options: [
+                    "Hardly he had arrived when it started raining.",
+                    "Hardly had he arrived when it started raining.",
+                    "Hardly he arrived when it started raining.",
+                    "Hardly arrived he when it started raining."
+                ],
+                correct: 1,
+                explanation: "Hardly, Scarcely, Seldom ইত্যাদি নেগেটিভ এডভার্ব দিয়ে বাক্য শুরু হলে Subject ও Auxiliary Verb-এর Inversion (উল্টে যাওয়া) ঘটে।"
+            },
+            {
+                id: 9,
+                question: "The word 'Hardly' means:",
+                options: ["With great effort", "Almost not", "Very fast", "Roughly"],
+                correct: 1,
+                explanation: "'Hardly' একটি নেতিবাচক শব্দ যার অর্থ 'কদাচিৎ' বা 'প্রায় না' (Almost not)। পক্ষান্তরে 'Hard' অর্থ কঠোর পরিশ্রম।"
+            },
+            {
+                id: 10,
+                question: "Which category does 'therefore' belong to in English grammar?",
+                options: ["Adverb of Degree", "Conjunctive Adverb", "Adverb of Place", "Adverb of Manner"],
+                correct: 1,
+                explanation: "'Therefore', 'however', 'consequently' এগুলো দুটি স্বাধীন ক্লজকে যুক্ত করতে ব্যবহৃত Conjunctive Adverb।"
+            },
+            {
+                id: 11,
+                question: "Identify the degree of adverb in: 'He ran faster than his friend.'",
+                options: ["Positive", "Comparative", "Superlative", "Relative"],
+                correct: 1,
+                explanation: "দুটি ব্যক্তির কাজের গতির মধ্যে তুলনা করায় 'faster' হলো Comparative degree of Adverb।"
+            },
+            {
+                id: 12,
+                question: "In the sentence 'She is completely right', what part of speech is 'completely'?",
+                options: ["Adjective", "Adverb", "Noun", "Preposition"],
+                correct: 1,
+                explanation: "'Right' (Adjective) কে মডিফাই করছে 'completely'। কোনো Adjective-কে মডিফাই করার কাজ Adverb করে থাকে।"
+            },
+            {
+                id: 13,
+                question: "Choose the correct placement of Adverb of Frequency:",
+                options: [
+                    "Always she goes to bed early.",
+                    "She goes always to bed early.",
+                    "She always goes to bed early.",
+                    "She goes to bed early always."
+                ],
+                correct: 2,
+                explanation: "Adverb of frequency (always, never, often) সাধারণত Main Verb এর পূর্বে এবং Auxiliary verb এর পরে বসে।"
+            },
+            {
+                id: 14,
+                question: "Which of the following words is NOT an adverb?",
+                options: ["Daily", "Early", "Silly", "Weekly"],
+                correct: 2,
+                explanation: "Silly (Noun/Adj + ly) হলো Adjective। কিন্তু Daily, Early, Weekly শব্দগুলো Adjective এবং Adverb উভয় হিসেবেই ব্যবহৃত হয়।"
+            },
+            {
+                id: 15,
+                question: "'I have not seen him lately.' Here 'lately' means:",
+                options: ["Late in time", "Recently", "Slowly", "Punctually"],
+                correct: 1,
+                explanation: "'Lately' একটি Adverb যার অর্থ 'সাম্প্রতিককালে' বা 'সম্প্রতি' (Recently)।"
+            },
+            {
+                id: 16,
+                question: "Select the sentence where 'only' is correctly used as an adverb:",
+                options: [
+                    "She only died yesterday.",
+                    "She died only yesterday.",
+                    "Only she died yesterday.",
+                    "She died yesterday only."
+                ],
+                correct: 1,
+                explanation: "'Only' যাকে মডিফাই করে তার ঠিক পূর্বে বসে। গতকাল মারা যাওয়ার বিষয় প্রকাশ করতে 'died only yesterday' সঠিক।"
+            },
+            {
+                id: 17,
+                question: "What is the adverb form of the word 'Courageous'?",
+                options: ["Courage", "Courageously", "Encourage", "Courageousness"],
+                correct: 1,
+                explanation: "Adjective (Courageous) + ly = Adverb (Courageously)।"
+            },
+            {
+                id: 18,
+                question: "In 'He went abroad', the word 'abroad' is a/an:",
+                options: ["Noun", "Preposition", "Adverb of Place", "Adjective"],
+                correct: 2,
+                explanation: "'Abroad' শব্দটি স্থান নির্দেশ করে এবং 'went' (verb)-কে মডিফাই করায় এটি Adverb of Place।"
+            },
+            {
+                id: 19,
+                question: "Choose the correct sentence:",
+                options: [
+                    "He drives very careful.",
+                    "He drives very carefully.",
+                    "He drives carefully very.",
+                    "He carefully drives very."
+                ],
+                correct: 1,
+                explanation: "'Drives' (verb) কে মডিফাই করছে Adverb 'carefully' এবং তার পূর্বে প্রাবল্য বোঝাতে 'very' (adverb of degree) বসেছে।"
+            },
+            {
+                id: 20,
+                question: "In the sentence 'I know where he lives', 'where he lives' functions as a/an:",
+                options: ["Noun Clause", "Adjective Clause", "Adverbial Clause", "Prepositional Phrase"],
+                correct: 2,
+                explanation: "স্থান নির্দেশক ক্রিয়া 'know' এর উত্তর দেওয়া এবং অবস্থানের তথ্য প্রদান করায় এটি Adverbial Clause of Place।"
+            },
+            {
+                id: 21,
+                question: "Which of the following contains an 'Adverb of Reason/Purpose'?",
+                options: [
+                    "He ran fast.",
+                    "He therefore left the school.",
+                    "She lives nearby.",
+                    "They will come tomorrow."
+                ],
+                correct: 1,
+                explanation: "'Therefore' শব্দটি কারণ বা উদ্দেশ্য নির্দেশ করে, তাই এটি Adverb of Reason।"
+            },
+            {
+                id: 22,
+                question: "'He is brave enough to face the situation.' The word 'enough' is an:",
+                options: ["Noun", "Adjective", "Adverb", "Verb"],
+                correct: 2,
+                explanation: "এখানে 'enough' শব্দটি Adjective 'brave' এর পরে বসে তাকে মডিফাই করছে, তাই এটি একটি Adverb।"
+            },
+            {
+                id: 23,
+                question: "Identify the correct order of adverbs in: 'She sang _____.'",
+                options: [
+                    "well at the concert last night",
+                    "at the concert well last night",
+                    "last night well at the concert",
+                    "well last night at the concert"
+                ],
+                correct: 0,
+                explanation: "এডভার্বের সঠিক ধারাবাহিকতা হলো Manner (well) + Place (at the concert) + Time (last night)। সংক্ষেপে MPT রুল।"
+            },
+            {
+                id: 24,
+                question: "The word 'ago' is usually used with which tense as an adverb of time?",
+                options: ["Present Perfect", "Simple Past", "Past Perfect", "Future Simple"],
+                correct: 1,
+                explanation: "Time Adverb 'ago' থাকলে বাক্যের Verb সময়বাচক নির্দেশনায় Simple Past Tense এ ব্যবহৃত হয়।"
+            },
+            {
+                id: 25,
+                question: "In 'Walk fast lest you should miss the bus', what part of speech is 'fast'?",
+                options: ["Adjective", "Adverb", "Noun", "Conjunction"],
+                correct: 1,
+                explanation: "এখানে 'fast' শব্দটি 'Walk' (verb) কে বিশেষায়িত করছে (কীভাবে হাঁটবে -> দ্রুত), তাই এটি Adverb of manner।"
+            }
+        ];
+
+        // User selected responses dictionary { questionId: optionIndex }
+        let userAnswers = {};
+        let timerInterval = null;
+        let totalSeconds = 15 * 60; // 15 minutes = 900 seconds
+
+        function startExam() {
+            const nameInput = document.getElementById("studentName").value.trim();
+            const phoneInput = document.getElementById("phoneNumber").value.trim();
+            const selectedCourse = document.querySelector('input[name="course"]:checked').value;
+
+            if (!nameInput || !phoneInput) {
+                alert("অনুগ্রহ করে আপনার নাম ও মোবাইল নম্বর সঠিকভাব লিখুন।");
+                return;
+            }
+
+            candidateData.name = nameInput;
+            candidateData.phone = phoneInput;
+            candidateData.course = selectedCourse;
+
+            // UI updates
+            document.getElementById("stepRegistration").classList.add("hidden");
+            document.getElementById("stepExam").classList.remove("hidden");
+            document.getElementById("timerContainer").classList.remove("hidden");
+            document.getElementById("timerContainer").classList.add("flex");
+
+            document.getElementById("displayCandidateName").innerText = candidateData.name;
+            document.getElementById("displayCandidateCourse").innerText = candidateData.course;
+
+            renderExamQuestions();
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderExamQuestions() {
+            const container = document.getElementById("questionsContainer");
+            container.innerHTML = "";
+
+            quizQuestions.forEach((q, index) => {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-2xl p-4 shadow-2xs border border-slate-200 space-y-3 transition-all";
+                card.id = `qCard_${q.id}`;
+
+                let optionsHtml = "";
+                q.options.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <div class="relative">
+                            <input type="radio" name="q_${q.id}" id="q_${q.id}_opt_${optIdx}" value="${optIdx}" 
+                                class="option-radio hidden" onchange="registerAnswer(${q.id}, ${optIdx})">
+                            <label for="q_${q.id}_opt_${optIdx}" 
+                                class="flex items-center p-3 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-100 text-xs text-slate-700 cursor-pointer transition-all">
+                                <span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center mr-2.5 text-[10px] font-bold text-slate-500 shrink-0 bg-white">
+                                    ${String.fromCharCode(65 + optIdx)}
+                                </span>
+                                <span class="leading-relaxed">${escapeHtml(opt)}</span>
+                            </label>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <span class="bg-pulse-100 text-pulse-800 font-bold text-[11px] px-2.5 py-0.5 rounded-full shrink-0">
+                            প্রশ্ন ${index + 1} / ২৫
+                        </span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm leading-snug">${escapeHtml(q.question)}</p>
+                    <div class="space-y-2 pt-1">
+                        ${optionsHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function registerAnswer(qId, optionIdx) {
+            userAnswers[qId] = optionIdx;
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById("answeredCount").innerText = answeredCount;
+        }
+
+        function startTimer() {
+            const timerText = document.getElementById("timerText");
+
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerText.innerText = "00:00";
+                    alert("আপনার ১৫ মিনিট সময় শেষ হয়ে গেছে! উত্তরপত্র স্বয়ংক্রিয়ভাবে জমা নেওয়া হচ্ছে।");
+                    processFinalSubmit();
+                    return;
+                }
+
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                timerText.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+                // Warning indicator when time < 2 minutes
+                if (totalSeconds <= 120) {
+                    timerText.classList.remove("text-yellow-300");
+                    timerText.classList.add("text-rose-400", "animate-pulse");
+                }
+            }, 1000);
+        }
+
+        function confirmSubmit() {
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById("modalAnsweredText").innerText = `${answeredCount} টি`;
+            document.getElementById("confirmModal").classList.remove("hidden");
+        }
+
+        function closeConfirmModal() {
+            document.getElementById("confirmModal").classList.add("hidden");
+        }
+
+        function processFinalSubmit() {
+            clearInterval(timerInterval);
+            closeConfirmModal();
+
+            // Calculate Score
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCount = 0;
+
+            quizQuestions.forEach(q => {
+                if (userAnswers.hasOwnProperty(q.id)) {
+                    if (userAnswers[q.id] === q.correct) {
+                        correctCount++;
+                    } else {
+                        wrongCount++;
+                    }
+                } else {
+                    unansweredCount++;
+                }
+            });
+
+            const score = correctCount;
+            const percentage = Math.round((score / 25) * 100);
+
+            // Update UI with Score
+            document.getElementById("stepExam").classList.add("hidden");
+            document.getElementById("timerContainer").classList.add("hidden");
+            document.getElementById("stepResult").classList.remove("hidden");
+
+            document.getElementById("scoreObtained").innerText = score;
+            document.getElementById("correctCount").innerText = correctCount;
+            document.getElementById("wrongCount").innerText = wrongCount;
+            document.getElementById("unansweredCount").innerText = unansweredCount;
+            document.getElementById("percentageText").innerText = `মেধা মূল্যায়ন: ${percentage}% নম্বর প্রাপ্ত`;
+            document.getElementById("resultCandidateInfo").innerText = `${candidateData.name} | ${candidateData.phone} | ${candidateData.course}`;
+
+            // Render Detailed Question Review
+            renderReviewQuestions();
+
+            // Submit Data to Google Apps Script
+            sendDataToGoogleSheet(score);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function sendDataToGoogleSheet(finalScore) {
+            const syncStatus = document.getElementById("syncStatus");
+
+            const payload = {
+                quizDate: "12 Oct 2026",
+                topic: "English - Adverb",
+                studentName: candidateData.name,
+                phoneNumber: candidateData.phone,
+                course: candidateData.course,
+                score: finalScore
+            };
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors", // Crucial for Google Apps Script Web App
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                syncStatus.className = "my-2 p-2 rounded-lg text-xs flex items-center justify-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200";
+                syncStatus.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> <span>ফলাফল সফলভাবে ডাটাবেজে সংরক্ষণ করা হয়েছে!</span>`;
+            })
+            .catch(err => {
+                console.error("Apps Script Error:", err);
+                syncStatus.className = "my-2 p-2 rounded-lg text-xs flex items-center justify-center gap-1.5 bg-amber-50 text-amber-700 border border-amber-200";
+                syncStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-600"></i> <span>ডাটাবেজ কানেকশন সমস্যা, তবে ফলাফল নিচে প্রদর্শিত রয়েছে।</span>`;
+            });
+        }
+
+        function renderReviewQuestions() {
+            const container = document.getElementById("reviewContainer");
+            container.innerHTML = "";
+
+            quizQuestions.forEach((q, index) => {
+                const userChoice = userAnswers[q.id];
+                const isCorrect = userChoice === q.correct;
+                const isUnanswered = userChoice === undefined;
+
+                let cardStatusClass = "border-slate-200 bg-white";
+                let badgeHtml = "";
+
+                if (isUnanswered) {
+                    badgeHtml = `<span class="bg-slate-100 text-slate-600 font-medium text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-minus mr-1"></i>উত্তর দেওয়া হয়নি</span>`;
+                } else if (isCorrect) {
+                    cardStatusClass = "border-emerald-200 bg-emerald-50/20";
+                    badgeHtml = `<span class="bg-emerald-100 text-emerald-800 font-bold text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-check mr-1 text-emerald-600"></i>সঠিক উত্তর</span>`;
+                } else {
+                    cardStatusClass = "border-rose-200 bg-rose-50/20";
+                    badgeHtml = `<span class="bg-rose-100 text-rose-800 font-bold text-[10px] px-2 py-0.5 rounded-md"><i class="fa-solid fa-xmark mr-1 text-rose-600"></i>ভুল উত্তর</span>`;
+                }
+
+                let optionsHtml = "";
+                q.options.forEach((opt, optIdx) => {
+                    let optClass = "border-slate-200 bg-slate-50 text-slate-700";
+                    let iconHtml = `<span class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center mr-2 text-[9px] font-bold text-slate-400 bg-white">${String.fromCharCode(65 + optIdx)}</span>`;
+
+                    if (optIdx === q.correct) {
+                        optClass = "border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold";
+                        iconHtml = `<i class="fa-solid fa-circle-check text-emerald-600 mr-2 text-sm"></i>`;
+                    } else if (userChoice === optIdx && !isCorrect) {
+                        optClass = "border-rose-400 bg-rose-50 text-rose-900 line-through opacity-80";
+                        iconHtml = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-2 text-sm"></i>`;
+                    }
+
+                    optionsHtml += `
+                        <div class="flex items-center p-2.5 rounded-xl border ${optClass} text-xs">
+                            ${iconHtml}
+                            <span>${escapeHtml(opt)}</span>
+                        </div>
+                    `;
+                });
+
+                const card = document.createElement("div");
+                card.className = `rounded-2xl p-4 border ${cardStatusClass} shadow-2xs space-y-3`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-500">প্রশ্ন ${index + 1}</span>
+                        ${badgeHtml}
+                    </div>
+                    <p class="font-semibold text-slate-800 text-xs leading-relaxed">${escapeHtml(q.question)}</p>
+                    <div class="space-y-1.5 pt-1">
+                        ${optionsHtml}
+                    </div>
+                    
+                    <!-- Bengali Explanation Box -->
+                    <div class="bg-amber-50/80 border border-amber-200/80 p-3 rounded-xl text-xs text-amber-900 space-y-1 mt-2">
+                        <div class="font-bold text-amber-800 flex items-center text-[11px]">
+                            <i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i> ব্যাখ্যা (Explanation):
+                        </div>
+                        <p class="text-[11px] leading-relaxed text-amber-950/90">${escapeHtml(q.explanation)}</p>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Helper function to escape HTML special characters
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
