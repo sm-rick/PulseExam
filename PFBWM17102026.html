@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সাপ্তাহিক মডেল টেস্ট - ৫০ মার্কস | পালস নার্সিং কোচিং</title>
+    <!-- Tailwind CSS & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pulseRed: '#e11d48',
+                        pulseDark: '#9f1239',
+                        pulseLight: '#fff1f2',
+                        pulseAccent: '#fb7185'
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-red-50 to-rose-100 font-sans text-slate-800 antialiased min-h-screen">
+
+    <!-- Mobile Wrapper Container -->
+    <div class="max-w-md mx-auto min-h-screen bg-white/90 backdrop-blur-md shadow-2xl flex flex-col relative border-x border-red-100">
+
+        <!-- STEP 1: Pro Registration Screen -->
+        <div id="regScreen" class="flex-1 p-6 flex flex-col justify-center">
+            <div class="text-center mb-6">
+                <div class="inline-block p-3 bg-pulseLight rounded-2xl shadow-inner mb-3 border border-red-200">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Pulse Nursing Logo" class="h-16 mx-auto">
+                </div>
+                <h1 class="text-2xl font-bold text-pulseRed tracking-tight">পালস নার্সিং কোচিং</h1>
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-widest mt-0.5">ফাউন্ডেশন ব্যাচ ২০২৬-২৭</p>
+            </div>
+
+            <div class="bg-white border border-red-100 rounded-2xl p-5 mb-6 shadow-lg shadow-red-50 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-red-100/50 rounded-full blur-2xl -mr-6 -mt-6"></div>
+                <h2 class="font-bold text-pulseDark text-base mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1.5 text-pulseRed" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    সাপ্তাহিক মডেল টেস্ট বিবরণ:
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs text-slate-600">
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">তারিখ:</span> ১৭ অক্টোবর ২০২৬</div>
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">পূর্ণমান:</span> ৫০ মার্ক্স</div>
+                    <div class="col-span-2 bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">টপিক:</span> পারিভাষিক শব্দ, Adverb, লাভ-ক্ষতি, ভেক্টর, জাতীয় বিষয়াবলি</div>
+                    <div class="col-span-2 bg-slate-50 p-2 rounded-lg border border-slate-100"><span class="font-semibold text-slate-700">সময়:</span> ৩০ মিনিট</div>
+                </div>
+            </div>
+
+            <form id="regForm" class="space-y-4" onsubmit="startExam(event)">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1 tracking-wider">শিক্ষার্থীর নাম (Student Name)</label>
+                    <input type="text" id="studentName" required placeholder="আপনার সম্পূর্ণ নাম লিখুন" 
+                        class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-pulseRed focus:bg-white focus:outline-none text-sm transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1 tracking-wider">মোবাইল নম্বর (Phone Number)</label>
+                    <input type="tel" id="phoneNumber" required pattern="[0-9]{11}" placeholder="০১XXXXXXXXX" 
+                        class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-pulseRed focus:bg-white focus:outline-none text-sm transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1 tracking-wider">কোর্স নির্বাচন করুন (Course)</label>
+                    <select id="course" required class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-pulseRed focus:bg-white focus:outline-none text-sm transition font-medium">
+                        <option value="">-- কোর্স সিলেক্ট করুন --</option>
+                        <option value="BSC">B.Sc in Nursing</option>
+                        <option value="DIPLOMA">Diploma in Nursing Science & Midwifery</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-pulseRed to-rose-600 hover:from-pulseDark hover:to-pulseRed text-white font-bold py-4 rounded-xl shadow-lg shadow-red-200 transition duration-200 mt-2 text-base tracking-wide flex items-center justify-center space-x-2">
+                    <span>মডেল টেস্ট শুরু করুন</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Pro Exam Screen (Hidden initially) -->
+        <div id="examScreen" class="hidden flex-1 flex flex-col">
+            <!-- Sticky Pro Header -->
+            <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-slate-100 z-30 px-4 py-3 flex items-center justify-between shadow-sm">
+                <div class="flex items-center space-x-2.5">
+                    <img src="https://i.ibb.co.com/Ld7snkkP/logo.png" alt="Logo" class="h-8">
+                    <div>
+                        <h3 class="text-xs font-bold text-slate-900">সাপ্তাহিক মডেল টেস্ট (৫০ মার্ক্স)</h3>
+                        <p class="text-[10px] text-pulseRed font-semibold">ফাউন্ডেশন ব্যাচ</p>
+                    </div>
+                </div>
+                <div class="bg-pulseLight text-pulseDark px-3.5 py-1.5 rounded-full text-xs font-bold border border-red-200 flex items-center space-x-1.5 shadow-inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pulseRed animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id="timerText">৩০:০০</span>
+                </div>
+            </div>
+
+            <!-- Live Progress Bar -->
+            <div class="bg-slate-100 h-1.5 w-full">
+                <div id="progressBar" class="bg-pulseRed h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questionsContainer" class="p-4 space-y-6 flex-1 pb-24">
+                <!-- JavaScript দিয়ে ৫০টি প্রশ্ন এখানে লোড হবে -->
+            </div>
+
+            <!-- Bottom Floating Submit Bar -->
+            <div class="fixed bottom-0 max-w-md w-full bg-white/95 backdrop-blur border-t border-slate-100 p-3 z-30 shadow-2xl flex justify-center">
+                <button onclick="submitExam()" class="w-full bg-gradient-to-r from-pulseRed to-rose-600 hover:from-pulseDark hover:to-pulseRed text-white font-bold py-3.5 rounded-xl shadow-lg shadow-red-200 transition duration-200 text-sm tracking-wide">
+                    মডেল টেস্ট জমা দিন (Submit Test)
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Pro Result & Review Screen (Hidden initially) -->
+        <div id="resultScreen" class="hidden flex-1 p-6 flex flex-col">
+            <div class="text-center bg-gradient-to-br from-pulseLight to-rose-100 border border-red-200 rounded-3xl p-6 mb-6 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-red-200/50 rounded-full blur-3xl"></div>
+                <h2 class="text-sm font-bold text-slate-600 uppercase tracking-widest mb-1">অভিনন্দন! মডেল টেস্ট সম্পন্ন হয়েছে</h2>
+                <div class="text-5xl font-extrabold text-pulseRed my-3 tracking-tight" id="scoreDisplay">০ / ৫০</div>
+                <p class="text-xs font-semibold text-slate-700 bg-white/80 py-1.5 px-3 rounded-xl inline-block shadow-sm" id="studentDetailsSummary"></p>
+                <div id="syncStatus" class="mt-3 text-xs font-bold text-emerald-600 flex items-center justify-center space-x-1"></div>
+            </div>
+
+            <h3 class="font-bold text-slate-800 text-base mb-4 border-b border-slate-200 pb-2 flex items-center justify-between">
+                <span>পূর্ণাঙ্গ উত্তরপত্র ও ব্যাখ্যা</span>
+                <span class="text-xs font-normal text-slate-500">৫০টি প্রশ্ন</span>
+            </h3>
+            
+            <div id="reviewContainer" class="space-y-6 flex-1 pb-10">
+                <!-- উত্তরপত্র এবং ব্যাখ্যা এখানে ডাইনামিক দেখাবে -->
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-3.5 rounded-xl transition duration-200 mt-4 mb-6 shadow-lg text-sm">
+                পুনরায় পরীক্ষা দিন / হোম পেজে যান
+            </button>
+        </div>
+
+        <!-- Submitting Loader Overlay -->
+        <div id="loader" class="hidden absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white">
+            <div class="animate-spin rounded-full h-14 w-14 border-t-4 border-pulseRed border-solid mb-3 shadow-2xl"></div>
+            <p class="text-sm font-semibold tracking-wide">ফলাফল গুগল শিটে সিঙ্ক হচ্ছে...</p>
+        </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzBnDhhob7s7b3bTL-kTMOY---gCK5XaQLzTmD5ryx71S0aLh32axYO6Fltvx20M_ql/exec";
+
+        // ৫০টি প্রশ্ন (পারিভাষিক শব্দ, Adverb, লাভ-ক্ষতি, ভেক্টর, জাতীয় বিষয়াবলি)
+        const quizData = [
+            // --- টপিক ১: পারিভাষিক শব্দ (প্রশ্ন ১ - ১০) ---
+            {
+                id: 1,
+                question: "'Bibliography' এর সঠিক পারিভাষিক শব্দ কোনটি?",
+                options: ["জীবনী", "গ্রন্থপঞ্জি", "গ্রন্থাগার", "গ্রন্থস্বত্ব"],
+                answer: 1,
+                explanation: "'Bibliography' এর পারিভাষিক শব্দ হলো 'গ্রন্থপঞ্জি'।"
+            },
+            {
+                id: 2,
+                question: "'Autobiography' শব্দের অর্থ কী?",
+                options: ["জীবনী", "আত্মজীবনী", "স্মৃতিকথা", "দিনলিপি"],
+                answer: 1,
+                explanation: "'Autobiography' হলো নিজের জীবনের ওপর রচিত 'আত্মজীবনী'।"
+            },
+            {
+                id: 3,
+                question: "'Copyright' এর সঠিক পারিভাষিক রূপ কোনটি?",
+                options: ["গ্রন্থস্বত্ব", "অনুলিপি", "মুদ্রাস্ফীতি", "সংশোধনী"],
+                answer: 0,
+                explanation: "'Copyright' এর পারিভাষিক রূপ হলো 'গ্রন্থস্বত্ব' বা কপিরাইট।"
+            },
+            {
+                id: 4,
+                question: "'Diplomacy' শব্দের পারিভাষিক শব্দ কোনটি?",
+                options: ["কূটনীতি", "রাষ্ট্রদূত", "চুক্তি", "পররাষ্ট্র"],
+                answer: 0,
+                explanation: "'Diplomacy' এর সঠিক পারিভাষিক শব্দ 'কূটনীতি'।"
+            },
+            {
+                id: 5,
+                question: "'Inflation' এর সঠিক পারিভাষিক শব্দ কোনটি?",
+                options: ["মূল্যবৃদ্ধি", "মুদ্রাস্ফীতি", "অর্থসংকট", "বাজেট ঘাটতি"],
+                answer: 1,
+                explanation: "'Inflation' এর উপযুক্ত পারিভাষিক শব্দ 'মুদ্রাস্ফীতি'।"
+            },
+            {
+                id: 6,
+                question: "'Manifesto' এর পারিভাষিক শব্দ কোনটি?",
+                options: ["ঘোষণা", "ইশতেহার", "স্মারকপত্র", "বিজ্ঞপ্তি"],
+                answer: 1,
+                explanation: "'Manifesto' হলো রাজনৈতিক বা অন্যান্য দলের নির্বাচনী বা নীতিগত 'ইশতেহার'।"
+            },
+            {
+                id: 7,
+                question: "'Ordinance' এর সঠিক পারিভাষিক শব্দ কোনটি?",
+                options: ["আইন", "অধ্যাদেশ", "বিধিমালা", "সংশোধনী"],
+                answer: 1,
+                explanation: "'Ordinance' এর পারিভাষিক শব্দ হলো 'অধ্যাদেশ'।"
+            },
+            {
+                id: 8,
+                question: "'Plagiarism' এর পারিভাষিক শব্দ কোনটি?",
+                options: ["সাহিত্য চুরি", "জালিয়াতি", "অনুলিপি", "দুর্নীতি"],
+                answer: 0,
+                explanation: "'Plagiarism' বলতে অন্যের লেখা বা গবেষণা নিজের নামে চালিয়ে দেওয়া বা 'সাহিত্য চুরি' বোঝায়।"
+            },
+            {
+                id: 9,
+                question: "'Quorum' এর পারিভাষিক শব্দ কোনটি?",
+                options: ["সভা", "কোরাম বা গণপূর্তি", "সদস্য সংখ্যা", "উপস্থিতি"],
+                answer: 1,
+                explanation: "সভা পরিচালনার জন্য ন্যূনতম সদস্যের উপস্থিতিকে 'Quorum' বা 'গণপূর্তি' বলা হয়।"
+            },
+            {
+                id: 10,
+                question: "'Veto' শব্দের পারিভাষিক শব্দ কোনটি?",
+                options: ["অনুমোদন",িসিজ", "নিষেধাজ্ঞা বা ভেটো ক্ষমতা", "ভোটদান"],
+                answer: 2,
+                explanation: "'Veto' অর্থ 'নিষেধাজ্ঞা' বা বিশেষ ক্ষমতা যা দিয়ে কোনো সিদ্ধান্ত বাতিল করা যায়।"
+            },
+
+            // --- টপিক ২: Adverb (প্রশ্ন ১১ - ২০) ---
+            {
+                id: 11,
+                question: "What is an Adverb?",
+                options: ["A word that modifies a noun", "A word that modifies a verb, adjective, or another adverb", "A naming word", "A joining word"],
+                answer: 1,
+                explanation: "An adverb modifies a verb, an adjective, or another adverb."
+            },
+            {
+                id: 12,
+                question: "Identify the adverb in the sentence: 'He runs very fast.'",
+                options: ["He", "runs", "very", "fast"],
+                answer: 3,
+                explanation: "'Fast' is an adverb of manner modifying the verb 'runs' (and 'very' is an adverb of degree modifying 'fast')."
+            },
+            {
+                id: 13,
+                question: "What type of adverb is 'yesterday' in 'I met him yesterday'?",
+                options: ["Adverb of Place", "Adverb of Time", "Adverb of Manner", "Adverb of Frequency"],
+                answer: 1,
+                explanation: "'Yesterday' indicates when an action happened, so it is an adverb of time."
+            },
+            {
+                id: 14,
+                question: "Choose the adverb of place:",
+                options: ["Always", "Here", "Slowly", "Very"],
+                answer: 1,
+                explanation: "'Here' indicates a location, making it an adverb of place."
+            },
+            {
+                id: 15,
+                question: "Fill in the blank: 'She speaks English ___.'",
+                options: ["fluent", "fluently", "fluency", "more fluent"],
+                answer: 1,
+                explanation: "We need an adverb ('fluently') to modify the verb 'speaks'."
+            },
+            {
+                id: 16,
+                question: "Which of the following is an adverb of frequency?",
+                options: ["Outside", "Often", "Softly", "Now"],
+                answer: 1,
+                explanation: "'Often' tells us how frequently something occurs."
+            },
+            {
+                id: 17,
+                question: "Identify the word that is NOT an adverb:",
+                options: ["Quickly", "Friendly", "Well", "Soon"],
+                answer: 1,
+                explanation: "'Friendly' is an adjective (ending in -ly added to a noun), while the others are adverbs."
+            },
+            {
+                id: 18,
+                question: "What does an adverb of degree express?",
+                options: ["Where something happens", "To what extent or intensity", "When something happens", "How something happens"],
+                answer: 1,
+                explanation: "An adverb of degree (e.g., very, too, extremely) expresses the intensity or degree."
+            },
+            {
+                id: 19,
+                question: "Choose the correct sentence with proper adverb placement:",
+                options: ["He always is late.", "He is always late.", "Always he is late.", "He is late always."],
+                answer: 1,
+                explanation: "Adverbs of frequency like 'always' usually go after the verb 'to be' ('is always late')."
+            },
+            {
+                id: 20,
+                question: "What is the superlative form of the adverb 'well'?",
+                options: ["Weller", "Best", "Better", "Most well"],
+                answer: 1,
+                explanation: "The degrees of comparison for well are: well - better - best."
+            },
+
+            // --- টপিক ৩: লাভ-ক্ষতি (প্রশ্ন ২১ - ৩০) ---
+            {
+                id: 21,
+                question: "একটি পণ্য ৫২০ টাকায় বিক্রয় করায় ১০% ক্ষতি হলো। পণ্যটির ক্রয়মূল্য কত?",
+                options: ["৫০০ টাকা", "৫৮০ টাকা", "৫৭২.৭২ টাকা", "৫৭৭.৭৮ টাকা"],
+                answer: 3,
+                explanation: "ক্রয়মূল্য = (৫২০ × ১০০) ÷ ৯০ = ৫৭৭.৭৮ টাকা।"
+            },
+            {
+                id: 22,
+                question: "টাকায় ৫ টি লেবু কিনে টাকায় ৪ টি বিক্রি করলে শতকরা কত লাভ হবে?",
+                options: ["২০%", "২৫%", "১৫%", "১০%"],
+                answer: 1,
+                explanation: "লাভ = (১/৪ - ১/৫) ÷ (১/৫) × ১০০% = ২৫%।"
+            },
+            {
+                id: 23,
+                question: "কোনো বস্তুর ক্রয়মূল্য ও বিক্রয়মূল্যের অনুপাত ৫:৬ হলে, শতকরা লাভ কত?",
+                options: ["১০%", "১৫%", "২০%", "২৫%"],
+                answer: 2,
+                explanation: "শতকরা লাভ = (১ / ৫) × ১০০% = ২০%।"
+            },
+            {
+                id: 24,
+                question: "বিক্রয়মূল্যের উপর ২০% লাভ হলে, ক্রয়মূল্যের উপর শতকরা লাভ কত?",
+                options: ["২০%", "২৫%", "১৬.৬৭%", "১২.৫%"],
+                answer: 1,
+                explanation: "ক্রয়মূল্য ৮০ টাকা হলে লাভ ২০ টাকা, শতকরা লাভ = (২০/৮০) × ১০০% = ২৫%।"
+            },
+            {
+                id: 25,
+                question: "একটি সাইকেল ১০০০ টাকায় কিনে ১২০০ টাকায় বিক্রয় করলে শতকরা লাভ কত?",
+                options: ["১৫%", "২০%", "২৫%", "১০%"],
+                answer: 1,
+                explanation: "লাভ ২০০ টাকা, শতকরা লাভ = (২০০/১০০০) × ১০০% = ২০%।"
+            },
+            {
+                id: 26,
+                question: "একটি ছাগল ১০% ক্ষতিতে বিক্রয় করা হলো। যদি বিক্রয়মূল্য ৪৫০ টাকা বেশি হতো, তবে ৫% লাভ হতো। ছাগলটির ক্রয়মূল্য কত?",
+                options: ["২৫০০ টাকা", "৩০০০ টাকা", "৩৫০০ টাকা", "৪০০০ টাকা"],
+                answer: 1,
+                explanation: "১৫% = ৪৫০ টাকা হলে, ১০০% = ৩০০০ টাকা।"
+            },
+            {
+                id: 27,
+                question: "দুইটি দ্রব্যের প্রতিটির বিক্রয়মূল্য ১২০০ টাকা। একটিতে ২০% লাভ এবং অন্যটিতে ২০% ক্ষতি হলে, মোটের উপর কী হবে?",
+                options: ["৪% লাভ", "৪% ক্ষতি", "কোনো লাভ বা ক্ষতি নেই", "২% ক্ষতি"],
+                answer: 1,
+                explanation: "সর্বদা (২০^2 / ১০০)% = ৪% ক্ষতি হবে।"
+            },
+            {
+                id: 28,
+                question: "একটি খাতার বিক্রয়মূল্য তার ক্রয়মূল্যের ৪/৫ অংশ হলে, শতকরা ক্ষতির পরিমাণ কত?",
+                options: ["১০%", "১৫%", "২০%", "২৫%"],
+                answer: 2,
+                explanation: "ক্ষতি = ১/৫ অংশ বা ২০%।"
+            },
+            {
+                id: 29,
+                question: "একটি রেডিওর ক্রয়মূল্য ৩০০০ টাকা। ২০% লাভে বিক্রয় করলে বিক্রয়মূল্য কত হবে?",
+                options: ["৩৫০০ টাকা", "৩৬০০ টাকা", "৩৭০০ টাকা", "৩৮০০ টাকা"],
+                answer: 1,
+                explanation: "বিক্রয়মূল্য = ৩০০০ + ৬০০ = ৩৬০০ টাকা।"
+            },
+            {
+                id: 30,
+                question: "কোনো নির্দিষ্ট দ্রব্যের দাম ১০% কমে যাওয়ায় ২০ টাকায় আগের চেয়ে ২টি আম বেশি পাওয়া গেল। প্রতিটি আমের বর্তমান দাম কত?",
+                options: ["১ টাকা", "০.৫০ টাকা", "২ টাকা", "১.৫০ টাকা"],
+                answer: 0,
+                explanation: "২০ টাকার ১০% = ২ টাকায় ২টি, সুতরাং ১টির দাম ১ টাকা।"
+            },
+
+            // --- টপিক ৪: ভেক্টর (প্রশ্ন ৩১ - ৪০) ---
+            {
+                id: 31,
+                question: "যেসব ভৌত রাশি প্রকাশ করার জন্য মান ও দিক উভয়ের প্রয়োজন হয়, তাদেরকে কী বলে?",
+                options: ["স্কেলার রাশি", "ভেক্টর রাশি", "মৌলিক রাশি", "লব্ধ রাশি"],
+                answer: 1,
+                explanation: "মান এবং দিক উভয়ই আছে এমন ভৌত রাশিকে ভেক্টর রাশি বলা হয়।"
+            },
+            {
+                id: 32,
+                question: "নিচের কোনটি ভেক্টর রাশি নয়?",
+                options: ["সরণ", "বেগ", "ভর", "ত্বরণ"],
+                answer: 2,
+                explanation: "ভর (Mass) একটি স্কেলার রাশি, কারণ এর কোনো নির্দিষ্ট দিক নেই।"
+            },
+            {
+                id: 33,
+                question: "দুটি সমমানের ভেক্টরের লব্ধির মান শূন্য হতে পারে যদি তাদের মধ্যবর্তী কোণ কত হয়?",
+                options: ["০°", "৯০°", "১৮০°", "৩৬০°"],
+                answer: 2,
+                explanation: "পরস্পর বিপরীতমুখী বা ১৮০° কোণে ক্রিয়াশীল দুটি সমান ভেক্টরের লব্ধি শূন্য হয়।"
+            },
+            {
+                id: 34,
+                question: "একক ভেক্টর (Unit Vector) এর মান কত?",
+                options: ["0", "1", "অসীম", "10"],
+                answer: 1,
+                explanation: "যে ভেক্টরের মান এক একক, তাকে একক ভেক্টর বলে।"
+            },
+            {
+                id: 35,
+                question: "দুটি সমান্তরাল ভেক্টরের মাঝের কোণ কত?",
+                options: ["০°", "৯০°", "১৮০°", "২৭০°"],
+                answer: 0,
+                explanation: "সমান্তরাল ভেক্টরের মধ্যবর্তী কোণ ০ ডিগ্রি (০°) হয়।"
+            },
+            {
+                id: 36,
+                question: "দুটি লম্ব ভেক্টরের স্কেলার গুণফল (Dot Product) কত হবে?",
+                options: ["1", "0", "-1", "অসীম"],
+                answer: 1,
+                explanation: "লম্ব ভেক্টরের ক্ষেত্রে cos(90°) = 0 হওয়ায় ডট গুণফল শূন্য হয়।"
+            },
+            {
+                id: 37,
+                question: "আয়ত একক ভেক্টর i, j, k একে অপরের সাথে কত কোণে থাকে?",
+                options: ["০°", "৪৫°", "৯০°", "১৮০°"],
+                answer: 2,
+                explanation: "ত্রিমাত্রিক কার্তেসীয় স্থানাংক ব্যবস্থায় i, j এবং k পরস্পর ৯০° (লম্ব) কোণে অবস্থান করে।"
+            },
+            {
+                id: 38,
+                question: "A ও B ভেক্টরের ক্রস গুণফল (A × B) এর দিক কোন দিকে?",
+                options: ["A ও B উভয়ের তলের সাথে লম্বভাবে", "A এর দিকে", "B এর দিকে", "সমান্তরালে"],
+                answer: 0,
+                explanation: "ভেক্টর গুণফলের দিক ডানহাতি স্ক্রু নিয়ম অনুসারে উক্ত তলের সাথে লম্ব বরাবর কাজ করে।"
+            },
+            {
+                id: 39,
+                question: "নিচের কোনটি স্কেলার রাশির উদাহরণ?",
+                options: ["বল", "তড়িৎ প্রাবল্য", "কাজ", "ভরবেগ"],
+                answer: 2,
+                explanation: "কাজ (Work) হলো বল ও সরণের ডট গুণফল, যা একটি স্কেলার রাশি।"
+            },
+            {
+                id: 40,
+                question: "দুটি ভেক্টর রাশির ভেক্টর গুণফল (Cross Product) কেমন রাশি?",
+                options: ["স্কেলার রাশি", "ভেক্টর রাশি", "উভয়ই", "কোনোটিই নয়"],
+                answer: 1,
+                explanation: "ভেক্টর গুণফলের ফলাফল সর্বদা একটি নতুন ভেক্টর রাশি হয়।"
+            },
+
+            // --- টপিক ৫: বাংলাদেশের জাতীয় বিষয়াবলি (প্রশ্ন ৪১ - ৫০) ---
+            {
+                id: 41,
+                question: "বাংলাদেশের জাতীয় পতাকার ডিজাইনার কে?",
+                options: ["কামরুল হাসান", "শিব নারায়ণ দাস", "জয়নুল আবেদিন", "মূর্তজা বশীর"],
+                answer: 0,
+                explanation: "বর্তমান জাতীয় পতাকার চূড়ান্ত রূপদাতা ও ডিজাইনার পটুয়া কামরুল হাসান।"
+            },
+            {
+                id: 42,
+                question: "বাংলাদেশের জাতীয় সংগীতের রচয়িতা কে?",
+                options: ["কাজী নজরুল ইসলাম", "রবীন্দ্রনাথ ঠাকুর", "দ্বিজেন্দ্রলাল রায়", "ফররুখ আহমদ"],
+                answer: 1,
+                explanation: "জাতীয় সংগীত 'আমার সোনার বাংলা' এর রচয়িতা রবীন্দ্রনাথ ঠাকুর।"
+            },
+            {
+                id: 43,
+                question: "বাংলাদেশের জাতীয় ফুলের নাম কী?",
+                options: ["শাপলা", "গোলাপ", "পদ্ম", "জবা"],
+                answer: 0,
+                explanation: "বাংলাদেশের জাতীয় ফুল হলো সাদা শাপলা।"
+            },
+            {
+                id: 44,
+                question: "বাংলাদেশের জাতীয় মাছ কোনটি?",
+                options: ["রুই", "কাতলা", "ইলিশ", "পাবদা"],
+                answer: 2,
+                explanation: "বাংলাদেশের জাতীয় মাছ হলো ইলিশ।"
+            },
+            {
+                id: 45,
+                question: "জাতীয় স্মৃতিসৌধের স্থপতি কে?",
+                options: ["লুই আই কান", "সৈয়দ মাইনুল হোসেন", "নিতুন কুণ্ডু", "মঈনুল হোসেন"],
+                answer: 1,
+                explanation: "সাভারে অবস্থিত জাতীয় স্মৃতিসৌধের স্থপতি সৈয়দ মাইনুল হোসেন।"
+            },
+            {
+                id: 46,
+                question: "বাংলাদেশের জাতীয় সংসদ ভবনের মূল স্থপতি কে?",
+                options: ["লুই আই কান", "পল রুডলফ", "স্ট্যানলি টাইগার", "মজিদ"],
+                answer: 0,
+                explanation: "জাতীয় সংসদ ভবনের নকশাবিদ ও স্থপতি আমেরিকার লুই আই কান।"
+            },
+            {
+                id: 47,
+                question: "বাংলাদেশের জাতীয় পশু কী?",
+                options: ["হাতি", "রয়েল বেঙ্গল টাইগার", "চিত্রা হরিণ", "গরু"],
+                answer: 1,
+                explanation: "বাংলাদেশের জাতীয় পশু রয়েল বেঙ্গল টাইগার।"
+            },
+            {
+                id: 48,
+                question: "বাংলাদেশের জাতীয় পাখি কোনটি?",
+                options: ["ঘুঘু", "দোয়েল", "শালিক", "কোকিল"],
+                answer: 1,
+                explanation: "বাংলাদেশের জাতীয় পাখি গ্রামীণ দোয়েল।"
+            },
+            {
+                id: 49,
+                question: "বাংলাদেশের জাতীয় কবির মাজার কোথায় অবস্থিত?",
+                options: ["সোহরাওয়ার্দী উদ্যান", "ঢাকা বিশ্ববিদ্যালয় কেন্দ্রীয় মসজিদ প্রাঙ্গণ", "বনানী", "মিরপুর"],
+                answer: 1,
+                explanation: "জাতীয় কবি কাজী নজরুল ইসলামকে ঢাকা বিশ্ববিদ্যালয় কেন্দ্রীয় মসজিদের পাশে সমাহিত করা হয়।"
+            },
+            {
+                id: 50,
+                question: "বাংলাদেশের সর্বোচ্চ বেসামরিক রাষ্ট্রীয় পুরস্কার কোনটি?",
+                options: ["একুশে পদক", "স্বাধীনতা পুরস্কার", "বাংলা একাডেমি পুরস্কার", "শহীদ পদক"],
+                answer: 1,
+                explanation: "স্বাধীনতা পুরস্কার হলো বাংলাদেশ সরকারের সর্বোচ্চ বেসামরিক রাষ্ট্রীয় সম্মাননা।"
+            }
+        ];
+
+        let studentInfo = {};
+        let userAnswers = {};
+        let timerInterval;
+        let timeLeft = 30 * 60; // 30 minutes in seconds for 50 marks
+
+        function startExam(event) {
+            event.preventDefault();
+            studentInfo.studentName = document.getElementById('studentName').value.trim();
+            studentInfo.phoneNumber = document.getElementById('phoneNumber').value.trim();
+            studentInfo.course = document.getElementById('course').value;
+            studentInfo.quizDate = "17 Oct 2026";
+            studentInfo.topic = "সাপ্তাহিক মডেল টেস্ট (৫০ মার্কস)";
+
+            document.getElementById('regScreen').classList.add('hidden');
+            document.getElementById('examScreen').classList.remove('hidden');
+
+            renderQuestions();
+            startTimer();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                html += `
+                    <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm hover:shadow-md transition" id="q-card-${q.id}">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-xs font-bold text-pulseRed bg-pulseLight px-2.5 py-1 rounded-full border border-red-100">প্রশ্ন ${index + 1} / 50</span>
+                        </div>
+                        <p class="font-bold text-sm text-slate-900 mb-4">${q.question}</p>
+                        <div class="space-y-2.5">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    html += `
+                        <label class="flex items-center space-x-3 p-3 rounded-xl border border-slate-200/70 hover:bg-red-50/60 hover:border-red-200 cursor-pointer transition text-sm">
+                            <input type="radio" name="question_${q.id}" value="${optIndex}" onchange="handleOptionChange(${q.id}, ${optIndex})" class="text-pulseRed focus:ring-pulseRed h-4 w-4">
+                            <span class="text-slate-700 font-medium">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function handleOptionChange(qId, optIndex) {
+            userAnswers[qId] = optIndex;
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            let answeredCount = Object.keys(userAnswers).length;
+            let percentage = (answeredCount / quizData.length) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('সময় শেষ! আপনার মডেল টেস্ট স্বয়ংক্রিয়ভাবে জমা হচ্ছে।');
+                    submitExam();
+                    return;
+                }
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timerText').innerText = 
+                    `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+
+            let score = 0;
+            quizData.forEach(q => {
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === q.answer) {
+                    score++;
+                }
+            });
+
+            studentInfo.score = score;
+
+            document.getElementById('examScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').innerText = `${score} / 50`;
+            document.getElementById('studentDetailsSummary').innerText = 
+                `শিক্ষার্থী: ${studentInfo.studentName} | ফোন: ${studentInfo.phoneNumber} | কোর্স: ${studentInfo.course}`;
+
+            renderReview();
+            sendDataToGoogleSheet(studentInfo);
+        }
+
+        function renderReview() {
+            const container = document.getElementById('reviewContainer');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                let userAns = userAnswers[q.id];
+                let isCorrect = (userAns === q.answer);
+                let borderClass = isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40';
+                let statusBadge = isCorrect ? 
+                    '<span class="bg-emerald-100 text-emerald-700 font-bold text-[10px] px-2.5 py-1 rounded-full border border-emerald-200">✓ সঠিক</span>' : 
+                    '<span class="bg-rose-100 text-rose-700 font-bold text-[10px] px-2.5 py-1 rounded-full border border-rose-200">✗ ভুল</span>';
+
+                html += `
+                    <div class="border rounded-2xl p-4 ${borderClass} shadow-sm space-y-2.5">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-xs text-slate-900">প্রশ্ন ${index + 1}: ${q.question}</h4>
+                            ${statusBadge}
+                        </div>
+                        <div class="text-xs space-y-1.5 mt-2">
+                `;
+
+                q.options.forEach((opt, optIndex) => {
+                    let optStyle = "";
+                    if (optIndex === q.answer) {
+                        optStyle = "font-bold text-emerald-800 bg-emerald-100/80 px-2.5 py-1 rounded-lg border border-emerald-200";
+                    } else if (optIndex === userAns && !isCorrect) {
+                        optStyle = "font-bold text-rose-800 bg-rose-100/80 px-2.5 py-1 rounded-lg border border-rose-200 line-through";
+                    } else {
+                        optStyle = "text-slate-600 px-2.5 py-1";
+                    }
+                    html += `<div class="${optStyle}">• ${opt}</div>`;
+                });
+
+                html += `
+                        </div>
+                        <div class="bg-white/80 p-3 rounded-xl border border-slate-200/60 mt-2 text-xs text-slate-700 shadow-inner">
+                            <span class="font-bold text-pulseDark">বিশ্লেষণ/ব্যাখ্যা:</span> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function sendDataToGoogleSheet(data) {
+            document.getElementById('loader').classList.remove('hidden');
+            
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    ফলাফল সফলভাবে গুগল শিটে জমা হয়েছে!
+                `;
+            })
+            .catch(error => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('syncStatus').innerHTML = "⚠️ সংযোগে সামান্য সমস্যা হয়েছে, তবে আপনার স্কোর সংরক্ষিত আছে।";
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>
